@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Archive } from 'lucide-react';
+import { Archive, Snowflake } from 'lucide-react';
 import { ArchiveDrawer } from './components/ArchiveDrawer';
 import { CityDetailsPanel } from './components/CityDetailsPanel';
+import { FrostDrawer } from './components/FrostDrawer';
 import GlobeView from './components/GlobeView';
 import { PhotoStrip } from './components/PhotoStrip';
 import { PhotoViewer } from './components/PhotoViewer';
@@ -24,6 +25,7 @@ export default function App() {
   const [selectedPoem, setSelectedPoem] = useState<PoemPoint | null>(null);
   const [selectedWriter, setSelectedWriter] = useState<WriterData | null>(null);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [isFrostOpen, setIsFrostOpen] = useState(false);
   const allPhotos = useAllPhotos();
   const activeCity = hoveredCity || selectedCity || CITIES[0];
   const activePhotos = getPhotosForCity(activeCity, 6, allPhotos);
@@ -65,10 +67,16 @@ export default function App() {
             夜窗作家
           </span>
         </div>
-        <button className="archive-open-button" onClick={() => setIsArchiveOpen(true)} type="button">
-          <Archive size={16} />
-          夜晚档案
-        </button>
+        <div className="front-actions">
+          <button className="archive-open-button" onClick={() => setIsArchiveOpen(true)} type="button">
+            <Archive size={16} />
+            夜晚档案
+          </button>
+          <button className="archive-open-button" onClick={() => setIsFrostOpen(true)} type="button">
+            <Snowflake size={16} />
+            Frost
+          </button>
+        </div>
         <div className="city-strip" aria-label="literary cities">
           {CITIES.map((city) => (
             <button
@@ -117,6 +125,7 @@ export default function App() {
           setIsArchiveOpen(false);
         }}
       />
+      <FrostDrawer isOpen={isFrostOpen} onClose={() => setIsFrostOpen(false)} />
       {selectedPhoto && (
         <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
       )}

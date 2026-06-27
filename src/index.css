@@ -109,12 +109,18 @@ h1 {
   font-weight: 700;
 }
 
+.front-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
 .archive-open-button {
   display: inline-flex;
   gap: 8px;
   align-items: center;
   min-height: 38px;
-  margin-top: 14px;
   padding: 9px 13px;
   border: 1px solid rgba(246, 173, 85, 0.3);
   border-radius: 999px;
