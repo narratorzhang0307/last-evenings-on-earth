@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Archive, Snowflake } from 'lucide-react';
 import { ArchiveDrawer } from './components/ArchiveDrawer';
 import { CityDetailsPanel } from './components/CityDetailsPanel';
 import { FrostDrawer } from './components/FrostDrawer';
-import GlobeView from './components/GlobeView';
 import { PhotoStrip } from './components/PhotoStrip';
 import { PhotoViewer } from './components/PhotoViewer';
 import { PoemViewer } from './components/PoemViewer';
@@ -20,6 +19,7 @@ import type { CityData, PhotoData, PoemPoint, WriterData } from './lib/types';
 
 type LayerKey = 'photos' | 'poems' | 'writers';
 
+const GlobeView = lazy(() => import('./components/GlobeView'));
 const LAYER_STORAGE_KEY = 'last-evenings-visible-layers';
 const DEFAULT_VISIBLE_LAYERS: Record<LayerKey, boolean> = {
   photos: true,
@@ -75,19 +75,21 @@ export default function App() {
 
   return (
     <main className="night-shell">
-      <GlobeView
-        selectedCity={selectedCity}
-        onHoverCity={setHoveredCity}
-        onClickCity={openCity}
-        onClickPhoto={setSelectedPhoto}
-        onClickPoem={setSelectedPoem}
-        onClickWriter={setSelectedWriter}
-        photos={allPhotos}
-        showPhotos={visibleLayers.photos}
-        showPoems={visibleLayers.poems}
-        showWriters={visibleLayers.writers}
-        isPaused={!!detailCity}
-      />
+      <Suspense fallback={<div className="globe-loading" role="status">正在点亮夜晚地球...</div>}>
+        <GlobeView
+          selectedCity={selectedCity}
+          onHoverCity={setHoveredCity}
+          onClickCity={openCity}
+          onClickPhoto={setSelectedPhoto}
+          onClickPoem={setSelectedPoem}
+          onClickWriter={setSelectedWriter}
+          photos={allPhotos}
+          showPhotos={visibleLayers.photos}
+          showPoems={visibleLayers.poems}
+          showWriters={visibleLayers.writers}
+          isPaused={!!detailCity}
+        />
+      </Suspense>
       <section className="intro-panel" aria-label="项目状态">
         <p className="eyebrow">地球上最后的夜晚</p>
         <h1>地球上最后的夜晚</h1>

@@ -57,6 +57,19 @@ textarea {
   margin-left: clamp(0px, 4vw, 64px);
 }
 
+.globe-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(244, 238, 226, 0.6);
+  font-size: 14px;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(246, 173, 85, 0.12), transparent 16rem),
+    #080908;
+}
+
 .eyebrow {
   margin: 0 0 12px;
   color: #f6ad55;
