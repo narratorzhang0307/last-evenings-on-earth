@@ -36,12 +36,12 @@ export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsP
   if (!city) return null;
 
   const now = new Date();
-  const localTime = `${getApproxLocalTime(now, city.lng)} LOCAL`;
+  const localTime = `${getApproxLocalTime(now, city.lng)} 当地时间`;
   const sunsetDistance = getSunsetDistance(city, now);
   const writers = getWritersForCity(city);
 
   return (
-    <aside className="city-details" aria-label={`${city.nameNative} details`}>
+    <aside className="city-details" aria-label={`${city.nameNative} 城市详情`}>
       <button className="city-details-close" type="button" onClick={onClose} aria-label="关闭城市详情">
         <X size={18} strokeWidth={1.8} />
       </button>
@@ -58,14 +58,14 @@ export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsP
         </div>
       </header>
 
-      <section className="city-details-book" aria-label="literary source">
+      <section className="city-details-book" aria-label="文学出处">
         <p>{city.excerpt}</p>
         <span>
           {city.author} · {city.book}
         </span>
       </section>
 
-      <section className="city-details-poems" aria-label="night lines">
+      <section className="city-details-poems" aria-label="夜晚诗句">
         {city.poems.map((poem) => (
           <blockquote key={poem}>
             <p>{poem}</p>
@@ -74,7 +74,7 @@ export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsP
       </section>
 
       {!!writers.length && (
-        <section className="city-details-writers" aria-label="nearby writers">
+        <section className="city-details-writers" aria-label="附近作家">
           <h3>附近夜窗</h3>
           {writers.map((writer) => (
             <button key={writer.id} onClick={() => onSelectWriter?.(writer)} type="button">

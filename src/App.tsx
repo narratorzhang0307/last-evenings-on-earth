@@ -47,13 +47,13 @@ export default function App() {
         photos={allPhotos}
         isPaused={!!detailCity}
       />
-      <section className="intro-panel" aria-label="project status">
-        <p className="eyebrow">Last Evenings on Earth</p>
-        <h1>地球上最后的夜晚 PLUS</h1>
+      <section className="intro-panel" aria-label="项目状态">
+        <p className="eyebrow">地球上最后的夜晚</p>
+        <h1>地球上最后的夜晚</h1>
         <p className="summary">
-          City light, dusk logic, writers, poems, and photo archives are being rebuilt without the music layer.
+          城市灯光、黄昏时间、作家、诗歌和照片档案正在同一颗夜晚地球上展开。
         </p>
-        <div className="archive-counts" aria-label="archive counts">
+        <div className="archive-counts" aria-label="档案数量">
           <span>
             <strong>{CITIES.length}</strong>
             文学城市
@@ -74,10 +74,10 @@ export default function App() {
           </button>
           <button className="archive-open-button" onClick={() => setIsFrostOpen(true)} type="button">
             <Snowflake size={16} />
-            Frost
+            弗洛斯特
           </button>
         </div>
-        <div className="city-strip" aria-label="literary cities">
+        <div className="city-strip" aria-label="文学城市">
           {CITIES.map((city) => (
             <button
               className={`city-card ${selectedCity?.id === city.id ? 'is-active' : ''}`}

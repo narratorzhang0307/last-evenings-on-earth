@@ -20,9 +20,9 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
     <aside
       className="writer-window-panel"
       style={{ '--writer-light': writer.lantern_color } as CSSProperties}
-      aria-label={`${writer.name_zh} window`}
+      aria-label={`${writer.name_zh} 的夜窗`}
     >
-      <button className="writer-window-close" onClick={onClose} type="button" aria-label="Close writer window">
+      <button className="writer-window-close" onClick={onClose} type="button" aria-label="关闭作家夜窗">
         <X size={18} />
       </button>
       <div className="writer-window-portrait">

@@ -136,7 +136,7 @@ export default function GlobeView({
       : dimensions.width;
 
   return (
-    <div className="globe-stage" aria-label="night atlas globe">
+    <div className="globe-stage" aria-label="夜晚地球">
       <div
         className="globe-shadow"
         style={{ width: globeSize, height: globeSize }}
@@ -182,7 +182,7 @@ export default function GlobeView({
 
           if (d.elementType === 'photo') {
             el.className = 'photo-globe-marker';
-            el.title = `${d.city_zh || d.city || '夜晚照片'} / ${d.photographer || 'archive'}`;
+            el.title = `${d.city_zh || d.city || '夜晚照片'} / ${d.photographer || '档案照片'}`;
             el.innerHTML = `<span>${d.city_zh || d.city || '照片'}</span>`;
             el.addEventListener('click', (event) => {
               event.preventDefault();

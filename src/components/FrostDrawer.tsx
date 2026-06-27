@@ -17,7 +17,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   const [turns, setTurns] = useState<FrostTurn[]>([
     {
       role: 'frost',
-      text: '这里是 Frost。音乐和电台已经安静下来，现在只留下城市、作家和夜里的问题。',
+      text: '这里是弗洛斯特。音乐和电台已经安静下来，现在只留下城市、作家和夜里的问题。',
     },
   ]);
   const canSend = useMemo(() => input.trim().length > 0, [input]);
@@ -37,12 +37,12 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   };
 
   return (
-    <aside className="frost-drawer" aria-label="Frost drawer">
-      <button className="frost-close" onClick={onClose} type="button" aria-label="Close Frost">
+    <aside className="frost-drawer" aria-label="弗洛斯特夜谈">
+      <button className="frost-close" onClick={onClose} type="button" aria-label="关闭弗洛斯特夜谈">
         <X size={18} />
       </button>
       <header>
-        <p>Frost</p>
+        <p>弗洛斯特</p>
         <h2>弗洛斯特</h2>
       </header>
       <div className="frost-turns">
@@ -58,7 +58,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
           onChange={(event) => setInput(event.target.value)}
           placeholder="问一座城市、一个作家，或只是说一句夜里的话"
         />
-        <button disabled={!canSend} type="submit" aria-label="Send to Frost">
+        <button disabled={!canSend} type="submit" aria-label="发送给弗洛斯特">
           <Send size={16} />
         </button>
       </form>

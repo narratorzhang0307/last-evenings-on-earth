@@ -31,14 +31,14 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const writerStats = getWriterStats();
 
   return (
-    <aside className="archive-drawer" aria-label="night archive">
+    <aside className="archive-drawer" aria-label="夜晚档案馆">
       <header className="archive-drawer-header">
-        <button className="archive-drawer-close" onClick={onClose} type="button" aria-label="Close archive">
+        <button className="archive-drawer-close" onClick={onClose} type="button" aria-label="关闭夜晚档案馆">
           <X size={18} />
         </button>
-        <p>Archive of the Night</p>
+        <p>夜晚档案</p>
         <h2>夜晚档案馆</h2>
-        <nav className="archive-view-toggle" aria-label="archive view">
+        <nav className="archive-view-toggle" aria-label="档案视图">
           <button
             className={viewMode === 'photos' ? 'is-active' : ''}
             onClick={() => setViewMode('photos')}
@@ -104,7 +104,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                       type="button"
                     >
                       <img
-                        alt={photo.alt_text || photo.city_zh || photo.city || 'Night archive photo'}
+                        alt={photo.alt_text || photo.city_zh || photo.city || '夜晚档案照片'}
                         draggable="false"
                         referrerPolicy="no-referrer"
                         src={photo.url}

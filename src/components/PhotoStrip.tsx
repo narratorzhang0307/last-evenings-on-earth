@@ -9,7 +9,7 @@ export function PhotoStrip({ photos, onSelectPhoto }: PhotoStripProps) {
   if (!photos.length) return null;
 
   return (
-    <div className="photo-strip" aria-label="city photo archive">
+    <div className="photo-strip" aria-label="城市照片档案">
       {photos.map((photo) => (
         <button
           className="photo-strip-item"
@@ -19,7 +19,7 @@ export function PhotoStrip({ photos, onSelectPhoto }: PhotoStripProps) {
           type="button"
         >
           <img
-            alt={photo.alt_text || photo.city_zh || photo.city || 'Night archive photo'}
+            alt={photo.alt_text || photo.city_zh || photo.city || '夜晚档案照片'}
             draggable="false"
             referrerPolicy="no-referrer"
             src={photo.url}
@@ -33,4 +33,3 @@ export function PhotoStrip({ photos, onSelectPhoto }: PhotoStripProps) {
     </div>
   );
 }
-
