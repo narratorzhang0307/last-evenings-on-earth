@@ -22,6 +22,7 @@ interface GlobeViewProps {
   onClickCity?: (city: CityData) => void;
   onClickPhoto?: (photo: PhotoData) => void;
   onClickWriter?: (writer: WriterData) => void;
+  photos?: PhotoData[];
   rotationSpeed?: number;
   isPaused?: boolean;
 }
@@ -41,6 +42,7 @@ export default function GlobeView({
   onClickCity,
   onClickPhoto,
   onClickWriter,
+  photos = PHOTOS,
   rotationSpeed = 0.35,
   isPaused = false,
 }: GlobeViewProps) {
@@ -120,11 +122,11 @@ export default function GlobeView({
     () => [
       ...CONTINENTS.map((continent) => ({ ...continent, elementType: 'continent' as const })),
       ...MAJOR_CITIES.map((city) => ({ ...city, elementType: 'major-city' as const })),
-      ...PHOTOS.map((photo) => ({ ...photo, elementType: 'photo' as const })),
+      ...photos.map((photo) => ({ ...photo, elementType: 'photo' as const })),
       ...WRITERS.map((writer) => ({ ...writer, elementType: 'writer' as const })),
       ...CITIES.map((city) => ({ ...city, elementType: 'literary-city' as const })),
     ],
-    [],
+    [photos],
   );
 
   const globeSize = Math.min(dimensions.width * 0.78, dimensions.height * 0.78, 560);

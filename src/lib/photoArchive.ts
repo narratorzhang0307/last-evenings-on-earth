@@ -25,8 +25,8 @@ export function resolvePhotoCityId(photo: PhotoData) {
   return photo.cityId;
 }
 
-export function getPhotosForCity(city: CityData, limit = 6) {
-  return PHOTOS.filter((photo) => resolvePhotoCityId(photo) === city.id).slice(0, limit);
+export function getPhotosForCity(city: CityData, limit = 6, photos: PhotoData[] = PHOTOS) {
+  return photos.filter((photo) => resolvePhotoCityId(photo) === city.id).slice(0, limit);
 }
 
 export function getPhotoCountry(photo: PhotoData) {
@@ -55,4 +55,3 @@ export function getPhotoStats(photos: PhotoData[] = PHOTOS) {
     cityCount: cities.size,
   };
 }
-

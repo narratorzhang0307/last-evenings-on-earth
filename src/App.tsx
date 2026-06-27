@@ -11,6 +11,7 @@ import { WriterWindowPanel } from './components/WriterWindowPanel';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
+import { useAllPhotos } from './lib/localUserPhotos';
 import { getPhotosForCity } from './lib/photoArchive';
 import { getWriterStats, getWritersForCity } from './lib/writerArchive';
 import type { CityData, PhotoData, PoemPoint, WriterData } from './lib/types';
@@ -23,8 +24,9 @@ export default function App() {
   const [selectedPoem, setSelectedPoem] = useState<PoemPoint | null>(null);
   const [selectedWriter, setSelectedWriter] = useState<WriterData | null>(null);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const allPhotos = useAllPhotos();
   const activeCity = hoveredCity || selectedCity || CITIES[0];
-  const activePhotos = getPhotosForCity(activeCity);
+  const activePhotos = getPhotosForCity(activeCity, 6, allPhotos);
   const activeWriter = getWritersForCity(activeCity)[0];
   const writerStats = getWriterStats();
   const openCity = (city: CityData) => {
@@ -40,6 +42,7 @@ export default function App() {
         onClickCity={openCity}
         onClickPhoto={setSelectedPhoto}
         onClickWriter={setSelectedWriter}
+        photos={allPhotos}
         isPaused={!!detailCity}
       />
       <section className="intro-panel" aria-label="project status">
