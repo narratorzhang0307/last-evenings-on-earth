@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { PHOTOS } from '../data/worldPhotos';
+import { listServerPhotos } from './photoApi';
 import type { PhotoData } from './types';
 
 const STORAGE_KEY = 'last-evenings:user-photos';
 const EVENT_NAME = 'last-evenings:user-photos-updated';
+let serverPhotos: PhotoData[] = [];
+let pendingServerRefresh: Promise<void> | null = null;
 
 function readStoredPhotos() {
   if (typeof window === 'undefined') return [];
@@ -33,13 +36,37 @@ export function subscribeLocalUserPhotos(callback: () => void) {
   return () => window.removeEventListener(EVENT_NAME, callback);
 }
 
+export function refreshServerUserPhotos() {
+  if (!pendingServerRefresh) {
+    pendingServerRefresh = listServerPhotos()
+      .then((photos) => {
+        serverPhotos = photos;
+        window.dispatchEvent(new CustomEvent(EVENT_NAME));
+      })
+      .catch(() => {
+        serverPhotos = [];
+      })
+      .finally(() => {
+        pendingServerRefresh = null;
+      });
+  }
+  return pendingServerRefresh;
+}
+
 export function useAllPhotos() {
   const [userPhotos, setUserPhotos] = useState<PhotoData[]>(() => readStoredPhotos());
 
   useEffect(() => {
+    refreshServerUserPhotos();
     return subscribeLocalUserPhotos(() => setUserPhotos(readStoredPhotos()));
   }, []);
 
-  return useMemo(() => [...userPhotos, ...PHOTOS], [userPhotos]);
+  return useMemo(() => {
+    const seen = new Set<string>();
+    return [...userPhotos, ...serverPhotos, ...PHOTOS].filter((photo) => {
+      if (seen.has(photo.id)) return false;
+      seen.add(photo.id);
+      return true;
+    });
+  }, [userPhotos]);
 }
-
