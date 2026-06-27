@@ -1,6 +1,7 @@
 import type { PhotoData } from './types';
 
 const API_BASE = import.meta.env.VITE_API_BASE || '';
+const SERVER_PHOTO_LIMIT = 200;
 
 export class PhotoApiError extends Error {
   status: number;
@@ -51,7 +52,7 @@ function isPhotoPayload(value: unknown): value is PhotoData {
 }
 
 export async function listServerPhotos() {
-  const data = await parseJson<{ photos: PhotoData[] }>(await fetch(`${API_BASE}/api/photos`));
+  const data = await parseJson<{ photos: PhotoData[] }>(await fetch(`${API_BASE}/api/photos?limit=${SERVER_PHOTO_LIMIT}`));
   return Array.isArray(data.photos) ? data.photos.filter(isPhotoPayload) : [];
 }
 
