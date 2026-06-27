@@ -20,6 +20,7 @@ interface ArchiveDrawerProps {
 }
 
 type SearchableValue = string | number | undefined | readonly string[];
+const ARCHIVE_QUERY_MAX_LENGTH = 80;
 
 function normalizeSearchText(value: SearchableValue) {
   const text = Array.isArray(value) ? value.join(' ') : String(value ?? '');
@@ -149,6 +150,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜索城市、作者、诗句"
+            maxLength={ARCHIVE_QUERY_MAX_LENGTH}
             aria-label="搜索夜晚档案"
             aria-describedby={resultStatusId}
           />
