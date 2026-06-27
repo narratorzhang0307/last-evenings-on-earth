@@ -19,9 +19,12 @@ interface ArchiveDrawerProps {
   onSelectWriter?: (writer: WriterData) => void;
 }
 
-function textIncludesQuery(query: string, values: Array<string | number | undefined>) {
+function textIncludesQuery(query: string, values: Array<string | number | undefined | readonly string[]>) {
   if (!query) return true;
-  return values.some((value) => String(value || '').toLowerCase().includes(query));
+  return values.some((value) => {
+    const searchableText = Array.isArray(value) ? value.join(' ') : String(value || '');
+    return searchableText.toLowerCase().includes(query);
+  });
 }
 
 export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
@@ -61,6 +64,10 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
       poem.city,
       poem.region,
       poem.translator,
+      poem.author,
+      poem.poem,
+      poem.body_zh,
+      poem.source_note,
       getPoemFirstLine(poem),
     ]),
   );
