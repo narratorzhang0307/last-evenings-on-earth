@@ -52,6 +52,14 @@ const listPhotosStmt = db.prepare(`
   ORDER BY submitted_at DESC
 `);
 
+const insertPhotoStmt = db.prepare(`
+  INSERT INTO photos (
+    id, url, city, city_zh, country, lat, lng, description, signature, rot, img_width, img_height, submitted_at, created_at
+  ) VALUES (
+    @id, @url, @city, @city_zh, @country, @lat, @lng, @description, @signature, @rot, @img_width, @img_height, @submitted_at, @created_at
+  )
+`);
+
 function rowToPhoto(row) {
   return {
     id: row.id,
@@ -94,7 +102,46 @@ app.get('/api/photos', (_req, res) => {
   res.json({ photos: listPhotosStmt.all().map(rowToPhoto) });
 });
 
+app.post('/api/photos', (req, res) => {
+  const body = req.body || {};
+  const id = String(body.id || `usr_${Date.now().toString(36)}`).trim();
+  const url = String(body.url || '').trim();
+  const lat = Number(body.lat);
+  const lng = Number(body.lng);
+
+  if (!/^usr_[a-z0-9_-]+$/i.test(id)) return res.status(400).json({ error: 'invalid id' });
+  if (!/^https?:\/\//i.test(url)) return res.status(400).json({ error: 'url must be http(s)' });
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return res.status(400).json({ error: 'lat/lng required' });
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return res.status(400).json({ error: 'lat/lng out of range' });
+
+  const now = Date.now();
+  const row = {
+    id,
+    url,
+    city: String(body.city || '').slice(0, 80) || null,
+    city_zh: String(body.city_zh || '').slice(0, 80) || null,
+    country: String(body.country || '').slice(0, 80) || null,
+    lat,
+    lng,
+    description: String(body.description || '').slice(0, 500) || null,
+    signature: String(body.signature || '').slice(0, 40) || null,
+    rot: Number.isFinite(Number(body.rot)) ? Math.max(-5, Math.min(5, Number(body.rot))) : 0,
+    img_width: Number.isFinite(Number(body.imgWidth)) ? Number(body.imgWidth) : null,
+    img_height: Number.isFinite(Number(body.imgHeight)) ? Number(body.imgHeight) : null,
+    submitted_at: Number.isFinite(Number(body.submittedAt)) ? Number(body.submittedAt) : now,
+    created_at: now,
+  };
+
+  try {
+    insertPhotoStmt.run(row);
+    return res.status(201).json({ ok: true, photo: rowToPhoto(row) });
+  } catch (error) {
+    if (String(error).includes('UNIQUE')) return res.status(409).json({ error: 'duplicate id' });
+    console.error('[photos] register failed', error);
+    return res.status(500).json({ error: 'register failed' });
+  }
+});
+
 app.listen(PORT, HOST, () => {
   console.log(`[server] listening on http://${HOST}:${PORT}`);
 });
-
