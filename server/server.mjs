@@ -160,6 +160,7 @@ app.get('/api/photos', (_req, res) => {
   const limit = Number.isFinite(requestedLimit)
     ? Math.max(1, Math.min(MAX_PHOTO_LIST_LIMIT, Math.floor(requestedLimit)))
     : MAX_PHOTO_LIST_LIMIT;
+  res.setHeader('X-Photo-Limit', String(limit));
   res.json({ photos: listPhotosStmt.all(limit).map(rowToPhoto) });
 });
 
