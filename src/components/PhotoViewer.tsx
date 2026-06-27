@@ -26,6 +26,8 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
   const locationLine = [photo.city_zh || photo.city, photo.country].filter(Boolean).join(' · ');
   const submittedAtLabel = formatSubmittedAt(photo.submittedAt);
   const collectionLabel = photo.query_used || (photo.isUserSubmitted ? '黄昏投稿' : '夜晚档案');
+  const titleId = `photo-title-${photo.id}`;
+  const metaId = `photo-meta-${photo.id}`;
   useEscapeKey(true, onClose);
 
   return (
@@ -34,7 +36,8 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
         className="photo-viewer-card"
         role="dialog"
         aria-modal="true"
-        aria-label="照片查看器"
+        aria-labelledby={titleId}
+        aria-describedby={metaId}
         onClick={(event) => event.stopPropagation()}
       >
         <button className="photo-viewer-close" onClick={onClose} type="button" aria-label="关闭照片">
@@ -51,9 +54,9 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
         </div>
         <footer className="photo-viewer-caption">
           <p className="photo-viewer-kicker">{collectionLabel}</p>
-          <h2>{title}</h2>
+          <h2 id={titleId}>{title}</h2>
           {photo.description && <p className="photo-viewer-description">{photo.description}</p>}
-          <div className="photo-viewer-meta">
+          <div className="photo-viewer-meta" id={metaId}>
             {locationLine && <span>{locationLine}</span>}
             {photo.signature && <span>署名：{photo.signature}</span>}
             {submittedAtLabel && <span>记录于{submittedAtLabel}</span>}
