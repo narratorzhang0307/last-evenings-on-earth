@@ -70,7 +70,12 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
           <h3>这座城市的照片</h3>
           <div>
             {cityPhotos.map((photo) => (
-              <button key={photo.id} onClick={() => onSelectPhoto?.(photo)} type="button">
+              <button
+                key={photo.id}
+                aria-label={`查看${photo.city_zh || photo.city || city.nameNative}照片`}
+                onClick={() => onSelectPhoto?.(photo)}
+                type="button"
+              >
                 <img
                   alt={photo.alt_text || photo.city_zh || photo.city || '城市照片'}
                   decoding="async"
@@ -97,7 +102,12 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
         <section className="city-details-archive-poems" aria-label="档案诗歌">
           <h3>档案里的诗</h3>
           {archivePoems.map((poem) => (
-            <button key={poem.id} onClick={() => onSelectPoem?.(poem)} type="button">
+            <button
+              key={poem.id}
+              aria-label={`打开${poem.author_zh}《${poem.title_zh}》`}
+              onClick={() => onSelectPoem?.(poem)}
+              type="button"
+            >
               <strong>{poem.author_zh}</strong>
               <span>《{poem.title_zh}》</span>
               <em>{getPoemFirstLine(poem)}</em>
@@ -110,7 +120,12 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
         <section className="city-details-writers" aria-label="附近作家">
           <h3>附近夜窗</h3>
           {writers.map((writer) => (
-            <button key={writer.id} onClick={() => onSelectWriter?.(writer)} type="button">
+            <button
+              key={writer.id}
+              aria-label={`进入${writer.name_zh}的夜窗`}
+              onClick={() => onSelectWriter?.(writer)}
+              type="button"
+            >
               <span>{writer.name_zh}</span>
               <em>{writer.soul_intro.zh}</em>
             </button>
