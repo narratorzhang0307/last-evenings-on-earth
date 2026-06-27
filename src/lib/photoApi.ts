@@ -2,6 +2,7 @@ import type { PhotoData } from './types';
 
 const API_BASE = import.meta.env.VITE_API_BASE || '';
 const SERVER_PHOTO_LIMIT = 200;
+const ERROR_MESSAGE_MAX_LENGTH = 180;
 
 export class PhotoApiError extends Error {
   status: number;
@@ -33,10 +34,19 @@ async function parseJson<T>(response: Response): Promise<T> {
 
 async function readErrorDetail(response: Response) {
   try {
-    return (await response.clone().json()) as { message?: string; error?: string };
+    const detail = (await response.clone().json()) as { message?: string; error?: string };
+    return { ...detail, message: trimErrorMessage(detail.message) };
   } catch {
-    return { message: await response.text() };
+    return { message: trimErrorMessage(await response.text()) };
   }
+}
+
+function trimErrorMessage(message?: string) {
+  if (!message) return undefined;
+  const trimmed = message.trim();
+  return trimmed.length > ERROR_MESSAGE_MAX_LENGTH
+    ? `${trimmed.slice(0, ERROR_MESSAGE_MAX_LENGTH)}...`
+    : trimmed;
 }
 
 function isPhotoPayload(value: unknown): value is PhotoData {
