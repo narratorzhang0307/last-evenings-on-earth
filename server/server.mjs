@@ -20,6 +20,7 @@ const HOST = process.env.HOST || '127.0.0.1';
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data.db');
 const SUBMIT_LIMIT = Number(process.env.IP_SUBMIT_LIMIT || 50);
 const SUBMIT_WINDOW_MS = 24 * 60 * 60 * 1000;
+const MAX_PHOTO_LIST_LIMIT = 200;
 
 const db = new Database(DB_PATH);
 db.pragma('journal_mode = WAL');
@@ -59,6 +60,7 @@ const listPhotosStmt = db.prepare(`
   FROM photos
   WHERE deleted_at IS NULL
   ORDER BY submitted_at DESC
+  LIMIT ?
 `);
 const countPhotosStmt = db.prepare('SELECT COUNT(*) AS count FROM photos WHERE deleted_at IS NULL');
 
@@ -154,7 +156,11 @@ app.get('/healthz', (_req, res) => {
 
 app.get('/api/photos', (_req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=15');
-  res.json({ photos: listPhotosStmt.all().map(rowToPhoto) });
+  const requestedLimit = Number(_req.query.limit);
+  const limit = Number.isFinite(requestedLimit)
+    ? Math.max(1, Math.min(MAX_PHOTO_LIST_LIMIT, Math.floor(requestedLimit)))
+    : MAX_PHOTO_LIST_LIMIT;
+  res.json({ photos: listPhotosStmt.all(limit).map(rowToPhoto) });
 });
 
 app.post('/api/photos', (req, res) => {
