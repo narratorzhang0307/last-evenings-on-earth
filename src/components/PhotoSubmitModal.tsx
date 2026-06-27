@@ -109,13 +109,14 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         savedPhoto = await registerServerPhoto(photo);
         rememberServerUserPhoto(savedPhoto);
       } catch (error) {
-        if (error instanceof PhotoApiError && error.status < 500) throw error;
+        if (error instanceof PhotoApiError && error.status < 500 && error.status !== 404) throw error;
         saveLocalUserPhoto(photo);
       }
       onSubmitted?.(savedPhoto);
       onClose();
+      setCityKey(cityOptions[0]?.key || '');
       setUrl('');
-      setCountry('');
+      setCountry(cityOptions[0]?.country || '');
       setDescription('');
       setSignature('');
     } catch (error) {

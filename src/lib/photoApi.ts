@@ -23,7 +23,11 @@ async function parseJson<T>(response: Response): Promise<T> {
       detail.error,
     );
   }
-  return response.json() as Promise<T>;
+  try {
+    return (await response.json()) as T;
+  } catch {
+    throw new PhotoApiError(502, '照片服务返回了无法识别的数据。', 'invalid_json');
+  }
 }
 
 async function readErrorDetail(response: Response) {
