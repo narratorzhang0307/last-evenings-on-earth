@@ -155,7 +155,7 @@ app.use((error, _req, res, next) => {
 app.use((req, res, next) => {
   res.set('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.set('Access-Control-Allow-Headers', 'Accept, Content-Type');
   res.set('Access-Control-Max-Age', '600');
   if (req.method === 'OPTIONS') return res.status(204).end();
   return next();
