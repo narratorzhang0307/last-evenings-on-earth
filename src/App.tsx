@@ -43,6 +43,7 @@ export default function App() {
         onHoverCity={setHoveredCity}
         onClickCity={openCity}
         onClickPhoto={setSelectedPhoto}
+        onClickPoem={setSelectedPoem}
         onClickWriter={setSelectedWriter}
         photos={allPhotos}
         isPaused={!!detailCity}

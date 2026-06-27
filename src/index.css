@@ -1448,6 +1448,39 @@ h1 {
   opacity: 1;
 }
 
+.poem-globe-marker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.poem-globe-marker::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #67e8f9;
+  box-shadow:
+    0 0 10px rgba(103, 232, 249, 0.82),
+    0 0 24px rgba(103, 232, 249, 0.28);
+}
+
+.poem-globe-marker span {
+  opacity: 0;
+  color: #a5f3fc;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+  transition: opacity 180ms ease;
+}
+
+.poem-globe-marker:hover span {
+  opacity: 1;
+}
+
 .writer-globe-marker {
   display: flex;
   align-items: center;

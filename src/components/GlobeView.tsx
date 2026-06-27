@@ -3,9 +3,10 @@ import Globe from 'react-globe.gl';
 import * as THREE from 'three';
 import { CITIES, ARCS } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
+import { POEMS } from '../data/poems';
 import { PHOTOS } from '../data/worldPhotos';
 import { WRITERS } from '../data/writers';
-import type { CityData, MajorCity, PhotoData, WriterData } from '../lib/types';
+import type { CityData, MajorCity, PhotoData, PoemPoint, WriterData } from '../lib/types';
 
 const CONTINENTS = [
   { lat: 40, lng: 90, name: 'ASIA' },
@@ -21,6 +22,7 @@ interface GlobeViewProps {
   onHoverCity?: (city: CityData | null) => void;
   onClickCity?: (city: CityData) => void;
   onClickPhoto?: (photo: PhotoData) => void;
+  onClickPoem?: (poem: PoemPoint) => void;
   onClickWriter?: (writer: WriterData) => void;
   photos?: PhotoData[];
   rotationSpeed?: number;
@@ -32,6 +34,7 @@ type CountryFeature = Record<string, unknown>;
 type Marker =
   | (MajorCity & { elementType: 'major-city' })
   | (PhotoData & { elementType: 'photo' })
+  | (PoemPoint & { elementType: 'poem' })
   | (WriterData & { elementType: 'writer' })
   | (CityData & { elementType: 'literary-city' })
   | (typeof CONTINENTS[number] & { elementType: 'continent' });
@@ -41,6 +44,7 @@ export default function GlobeView({
   onHoverCity,
   onClickCity,
   onClickPhoto,
+  onClickPoem,
   onClickWriter,
   photos = PHOTOS,
   rotationSpeed = 0.35,
@@ -123,6 +127,7 @@ export default function GlobeView({
       ...CONTINENTS.map((continent) => ({ ...continent, elementType: 'continent' as const })),
       ...MAJOR_CITIES.map((city) => ({ ...city, elementType: 'major-city' as const })),
       ...photos.map((photo) => ({ ...photo, elementType: 'photo' as const })),
+      ...POEMS.map((poem) => ({ ...poem, elementType: 'poem' as const })),
       ...WRITERS.map((writer) => ({ ...writer, elementType: 'writer' as const })),
       ...CITIES.map((city) => ({ ...city, elementType: 'literary-city' as const })),
     ],
@@ -188,6 +193,18 @@ export default function GlobeView({
               event.preventDefault();
               event.stopPropagation();
               onClickPhoto?.(d);
+            });
+            return el;
+          }
+
+          if (d.elementType === 'poem') {
+            el.className = 'poem-globe-marker';
+            el.title = `${d.author_zh}《${d.title_zh}》`;
+            el.innerHTML = `<span>${d.author_zh}</span>`;
+            el.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onClickPoem?.(d);
             });
             return el;
           }
