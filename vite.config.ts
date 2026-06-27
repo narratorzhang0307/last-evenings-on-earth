@@ -8,14 +8,14 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined;
-          if (
-            id.includes('/three/') ||
-            id.includes('/react-globe.gl/') ||
-            id.includes('/three-globe/') ||
-            id.includes('/d3-') ||
-            id.includes('/topojson-')
-          ) {
+          if (id.includes('/three/')) {
+            return 'three-runtime';
+          }
+          if (id.includes('/react-globe.gl/') || id.includes('/three-globe/')) {
             return 'globe-runtime';
+          }
+          if (id.includes('/d3-') || id.includes('/topojson-')) {
+            return 'geo-runtime';
           }
           return undefined;
         },
