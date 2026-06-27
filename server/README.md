@@ -87,7 +87,7 @@ POST /api/photos
 }
 ```
 
-当前版本接受以 `http` 或 `https` 开头的图片链接。后续如果接入对象存储预签名上传，会在单独提交中继续扩展。
+当前版本接受以 `http` 或 `https` 开头的图片链接。后续如果接入对象存储预签名上传，会在照片服务里继续扩展。
 
 ### 软删除照片
 
@@ -109,10 +109,10 @@ DELETE /api/photos/:id
 
 ## 检查命令
 
-服务端语法检查：
+在 `server/` 目录中检查：
 
 ```bash
-node --check server.mjs
+npm run check
 ```
 
 从仓库根目录检查：
