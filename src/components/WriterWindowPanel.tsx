@@ -38,7 +38,7 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
         <span>
           {writer.name_en} · {writer.city}
         </span>
-        <blockquote>{activeLine}</blockquote>
+        <blockquote aria-live="polite">{activeLine}</blockquote>
         <div className="writer-window-actions">
           {!isLeaving && (
             <button
