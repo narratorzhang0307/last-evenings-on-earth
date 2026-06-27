@@ -52,7 +52,11 @@ function isPhotoPayload(value: unknown): value is PhotoData {
 }
 
 export async function listServerPhotos() {
-  const data = await parseJson<{ photos: PhotoData[] }>(await fetch(`${API_BASE}/api/photos?limit=${SERVER_PHOTO_LIMIT}`));
+  const data = await parseJson<{ photos: PhotoData[] }>(
+    await fetch(`${API_BASE}/api/photos?limit=${SERVER_PHOTO_LIMIT}`, {
+      headers: { Accept: 'application/json' },
+    }),
+  );
   return Array.isArray(data.photos) ? data.photos.filter(isPhotoPayload) : [];
 }
 
@@ -60,7 +64,7 @@ export async function registerServerPhoto(photo: PhotoData) {
   const data = await parseJson<{ ok: boolean; photo: PhotoData }>(
     await fetch(`${API_BASE}/api/photos`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(photo),
     }),
   );
