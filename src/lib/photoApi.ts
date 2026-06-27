@@ -40,7 +40,7 @@ async function readErrorDetail(response: Response) {
 
 export async function listServerPhotos() {
   const data = await parseJson<{ photos: PhotoData[] }>(await fetch(`${API_BASE}/api/photos`));
-  return data.photos;
+  return Array.isArray(data.photos) ? data.photos : [];
 }
 
 export async function registerServerPhoto(photo: PhotoData) {
@@ -51,5 +51,8 @@ export async function registerServerPhoto(photo: PhotoData) {
       body: JSON.stringify(photo),
     }),
   );
+  if (!data.photo || typeof data.photo.id !== 'string') {
+    throw new PhotoApiError(502, '照片服务没有返回可保存的照片。', 'missing_photo');
+  }
   return data.photo;
 }
