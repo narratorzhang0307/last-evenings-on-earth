@@ -2,6 +2,7 @@ import { useMemo, useState, type FormEvent } from 'react';
 import { X } from 'lucide-react';
 import { CITIES } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
+import { countryFromCoordinates } from '../lib/countryLookup';
 import { rememberServerUserPhoto, saveLocalUserPhoto } from '../lib/localUserPhotos';
 import { PhotoApiError, registerServerPhoto } from '../lib/photoApi';
 import { useEscapeKey } from '../lib/useEscapeKey';
@@ -34,7 +35,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         label: city.nameZh,
         city: city.nameEn,
         city_zh: city.nameZh,
-        country: '',
+        country: countryFromCoordinates(city.lat, city.lng),
         lat: city.lat,
         lng: city.lng,
       })),
