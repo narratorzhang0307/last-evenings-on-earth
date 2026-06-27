@@ -7,6 +7,7 @@ import { PhotoStrip } from './components/PhotoStrip';
 import { PhotoViewer } from './components/PhotoViewer';
 import { PoemViewer } from './components/PoemViewer';
 import { WriterPreviewCard } from './components/WriterPreviewCard';
+import { WriterWindowPanel } from './components/WriterWindowPanel';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
@@ -83,11 +84,6 @@ export default function App() {
         {activeWriter && (
           <WriterPreviewCard writer={activeWriter} onEnter={setSelectedWriter} />
         )}
-        {selectedWriter && (
-          <p className="writer-selection">
-            {selectedWriter.knock_text.zh_title} {selectedWriter.knock_text.zh_question}
-          </p>
-        )}
       </section>
       <CityDetailsPanel city={detailCity} onClose={() => setDetailCity(null)} />
       <ArchiveDrawer
@@ -107,6 +103,9 @@ export default function App() {
       )}
       {selectedPoem && (
         <PoemViewer poem={selectedPoem} onClose={() => setSelectedPoem(null)} />
+      )}
+      {selectedWriter && (
+        <WriterWindowPanel writer={selectedWriter} onClose={() => setSelectedWriter(null)} />
       )}
     </main>
   );
