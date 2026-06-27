@@ -25,6 +25,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         label: city.nameNative,
         city: city.name,
         city_zh: city.nameNative,
+        country: city.country.split(/\s+/)[0],
         lat: city.lat,
         lng: city.lng,
       })),
@@ -33,6 +34,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         label: city.nameZh,
         city: city.nameEn,
         city_zh: city.nameZh,
+        country: '',
         lat: city.lat,
         lng: city.lng,
       })),
@@ -41,7 +43,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   );
   const [cityKey, setCityKey] = useState(cityOptions[0]?.key || '');
   const [url, setUrl] = useState('');
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState(cityOptions[0]?.country || '');
   const [description, setDescription] = useState('');
   const [signature, setSignature] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,6 +53,11 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   if (!isOpen) return null;
 
   const selectedCity = cityOptions.find((city) => city.key === cityKey) || cityOptions[0];
+  const handleCityChange = (nextCityKey: string) => {
+    const nextCity = cityOptions.find((city) => city.key === nextCityKey);
+    setCityKey(nextCityKey);
+    setCountry(nextCity?.country || '');
+  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -110,7 +117,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         <h2>留下你的黄昏</h2>
         <label>
           城市
-          <select value={cityKey} onChange={(event) => setCityKey(event.target.value)}>
+          <select value={cityKey} onChange={(event) => handleCityChange(event.target.value)}>
             {cityOptions.map((city) => (
               <option key={city.key} value={city.key}>
                 {city.label}
