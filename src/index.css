@@ -598,9 +598,9 @@ h1 {
 
 .archive-view-toggle {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 4px;
-  width: 160px;
+  width: 220px;
   padding: 4px;
   border: 1px solid rgba(244, 238, 226, 0.12);
   border-radius: 999px;
@@ -753,6 +753,64 @@ h1 {
 .archive-poem em {
   color: rgba(244, 238, 226, 0.42);
   font-size: 12px;
+  font-style: normal;
+}
+
+.archive-writer-list {
+  display: grid;
+  gap: 8px;
+}
+
+.archive-writer {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 68px;
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--writer-light) 24%, rgba(244, 238, 226, 0.08));
+  border-radius: 7px;
+  color: #f4eee2;
+  background: rgba(244, 238, 226, 0.035);
+  cursor: pointer;
+  text-align: left;
+}
+
+.archive-writer:hover {
+  border-color: color-mix(in srgb, var(--writer-light) 54%, rgba(244, 238, 226, 0.1));
+  background: rgba(244, 238, 226, 0.06);
+}
+
+.archive-writer img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+  filter: grayscale(0.2) contrast(0.95);
+}
+
+.archive-writer span {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.archive-writer strong,
+.archive-writer em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.archive-writer strong {
+  color: color-mix(in srgb, var(--writer-light) 74%, #f4eee2);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+}
+
+.archive-writer em {
+  color: rgba(244, 238, 226, 0.46);
+  font-size: 11px;
   font-style: normal;
 }
 

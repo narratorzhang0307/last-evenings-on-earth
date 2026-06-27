@@ -97,6 +97,10 @@ export default function App() {
           setSelectedPoem(poem);
           setIsArchiveOpen(false);
         }}
+        onSelectWriter={(writer) => {
+          setSelectedWriter(writer);
+          setIsArchiveOpen(false);
+        }}
       />
       {selectedPhoto && (
         <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />

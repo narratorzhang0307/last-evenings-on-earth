@@ -1,19 +1,22 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Images, X } from 'lucide-react';
+import { WRITERS } from '../data/writers';
 import { PHOTOS } from '../data/worldPhotos';
 import { getPhotoStats, groupPhotosByCountry } from '../lib/photoArchive';
 import { getPoemFirstLine, getPoemStats, groupPoemsByCountry } from '../lib/poemArchive';
-import type { PhotoData, PoemPoint } from '../lib/types';
+import { getWriterStats } from '../lib/writerArchive';
+import type { PhotoData, PoemPoint, WriterData } from '../lib/types';
 
 interface ArchiveDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectPhoto: (photo: PhotoData) => void;
   onSelectPoem?: (poem: PoemPoint) => void;
+  onSelectWriter?: (writer: WriterData) => void;
 }
 
-export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem }: ArchiveDrawerProps) {
-  const [viewMode, setViewMode] = useState<'poems' | 'photos'>('photos');
+export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
+  const [viewMode, setViewMode] = useState<'poems' | 'photos' | 'writers'>('photos');
 
   if (!isOpen) return null;
 
@@ -21,7 +24,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem }: 
   const groupedPoems = groupPoemsByCountry();
   const stats = getPhotoStats();
   const poemStats = getPoemStats();
-  const activeStats = viewMode === 'photos' ? stats : poemStats;
+  const writerStats = getWriterStats();
 
   return (
     <aside className="archive-drawer" aria-label="night archive">
@@ -46,18 +49,37 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem }: 
           >
             诗
           </button>
+          <button
+            className={viewMode === 'writers' ? 'is-active' : ''}
+            onClick={() => setViewMode('writers')}
+            type="button"
+          >
+            作家
+          </button>
         </nav>
         <div>
-          <span>{activeStats.countryCount} 个国家</span>
           <span>
-            {viewMode === 'photos' ? `${stats.cityCount} 座城市` : `${poemStats.authorCount} 位作者`}
+            {viewMode === 'writers' ? `${writerStats.cityCount} 座城市` : `${viewMode === 'photos' ? stats.countryCount : poemStats.countryCount} 个国家`}
           </span>
-          <span>{viewMode === 'photos' ? `${PHOTOS.length} 张照片` : `${poemStats.poemCount} 首诗`}</span>
+          <span>
+            {viewMode === 'photos'
+              ? `${stats.cityCount} 座城市`
+              : viewMode === 'poems'
+                ? `${poemStats.authorCount} 位作者`
+                : `${writerStats.cityCount} 扇窗`}
+          </span>
+          <span>
+            {viewMode === 'photos'
+              ? `${PHOTOS.length} 张照片`
+              : viewMode === 'poems'
+                ? `${poemStats.poemCount} 首诗`
+                : `${writerStats.writerCount} 位作家`}
+          </span>
         </div>
       </header>
       <div className="archive-drawer-body">
-        {viewMode === 'photos'
-          ? Object.entries(groupedPhotos).map(([country, photos]) => (
+        {viewMode === 'photos' &&
+          Object.entries(groupedPhotos).map(([country, photos]) => (
               <section className="archive-country" key={country}>
                 <h3>
                   <span>{country}</span>
@@ -86,8 +108,9 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem }: 
                   ))}
                 </div>
               </section>
-            ))
-          : Object.entries(groupedPoems).map(([country, poems]) => (
+            ))}
+        {viewMode === 'poems' &&
+          Object.entries(groupedPoems).map(([country, poems]) => (
               <section className="archive-country" key={country}>
                 <h3>
                   <span>{country}</span>
@@ -109,6 +132,33 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem }: 
                 </div>
               </section>
             ))}
+        {viewMode === 'writers' && (
+          <section className="archive-country">
+            <h3>
+              <span>夜晚的人</span>
+              <em>{WRITERS.length}</em>
+            </h3>
+            <div className="archive-writer-list">
+              {WRITERS.map((writer) => (
+                <button
+                  className="archive-writer"
+                  key={writer.id}
+                  onClick={() => onSelectWriter?.(writer)}
+                  style={{ '--writer-light': writer.lantern_color } as CSSProperties}
+                  type="button"
+                >
+                  <img alt="" draggable="false" referrerPolicy="no-referrer" src={writer.portrait} />
+                  <span>
+                    <strong>{writer.name_zh}</strong>
+                    <em>
+                      {writer.name_en} · {writer.city}
+                    </em>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </aside>
   );
