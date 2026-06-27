@@ -7,9 +7,25 @@ interface PhotoViewerProps {
   onClose: () => void;
 }
 
+function formatSubmittedAt(value?: number) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat('zh-CN', {
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+}
+
 export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
   const sourceLabel = photo.source === 'pexels' ? 'Pexels' : 'Unsplash';
   const sourceUrl = photo.unsplash_url || photo.photographer_url;
+  const title = photo.city_zh || photo.city || '未命名地点';
+  const locationLine = [photo.city_zh || photo.city, photo.country].filter(Boolean).join(' · ');
+  const submittedAtLabel = formatSubmittedAt(photo.submittedAt);
+  const collectionLabel = photo.query_used || (photo.isUserSubmitted ? '黄昏投稿' : '夜晚档案');
   useEscapeKey(true, onClose);
 
   return (
@@ -34,9 +50,13 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
           />
         </div>
         <footer className="photo-viewer-caption">
-          <p>{photo.query_used || '夜晚档案'}</p>
-          <h2>{photo.city_zh || photo.city}</h2>
-          <div>
+          <p className="photo-viewer-kicker">{collectionLabel}</p>
+          <h2>{title}</h2>
+          {photo.description && <p className="photo-viewer-description">{photo.description}</p>}
+          <div className="photo-viewer-meta">
+            {locationLine && <span>{locationLine}</span>}
+            {photo.signature && <span>署名：{photo.signature}</span>}
+            {submittedAtLabel && <span>记录于{submittedAtLabel}</span>}
             {photo.photographer && <span>摄影：{photo.photographer}</span>}
             {sourceUrl && (
               <a href={sourceUrl} target="_blank" rel="noreferrer">
