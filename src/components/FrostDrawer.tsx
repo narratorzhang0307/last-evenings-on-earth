@@ -13,6 +13,8 @@ interface FrostTurn {
   text: string;
 }
 
+const FROST_INPUT_MAX_LENGTH = 240;
+
 export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState('');
@@ -67,6 +69,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
           onChange={(event) => setInput(event.target.value)}
           placeholder="问一座城市、一个作家，或只是说一句夜里的话"
           aria-label="写给弗洛斯特的问题"
+          maxLength={FROST_INPUT_MAX_LENGTH}
         />
         <button disabled={!canSend} type="submit" aria-label="发送给弗洛斯特">
           <Send size={16} />
