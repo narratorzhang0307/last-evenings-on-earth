@@ -173,6 +173,10 @@ export default function App() {
           setSelectedPhoto(photo);
           setDetailCity(null);
         }}
+        onSelectPoem={(poem) => {
+          setSelectedPoem(poem);
+          setDetailCity(null);
+        }}
         onSelectWriter={(writer) => {
           setSelectedWriter(writer);
           setDetailCity(null);

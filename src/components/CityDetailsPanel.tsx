@@ -2,15 +2,17 @@ import { X } from 'lucide-react';
 import SunCalc from 'suncalc';
 import { getApproxLocalTime } from '../lib/dusk';
 import { getPhotosForCity } from '../lib/photoArchive';
+import { getPoemFirstLine, getPoemsForCity } from '../lib/poemArchive';
 import { getWritersForCity } from '../lib/writerArchive';
 import { useEscapeKey } from '../lib/useEscapeKey';
-import type { CityData, PhotoData, WriterData } from '../lib/types';
+import type { CityData, PhotoData, PoemPoint, WriterData } from '../lib/types';
 
 interface CityDetailsPanelProps {
   city: CityData | null;
   onClose: () => void;
   photos?: PhotoData[];
   onSelectPhoto?: (photo: PhotoData) => void;
+  onSelectPoem?: (poem: PoemPoint) => void;
   onSelectWriter?: (writer: WriterData) => void;
 }
 
@@ -26,7 +28,7 @@ function getSunsetDistance(city: CityData, now = new Date()) {
   return '此刻正接近日落';
 }
 
-export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, onSelectWriter }: CityDetailsPanelProps) {
+export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, onSelectPoem, onSelectWriter }: CityDetailsPanelProps) {
   useEscapeKey(!!city, onClose);
 
   if (!city) return null;
@@ -36,6 +38,7 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
   const sunsetDistance = getSunsetDistance(city, now);
   const writers = getWritersForCity(city);
   const cityPhotos = getPhotosForCity(city, 3, photos);
+  const archivePoems = getPoemsForCity(city, 3);
 
   return (
     <aside className="city-details" role="dialog" aria-modal="true" aria-label={`${city.nameNative} 城市详情`}>
@@ -87,6 +90,19 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
           </blockquote>
         ))}
       </section>
+
+      {!!archivePoems.length && (
+        <section className="city-details-archive-poems" aria-label="档案诗歌">
+          <h3>档案里的诗</h3>
+          {archivePoems.map((poem) => (
+            <button key={poem.id} onClick={() => onSelectPoem?.(poem)} type="button">
+              <strong>{poem.author_zh}</strong>
+              <span>《{poem.title_zh}》</span>
+              <em>{getPoemFirstLine(poem)}</em>
+            </button>
+          ))}
+        </section>
+      )}
 
       {!!writers.length && (
         <section className="city-details-writers" aria-label="附近作家">

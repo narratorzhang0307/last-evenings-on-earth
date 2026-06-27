@@ -1450,6 +1450,58 @@ h1 {
   line-height: 1.65;
 }
 
+.city-details-archive-poems {
+  display: grid;
+  gap: 9px;
+  margin-top: 32px;
+}
+
+.city-details-archive-poems h3 {
+  margin: 0;
+  color: rgba(25, 23, 19, 0.46);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.city-details-archive-poems button {
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  border: 1px solid rgba(25, 23, 19, 0.1);
+  border-radius: 8px;
+  color: #191713;
+  background: rgba(25, 23, 19, 0.04);
+  cursor: pointer;
+  text-align: left;
+}
+
+.city-details-archive-poems button:hover {
+  background: rgba(25, 23, 19, 0.08);
+}
+
+.city-details-archive-poems strong {
+  color: #7c2d12;
+  font-size: 12px;
+}
+
+.city-details-archive-poems span,
+.city-details-archive-poems em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.city-details-archive-poems span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+}
+
+.city-details-archive-poems em {
+  color: rgba(25, 23, 19, 0.54);
+  font-size: 12px;
+  font-style: normal;
+}
+
 .city-details-writers {
   display: grid;
   gap: 10px;
