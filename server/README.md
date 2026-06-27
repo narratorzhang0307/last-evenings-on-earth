@@ -97,6 +97,8 @@ DELETE /api/photos/:id
 
 不会物理删除记录，只写入删除时间。
 
+如果照片不存在，会返回 `404` 和 `photo_not_found`。
+
 ## 不进入仓库的文件
 
 - `server/data.db`
