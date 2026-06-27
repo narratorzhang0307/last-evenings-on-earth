@@ -445,6 +445,21 @@ h1 {
   line-height: 1.6;
 }
 
+.writer-window-knock {
+  justify-self: start;
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid color-mix(in srgb, var(--writer-light) 42%, rgba(244, 238, 226, 0.12));
+  border-radius: 999px;
+  color: #f4eee2;
+  background: rgba(244, 238, 226, 0.05);
+  cursor: pointer;
+}
+
+.writer-window-knock:hover {
+  background: color-mix(in srgb, var(--writer-light) 18%, rgba(244, 238, 226, 0.05));
+}
+
 .writer-window-copy small {
   color: rgba(244, 238, 226, 0.56);
   font-size: 12px;

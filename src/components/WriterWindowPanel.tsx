@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { X } from 'lucide-react';
 import type { WriterData } from '../lib/types';
 
@@ -8,7 +8,9 @@ interface WriterWindowPanelProps {
 }
 
 export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
-  const firstLine = writer.opening_lines[0] || writer.knock_text.zh_title;
+  const [lineIndex, setLineIndex] = useState(0);
+  const lines = writer.opening_lines.length ? writer.opening_lines : [writer.knock_text.zh_title];
+  const activeLine = lines[lineIndex % lines.length];
 
   return (
     <aside
@@ -28,7 +30,14 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
         <span>
           {writer.name_en} · {writer.city}
         </span>
-        <blockquote>{firstLine}</blockquote>
+        <blockquote>{activeLine}</blockquote>
+        <button
+          className="writer-window-knock"
+          onClick={() => setLineIndex((current) => current + 1)}
+          type="button"
+        >
+          再敲一次
+        </button>
         <small>{writer.soul_intro.zh}</small>
       </div>
     </aside>
