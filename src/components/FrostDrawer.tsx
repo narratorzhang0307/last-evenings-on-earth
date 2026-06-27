@@ -17,6 +17,7 @@ const FROST_INPUT_MAX_LENGTH = 240;
 
 export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const turnsEndRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState('');
   const [turns, setTurns] = useState<FrostTurn[]>([
     {
@@ -31,6 +32,11 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
     if (!isOpen) return;
     window.setTimeout(() => inputRef.current?.focus(), 0);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    turnsEndRef.current?.scrollIntoView({ block: 'end' });
+  }, [isOpen, turns]);
 
   if (!isOpen) return null;
 
@@ -61,6 +67,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
             <p>{turn.text}</p>
           </article>
         ))}
+        <div ref={turnsEndRef} aria-hidden="true" />
       </div>
       <form className="frost-input" onSubmit={handleSubmit}>
         <input
