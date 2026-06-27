@@ -28,7 +28,8 @@ function normalizeSearchText(value: SearchableValue) {
 
 function textIncludesQuery(query: string, values: SearchableValue[]) {
   if (!query) return true;
-  return values.some((value) => normalizeSearchText(value).includes(query));
+  const searchableText = values.map(normalizeSearchText).join(' ');
+  return query.split(' ').every((term) => searchableText.includes(term));
 }
 
 export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
