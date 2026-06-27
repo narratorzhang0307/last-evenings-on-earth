@@ -4,7 +4,8 @@ import * as THREE from 'three';
 import { CITIES, ARCS } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
 import { PHOTOS } from '../data/worldPhotos';
-import type { CityData, MajorCity, PhotoData } from '../lib/types';
+import { WRITERS } from '../data/writers';
+import type { CityData, MajorCity, PhotoData, WriterData } from '../lib/types';
 
 const CONTINENTS = [
   { lat: 40, lng: 90, name: 'ASIA' },
@@ -20,6 +21,7 @@ interface GlobeViewProps {
   onHoverCity?: (city: CityData | null) => void;
   onClickCity?: (city: CityData) => void;
   onClickPhoto?: (photo: PhotoData) => void;
+  onClickWriter?: (writer: WriterData) => void;
   rotationSpeed?: number;
   isPaused?: boolean;
 }
@@ -29,6 +31,7 @@ type CountryFeature = Record<string, unknown>;
 type Marker =
   | (MajorCity & { elementType: 'major-city' })
   | (PhotoData & { elementType: 'photo' })
+  | (WriterData & { elementType: 'writer' })
   | (CityData & { elementType: 'literary-city' })
   | (typeof CONTINENTS[number] & { elementType: 'continent' });
 
@@ -37,6 +40,7 @@ export default function GlobeView({
   onHoverCity,
   onClickCity,
   onClickPhoto,
+  onClickWriter,
   rotationSpeed = 0.35,
   isPaused = false,
 }: GlobeViewProps) {
@@ -117,6 +121,7 @@ export default function GlobeView({
       ...CONTINENTS.map((continent) => ({ ...continent, elementType: 'continent' as const })),
       ...MAJOR_CITIES.map((city) => ({ ...city, elementType: 'major-city' as const })),
       ...PHOTOS.map((photo) => ({ ...photo, elementType: 'photo' as const })),
+      ...WRITERS.map((writer) => ({ ...writer, elementType: 'writer' as const })),
       ...CITIES.map((city) => ({ ...city, elementType: 'literary-city' as const })),
     ],
     [],
@@ -181,6 +186,18 @@ export default function GlobeView({
               event.preventDefault();
               event.stopPropagation();
               onClickPhoto?.(d);
+            });
+            return el;
+          }
+
+          if (d.elementType === 'writer') {
+            el.className = 'writer-globe-marker';
+            el.title = `${d.name_zh} / ${d.city}`;
+            el.innerHTML = `<span>${d.name_zh}</span>`;
+            el.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onClickWriter?.(d);
             });
             return el;
           }

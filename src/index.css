@@ -962,6 +962,39 @@ h1 {
   opacity: 1;
 }
 
+.writer-globe-marker {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.writer-globe-marker::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #c04030;
+  box-shadow:
+    0 0 9px rgba(192, 64, 48, 0.9),
+    0 0 24px rgba(192, 64, 48, 0.38);
+}
+
+.writer-globe-marker span {
+  opacity: 0;
+  color: #ffb4a8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+  transition: opacity 180ms ease;
+}
+
+.writer-globe-marker:hover span {
+  opacity: 1;
+}
+
 .literary-city-marker {
   pointer-events: auto;
 }
