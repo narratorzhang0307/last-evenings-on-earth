@@ -132,6 +132,12 @@ npm run server:check
 npm run repo:guard
 ```
 
+档案数据检查：
+
+```bash
+npm run data:check
+```
+
 照片服务接口冒烟验收：
 
 ```bash
