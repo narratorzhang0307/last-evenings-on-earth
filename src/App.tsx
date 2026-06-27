@@ -1,13 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Archive, Snowflake } from 'lucide-react';
-import { ArchiveDrawer } from './components/ArchiveDrawer';
-import { CityDetailsPanel } from './components/CityDetailsPanel';
-import { FrostDrawer } from './components/FrostDrawer';
 import { PhotoStrip } from './components/PhotoStrip';
-import { PhotoViewer } from './components/PhotoViewer';
-import { PoemViewer } from './components/PoemViewer';
 import { WriterPreviewCard } from './components/WriterPreviewCard';
-import { WriterWindowPanel } from './components/WriterWindowPanel';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { POEMS } from './data/poems';
@@ -20,6 +14,16 @@ import type { CityData, PhotoData, PoemPoint, WriterData } from './lib/types';
 type LayerKey = 'photos' | 'poems' | 'writers';
 
 const GlobeView = lazy(() => import('./components/GlobeView'));
+const ArchiveDrawer = lazy(() => import('./components/ArchiveDrawer').then(({ ArchiveDrawer }) => ({ default: ArchiveDrawer })));
+const CityDetailsPanel = lazy(() =>
+  import('./components/CityDetailsPanel').then(({ CityDetailsPanel }) => ({ default: CityDetailsPanel })),
+);
+const FrostDrawer = lazy(() => import('./components/FrostDrawer').then(({ FrostDrawer }) => ({ default: FrostDrawer })));
+const PhotoViewer = lazy(() => import('./components/PhotoViewer').then(({ PhotoViewer }) => ({ default: PhotoViewer })));
+const PoemViewer = lazy(() => import('./components/PoemViewer').then(({ PoemViewer }) => ({ default: PoemViewer })));
+const WriterWindowPanel = lazy(() =>
+  import('./components/WriterWindowPanel').then(({ WriterWindowPanel }) => ({ default: WriterWindowPanel })),
+);
 const LAYER_STORAGE_KEY = 'last-evenings-visible-layers';
 const DEFAULT_VISIBLE_LAYERS: Record<LayerKey, boolean> = {
   photos: true,
@@ -178,49 +182,49 @@ export default function App() {
           <WriterPreviewCard writer={activeWriter} onEnter={setSelectedWriter} />
         )}
       </section>
-      <CityDetailsPanel
-        city={detailCity}
-        onClose={() => setDetailCity(null)}
-        photos={allPhotos}
-        onSelectPhoto={(photo) => {
-          setSelectedPhoto(photo);
-          setDetailCity(null);
-        }}
-        onSelectPoem={(poem) => {
-          setSelectedPoem(poem);
-          setDetailCity(null);
-        }}
-        onSelectWriter={(writer) => {
-          setSelectedWriter(writer);
-          setDetailCity(null);
-        }}
-      />
-      <ArchiveDrawer
-        isOpen={isArchiveOpen}
-        onClose={() => setIsArchiveOpen(false)}
-        onSelectPhoto={(photo) => {
-          setSelectedPhoto(photo);
-          setIsArchiveOpen(false);
-        }}
-        onSelectPoem={(poem) => {
-          setSelectedPoem(poem);
-          setIsArchiveOpen(false);
-        }}
-        onSelectWriter={(writer) => {
-          setSelectedWriter(writer);
-          setIsArchiveOpen(false);
-        }}
-      />
-      <FrostDrawer isOpen={isFrostOpen} onClose={() => setIsFrostOpen(false)} />
-      {selectedPhoto && (
-        <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
-      )}
-      {selectedPoem && (
-        <PoemViewer poem={selectedPoem} onClose={() => setSelectedPoem(null)} />
-      )}
-      {selectedWriter && (
-        <WriterWindowPanel writer={selectedWriter} onClose={() => setSelectedWriter(null)} />
-      )}
+      <Suspense fallback={<div className="panel-loading" role="status">正在打开夜晚档案...</div>}>
+        {detailCity && (
+          <CityDetailsPanel
+            city={detailCity}
+            onClose={() => setDetailCity(null)}
+            photos={allPhotos}
+            onSelectPhoto={(photo) => {
+              setSelectedPhoto(photo);
+              setDetailCity(null);
+            }}
+            onSelectPoem={(poem) => {
+              setSelectedPoem(poem);
+              setDetailCity(null);
+            }}
+            onSelectWriter={(writer) => {
+              setSelectedWriter(writer);
+              setDetailCity(null);
+            }}
+          />
+        )}
+        {isArchiveOpen && (
+          <ArchiveDrawer
+            isOpen={isArchiveOpen}
+            onClose={() => setIsArchiveOpen(false)}
+            onSelectPhoto={(photo) => {
+              setSelectedPhoto(photo);
+              setIsArchiveOpen(false);
+            }}
+            onSelectPoem={(poem) => {
+              setSelectedPoem(poem);
+              setIsArchiveOpen(false);
+            }}
+            onSelectWriter={(writer) => {
+              setSelectedWriter(writer);
+              setIsArchiveOpen(false);
+            }}
+          />
+        )}
+        {isFrostOpen && <FrostDrawer isOpen={isFrostOpen} onClose={() => setIsFrostOpen(false)} />}
+        {selectedPhoto && <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />}
+        {selectedPoem && <PoemViewer poem={selectedPoem} onClose={() => setSelectedPoem(null)} />}
+        {selectedWriter && <WriterWindowPanel writer={selectedWriter} onClose={() => setSelectedWriter(null)} />}
+      </Suspense>
     </main>
   );
 }
