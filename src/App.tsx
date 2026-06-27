@@ -5,17 +5,19 @@ import { CityDetailsPanel } from './components/CityDetailsPanel';
 import GlobeView from './components/GlobeView';
 import { PhotoStrip } from './components/PhotoStrip';
 import { PhotoViewer } from './components/PhotoViewer';
+import { PoemViewer } from './components/PoemViewer';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
 import { getPhotosForCity } from './lib/photoArchive';
-import type { CityData, PhotoData } from './lib/types';
+import type { CityData, PhotoData, PoemPoint } from './lib/types';
 
 export default function App() {
   const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
   const [detailCity, setDetailCity] = useState<CityData | null>(null);
   const [hoveredCity, setHoveredCity] = useState<CityData | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoData | null>(null);
+  const [selectedPoem, setSelectedPoem] = useState<PoemPoint | null>(null);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const activeCity = hoveredCity || selectedCity || CITIES[0];
   const activePhotos = getPhotosForCity(activeCity);
@@ -81,9 +83,16 @@ export default function App() {
           setSelectedPhoto(photo);
           setIsArchiveOpen(false);
         }}
+        onSelectPoem={(poem) => {
+          setSelectedPoem(poem);
+          setIsArchiveOpen(false);
+        }}
       />
       {selectedPhoto && (
         <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
+      )}
+      {selectedPoem && (
+        <PoemViewer poem={selectedPoem} onClose={() => setSelectedPoem(null)} />
       )}
     </main>
   );
