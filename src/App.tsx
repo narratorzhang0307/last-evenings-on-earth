@@ -31,7 +31,12 @@ function readSavedLayers() {
   try {
     const saved = window.localStorage.getItem(LAYER_STORAGE_KEY);
     if (!saved) return DEFAULT_VISIBLE_LAYERS;
-    return { ...DEFAULT_VISIBLE_LAYERS, ...JSON.parse(saved) } as Record<LayerKey, boolean>;
+    const parsed = JSON.parse(saved) as Partial<Record<LayerKey, unknown>>;
+    return {
+      photos: typeof parsed.photos === 'boolean' ? parsed.photos : DEFAULT_VISIBLE_LAYERS.photos,
+      poems: typeof parsed.poems === 'boolean' ? parsed.poems : DEFAULT_VISIBLE_LAYERS.poems,
+      writers: typeof parsed.writers === 'boolean' ? parsed.writers : DEFAULT_VISIBLE_LAYERS.writers,
+    };
   } catch {
     return DEFAULT_VISIBLE_LAYERS;
   }
