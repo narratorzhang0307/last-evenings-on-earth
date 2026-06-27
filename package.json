@@ -9,6 +9,7 @@
     "build:report": "node scripts/report-build-assets.mjs",
     "preview": "vite preview --host=127.0.0.1",
     "lint": "tsc --noEmit",
+    "data:check": "node scripts/check-data-integrity.mjs",
     "repo:guard": "node scripts/check-repository-boundaries.mjs",
     "server:check": "npm --prefix server run check",
     "server:smoke": "npm --prefix server run smoke",
