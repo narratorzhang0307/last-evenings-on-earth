@@ -48,6 +48,7 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
             alt={photo.alt_text || photo.city_zh || photo.city || '夜晚档案照片'}
             decoding="async"
             draggable="false"
+            fetchPriority="high"
             referrerPolicy="no-referrer"
             src={photo.original_url || photo.url}
           />
