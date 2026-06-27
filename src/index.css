@@ -63,3 +63,44 @@ h1 {
   font-size: 17px;
   line-height: 1.7;
 }
+
+.city-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.city-card {
+  min-height: 88px;
+  padding: 14px;
+  border: 1px solid rgba(246, 173, 85, 0.22);
+  background: rgba(244, 238, 226, 0.05);
+  border-radius: 8px;
+}
+
+.city-card span,
+.city-card strong {
+  display: block;
+}
+
+.city-card span {
+  color: #f6ad55;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+}
+
+.city-card strong {
+  margin-top: 12px;
+  color: rgba(244, 238, 226, 0.75);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.dusk-line {
+  margin: 24px 0 0;
+  color: rgba(244, 238, 226, 0.88);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.6;
+}
