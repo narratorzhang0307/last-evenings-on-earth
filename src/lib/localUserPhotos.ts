@@ -19,10 +19,22 @@ function readStoredPhotos() {
     const value = window.localStorage.getItem(STORAGE_KEY);
     if (!value) return [];
     const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? (parsed as PhotoData[]) : [];
+    return Array.isArray(parsed) ? parsed.filter(isStoredPhoto) : [];
   } catch {
     return [];
   }
+}
+
+function isStoredPhoto(value: unknown): value is PhotoData {
+  if (!value || typeof value !== 'object') return false;
+  const photo = value as Partial<PhotoData>;
+  return (
+    typeof photo.id === 'string' &&
+    typeof photo.url === 'string' &&
+    typeof photo.cityId === 'string' &&
+    Number.isFinite(photo.lat) &&
+    Number.isFinite(photo.lng)
+  );
 }
 
 function writeStoredPhotos(photos: PhotoData[]) {
