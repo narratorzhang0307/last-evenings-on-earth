@@ -1,0 +1,50 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+coverage/
+
+# local environment
+.env
+.env.*
+!.env.example
+
+# runtime data
+server/data.db
+server/data.db-shm
+server/data.db-wal
+*.sqlite
+*.sqlite3
+
+# generated caches
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.cache/
+
+# local tools and editor state
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# source project artifacts that must stay out of this repository
+*.pem
+*.bundle
+*.zip
+*.log
+*.mp3
+*.m4a
+*.wav
+*.aac
+*.flac
+*.mov
+*.mp4
+frost/data/raw_books/
+frost/knowledge/index_store/
+frost/knowledge/chroma_db/
+frost/memory/chroma_user/
