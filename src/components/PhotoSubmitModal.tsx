@@ -14,6 +14,10 @@ interface PhotoSubmitModalProps {
   onSubmitted?: (photo: PhotoData) => void;
 }
 
+const COUNTRY_MAX_LENGTH = 80;
+const DESCRIPTION_MAX_LENGTH = 500;
+const SIGNATURE_MAX_LENGTH = 40;
+
 function slugCityName(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'user-city';
 }
@@ -95,9 +99,9 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       rot: 0,
       city: selectedCity.city,
       city_zh: selectedCity.city_zh,
-      country: country.trim() || undefined,
-      description: description.trim() || undefined,
-      signature: signature.trim() || undefined,
+      country: country.trim().slice(0, COUNTRY_MAX_LENGTH) || undefined,
+      description: description.trim().slice(0, DESCRIPTION_MAX_LENGTH) || undefined,
+      signature: signature.trim().slice(0, SIGNATURE_MAX_LENGTH) || undefined,
       submittedAt: Date.now(),
       isUserSubmitted: true,
       source: 'unsplash',
@@ -170,17 +174,28 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
             value={country}
             onChange={(event) => setCountry(event.target.value)}
             placeholder="例如：中国"
+            maxLength={COUNTRY_MAX_LENGTH}
             aria-describedby={submitErrorId}
             aria-invalid={hasCountryError || undefined}
           />
         </label>
         <label>
           写一句话
-          <textarea value={description} onChange={(event) => setDescription(event.target.value)} rows={3} />
+          <textarea
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            rows={3}
+            maxLength={DESCRIPTION_MAX_LENGTH}
+          />
         </label>
         <label>
           署名
-          <input value={signature} onChange={(event) => setSignature(event.target.value)} placeholder="匿名也可以" />
+          <input
+            value={signature}
+            onChange={(event) => setSignature(event.target.value)}
+            placeholder="匿名也可以"
+            maxLength={SIGNATURE_MAX_LENGTH}
+          />
         </label>
         {submitError && (
           <p className="photo-submit-error" id="photo-submit-error" role="alert">
