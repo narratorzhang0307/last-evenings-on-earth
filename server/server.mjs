@@ -18,6 +18,8 @@ for (const envPath of [path.join(__dirname, '.env'), path.join(__dirname, '..', 
 const PORT = Number(process.env.PORT || 3008);
 const HOST = process.env.HOST || '127.0.0.1';
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data.db');
+const SUBMIT_LIMIT = Number(process.env.IP_SUBMIT_LIMIT || 50);
+const SUBMIT_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 const db = new Database(DB_PATH);
 db.pragma('journal_mode = WAL');
@@ -43,6 +45,13 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_photos_submitted_at ON photos(submitted_at DESC);
   CREATE INDEX IF NOT EXISTS idx_photos_deleted_at ON photos(deleted_at);
+
+  CREATE TABLE IF NOT EXISTS rate_limits (
+    ip TEXT PRIMARY KEY,
+    count INTEGER NOT NULL,
+    window_start INTEGER NOT NULL,
+    last_hit INTEGER NOT NULL
+  );
 `);
 
 const listPhotosStmt = db.prepare(`
@@ -61,6 +70,31 @@ const insertPhotoStmt = db.prepare(`
 `);
 
 const softDeletePhotoStmt = db.prepare('UPDATE photos SET deleted_at = ? WHERE id = ? AND deleted_at IS NULL');
+const selectRateStmt = db.prepare('SELECT count, window_start FROM rate_limits WHERE ip = ?');
+const insertRateStmt = db.prepare('INSERT INTO rate_limits (ip, count, window_start, last_hit) VALUES (?, ?, ?, ?)');
+const updateRateStmt = db.prepare('UPDATE rate_limits SET count = ?, window_start = ?, last_hit = ? WHERE ip = ?');
+
+function getClientIp(req) {
+  const forwardedFor = req.headers['x-forwarded-for'];
+  const firstForwarded = Array.isArray(forwardedFor) ? forwardedFor[0] : String(forwardedFor || '').split(',')[0];
+  return String(firstForwarded || req.ip || req.socket?.remoteAddress || 'unknown').replace('::ffff:', '').trim();
+}
+
+function consumeSubmitQuota(ip) {
+  const now = Date.now();
+  const row = selectRateStmt.get(ip);
+  if (!row || now - row.window_start > SUBMIT_WINDOW_MS) {
+    insertRateStmt.run(ip, 1, now, now);
+    return { allowed: true, remaining: Math.max(0, SUBMIT_LIMIT - 1), resetAt: now + SUBMIT_WINDOW_MS };
+  }
+  if (row.count >= SUBMIT_LIMIT) {
+    updateRateStmt.run(row.count, row.window_start, now, ip);
+    return { allowed: false, remaining: 0, resetAt: row.window_start + SUBMIT_WINDOW_MS };
+  }
+  const nextCount = row.count + 1;
+  updateRateStmt.run(nextCount, row.window_start, now, ip);
+  return { allowed: true, remaining: Math.max(0, SUBMIT_LIMIT - nextCount), resetAt: row.window_start + SUBMIT_WINDOW_MS };
+}
 
 function rowToPhoto(row) {
   return {
@@ -105,6 +139,12 @@ app.get('/api/photos', (_req, res) => {
 });
 
 app.post('/api/photos', (req, res) => {
+  const quota = consumeSubmitQuota(getClientIp(req));
+  res.set('X-RateLimit-Limit', String(SUBMIT_LIMIT));
+  res.set('X-RateLimit-Remaining', String(quota.remaining));
+  res.set('X-RateLimit-Reset', String(quota.resetAt));
+  if (!quota.allowed) return res.status(429).json({ error: 'rate_limit_exceeded', resetAt: quota.resetAt });
+
   const body = req.body || {};
   const id = String(body.id || `usr_${Date.now().toString(36)}`).trim();
   const url = String(body.url || '').trim();
