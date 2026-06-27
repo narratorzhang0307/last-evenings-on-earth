@@ -83,8 +83,12 @@ function getClientIp(req) {
 function consumeSubmitQuota(ip) {
   const now = Date.now();
   const row = selectRateStmt.get(ip);
-  if (!row || now - row.window_start > SUBMIT_WINDOW_MS) {
+  if (!row) {
     insertRateStmt.run(ip, 1, now, now);
+    return { allowed: true, remaining: Math.max(0, SUBMIT_LIMIT - 1), resetAt: now + SUBMIT_WINDOW_MS };
+  }
+  if (now - row.window_start > SUBMIT_WINDOW_MS) {
+    updateRateStmt.run(1, now, now, ip);
     return { allowed: true, remaining: Math.max(0, SUBMIT_LIMIT - 1), resetAt: now + SUBMIT_WINDOW_MS };
   }
   if (row.count >= SUBMIT_LIMIT) {
