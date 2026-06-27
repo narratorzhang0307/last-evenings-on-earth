@@ -159,10 +159,13 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           <Search size={14} />
           <input
             ref={searchInputRef}
+            type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜索城市、作者、诗句"
             maxLength={ARCHIVE_QUERY_MAX_LENGTH}
+            autoComplete="off"
+            spellCheck={false}
             aria-label="搜索夜晚档案"
             aria-describedby={resultStatusId}
           />
