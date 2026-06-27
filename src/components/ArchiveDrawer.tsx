@@ -166,7 +166,8 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
             onClick={() => setViewMode('photos')}
             type="button"
           >
-            照片
+            <span>照片</span>
+            <em>{filteredPhotos.length}</em>
           </button>
           <button
             className={viewMode === 'poems' ? 'is-active' : ''}
@@ -175,7 +176,8 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
             onClick={() => setViewMode('poems')}
             type="button"
           >
-            诗
+            <span>诗</span>
+            <em>{filteredPoems.length}</em>
           </button>
           <button
             className={viewMode === 'writers' ? 'is-active' : ''}
@@ -184,7 +186,8 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
             onClick={() => setViewMode('writers')}
             type="button"
           >
-            作家
+            <span>作家</span>
+            <em>{filteredWriters.length}</em>
           </button>
         </nav>
         <div className="archive-drawer-stats">

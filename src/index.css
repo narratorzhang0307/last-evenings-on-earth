@@ -749,6 +749,10 @@ h1 {
 }
 
 .archive-view-toggle button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   min-height: 30px;
   border: 0;
   border-radius: 999px;
@@ -757,9 +761,24 @@ h1 {
   cursor: pointer;
 }
 
+.archive-view-toggle button em {
+  min-width: 18px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  color: rgba(244, 238, 226, 0.58);
+  background: rgba(244, 238, 226, 0.08);
+  font-size: 10px;
+  font-style: normal;
+}
+
 .archive-view-toggle button.is-active {
   color: #191713;
   background: #f6ad55;
+}
+
+.archive-view-toggle button.is-active em {
+  color: #191713;
+  background: rgba(25, 23, 19, 0.12);
 }
 
 .archive-drawer-close:focus-visible,
