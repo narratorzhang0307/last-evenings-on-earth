@@ -1,7 +1,7 @@
 import { useState, type CSSProperties } from 'react';
 import { Images, X } from 'lucide-react';
 import { WRITERS } from '../data/writers';
-import { PHOTOS } from '../data/worldPhotos';
+import { useAllPhotos } from '../lib/localUserPhotos';
 import { getPhotoStats, groupPhotosByCountry } from '../lib/photoArchive';
 import { getPoemFirstLine, getPoemStats, groupPoemsByCountry } from '../lib/poemArchive';
 import { getWriterStats } from '../lib/writerArchive';
@@ -17,12 +17,13 @@ interface ArchiveDrawerProps {
 
 export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
   const [viewMode, setViewMode] = useState<'poems' | 'photos' | 'writers'>('photos');
+  const allPhotos = useAllPhotos();
 
   if (!isOpen) return null;
 
-  const groupedPhotos = groupPhotosByCountry();
+  const groupedPhotos = groupPhotosByCountry(allPhotos);
   const groupedPoems = groupPoemsByCountry();
-  const stats = getPhotoStats();
+  const stats = getPhotoStats(allPhotos);
   const poemStats = getPoemStats();
   const writerStats = getWriterStats();
 
@@ -70,7 +71,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           </span>
           <span>
             {viewMode === 'photos'
-              ? `${PHOTOS.length} 张照片`
+              ? `${stats.photoCount} 张照片`
               : viewMode === 'poems'
                 ? `${poemStats.poemCount} 首诗`
                 : `${writerStats.writerCount} 位作家`}
