@@ -156,6 +156,8 @@ npm run check
 
 后续包体优化优先继续处理 `three-runtime`。
 
+`npm run build:report` 会同时检查一个宽松预算：总 gzip 不超过 `760 kB`，非 Three 的单个 JS 分片不超过 `520 kB`，`three-runtime` 原始体积不超过 `1400 kB` 且 gzip 不超过 `380 kB`。
+
 ## 迭代原则
 
 这个仓库会持续小步提交。
