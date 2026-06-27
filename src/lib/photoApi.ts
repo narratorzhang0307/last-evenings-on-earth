@@ -4,15 +4,23 @@ const API_BASE = import.meta.env.VITE_API_BASE || '';
 const SERVER_PHOTO_LIMIT = 200;
 const ERROR_MESSAGE_MAX_LENGTH = 180;
 
+export interface PhotoRateLimitInfo {
+  limit?: number;
+  remaining?: number;
+  resetAt?: number;
+}
+
 export class PhotoApiError extends Error {
   status: number;
   code?: string;
+  rateLimit?: PhotoRateLimitInfo;
 
-  constructor(status: number, message: string, code?: string) {
+  constructor(status: number, message: string, code?: string, rateLimit?: PhotoRateLimitInfo) {
     super(message);
     this.name = 'PhotoApiError';
     this.status = status;
     this.code = code;
+    this.rateLimit = rateLimit;
   }
 }
 
@@ -23,6 +31,7 @@ async function parseJson<T>(response: Response): Promise<T> {
       response.status,
       detail.message || detail.error || `请求失败（状态 ${response.status}）`,
       detail.error,
+      readRateLimit(response, detail.resetAt),
     );
   }
   try {
@@ -34,11 +43,24 @@ async function parseJson<T>(response: Response): Promise<T> {
 
 async function readErrorDetail(response: Response) {
   try {
-    const detail = (await response.clone().json()) as { message?: string; error?: string };
+    const detail = (await response.clone().json()) as { message?: string; error?: string; resetAt?: number };
     return { ...detail, message: trimErrorMessage(detail.message) };
   } catch {
     return { message: trimErrorMessage(await response.text()) };
   }
+}
+
+function readRateLimit(response: Response, resetAt?: number) {
+  const limit = readNumberHeader(response, 'X-RateLimit-Limit');
+  const remaining = readNumberHeader(response, 'X-RateLimit-Remaining');
+  const resetHeader = readNumberHeader(response, 'X-RateLimit-Reset');
+  if (limit === undefined && remaining === undefined && resetHeader === undefined && resetAt === undefined) return undefined;
+  return { limit, remaining, resetAt: resetHeader ?? resetAt };
+}
+
+function readNumberHeader(response: Response, header: string) {
+  const value = Number(response.headers.get(header));
+  return Number.isFinite(value) ? value : undefined;
 }
 
 function trimErrorMessage(message?: string) {

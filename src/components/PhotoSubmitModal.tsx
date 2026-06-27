@@ -18,6 +18,29 @@ const COUNTRY_MAX_LENGTH = 80;
 const DESCRIPTION_MAX_LENGTH = 500;
 const SIGNATURE_MAX_LENGTH = 40;
 
+function formatSubmitError(error: unknown) {
+  if (error instanceof PhotoApiError) {
+    if (error.status === 429) {
+      const resetLabel = formatRateLimitReset(error.rateLimit?.resetAt);
+      return resetLabel ? `${error.message} 可以在 ${resetLabel} 后再试。` : error.message;
+    }
+    return error.message;
+  }
+  return error instanceof Error ? error.message : '投稿暂时没有成功，请稍后再试。';
+}
+
+function formatRateLimitReset(resetAt?: number) {
+  if (!resetAt) return '';
+  const resetDate = new Date(resetAt);
+  if (Number.isNaN(resetDate.getTime())) return '';
+  return resetDate.toLocaleString('zh-CN', {
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
 function slugCityName(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'user-city';
 }
@@ -138,7 +161,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       setSignature('');
       setSubmitError('');
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : '投稿暂时没有成功，请稍后再试。');
+      setSubmitError(formatSubmitError(error));
     } finally {
       setIsSubmitting(false);
     }
