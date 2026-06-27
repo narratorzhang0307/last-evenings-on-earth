@@ -125,6 +125,15 @@ function sendError(res, status, error, message, extra = {}) {
   return res.status(status).json({ error, message, ...extra });
 }
 
+function normalizePhotoUrl(value) {
+  try {
+    const parsed = new URL(String(value || '').trim());
+    return ['http:', 'https:'].includes(parsed.protocol) && parsed.hostname ? parsed.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
 const app = express();
 app.set('trust proxy', true);
 app.use(express.json({ limit: '128kb' }));
@@ -149,7 +158,7 @@ app.get('/api/photos', (_req, res) => {
 app.post('/api/photos', (req, res) => {
   const body = req.body || {};
   const id = String(body.id || `usr_${Date.now().toString(36)}`).trim();
-  const url = String(body.url || '').trim();
+  const url = normalizePhotoUrl(body.url);
   const city = String(body.city || body.city_zh || '').trim();
   const cityZh = String(body.city_zh || body.city || '').trim();
   const country = String(body.country || '').trim();
@@ -157,7 +166,7 @@ app.post('/api/photos', (req, res) => {
   const lng = Number(body.lng);
 
   if (!/^usr_[a-z0-9_-]+$/i.test(id)) return sendError(res, 400, 'invalid_id', '照片编号格式不正确。');
-  if (!/^https?:\/\//i.test(url)) return sendError(res, 400, 'invalid_url', '照片链接需要以 http 或 https 开头。');
+  if (!url) return sendError(res, 400, 'invalid_url', '照片链接需要以 http 或 https 开头，并包含有效域名。');
   if (!city) return sendError(res, 400, 'missing_city', '城市不能为空。');
   if (!country) return sendError(res, 400, 'missing_country', '国家或地区不能为空。');
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return sendError(res, 400, 'missing_coordinates', '照片坐标不能为空。');
