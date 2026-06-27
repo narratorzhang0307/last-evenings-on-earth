@@ -860,6 +860,118 @@ h1 {
   font-weight: 700;
 }
 
+.frost-drawer {
+  position: fixed;
+  z-index: 7;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(440px, 100vw);
+  color: #f4eee2;
+  background: rgba(8, 9, 8, 0.97);
+  border-left: 1px solid rgba(154, 230, 180, 0.16);
+  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.58);
+}
+
+.frost-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(244, 238, 226, 0.14);
+  border-radius: 999px;
+  color: #f4eee2;
+  background: transparent;
+  cursor: pointer;
+}
+
+.frost-drawer header {
+  padding: 42px 28px 22px;
+  border-bottom: 1px solid rgba(244, 238, 226, 0.1);
+}
+
+.frost-drawer header p {
+  margin: 0 0 8px;
+  color: #9ae6b4;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.frost-drawer header h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+}
+
+.frost-turns {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 22px;
+}
+
+.frost-turn {
+  max-width: 82%;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+.frost-turn p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.frost-turn.is-frost {
+  justify-self: start;
+  border: 1px solid rgba(154, 230, 180, 0.14);
+  background: rgba(154, 230, 180, 0.06);
+}
+
+.frost-turn.is-user {
+  justify-self: end;
+  background: rgba(246, 173, 85, 0.12);
+}
+
+.frost-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 8px;
+  padding: 16px;
+  border-top: 1px solid rgba(244, 238, 226, 0.1);
+}
+
+.frost-input input {
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(244, 238, 226, 0.14);
+  border-radius: 999px;
+  color: #f4eee2;
+  background: rgba(244, 238, 226, 0.06);
+}
+
+.frost-input button {
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  color: #191713;
+  background: #9ae6b4;
+  cursor: pointer;
+}
+
+.frost-input button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
 .archive-poem-list {
   display: grid;
   gap: 7px;
