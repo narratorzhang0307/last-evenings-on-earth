@@ -568,6 +568,92 @@ h1 {
   font-style: normal;
 }
 
+.poem-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.14) 64%);
+}
+
+.poem-viewer-card {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: min(720px, calc(100svh - 48px));
+  overflow-y: auto;
+  padding: 34px;
+  color: #191713;
+  background: #f4eee2;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.72),
+    0 0 0 1px rgba(25, 23, 19, 0.12);
+}
+
+.poem-viewer-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(25, 23, 19, 0.14);
+  border-radius: 999px;
+  color: #191713;
+  background: transparent;
+  cursor: pointer;
+}
+
+.poem-viewer-kicker {
+  margin: 0 0 12px;
+  color: rgba(25, 23, 19, 0.46);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.poem-viewer-card h2 {
+  margin: 0;
+  padding-right: 44px;
+  color: #191713;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.poem-viewer-author {
+  margin: 10px 0 0;
+  color: #7c2d12;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+}
+
+.poem-viewer-body {
+  display: grid;
+  gap: 8px;
+  margin-top: 28px;
+  padding-left: 18px;
+  border-left: 2px solid rgba(25, 23, 19, 0.12);
+}
+
+.poem-viewer-body p {
+  margin: 0;
+  color: rgba(25, 23, 19, 0.82);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.poem-viewer-card footer {
+  display: grid;
+  gap: 6px;
+  margin-top: 26px;
+  color: rgba(25, 23, 19, 0.42);
+  font-size: 12px;
+}
+
 .city-details {
   position: fixed;
   z-index: 5;
