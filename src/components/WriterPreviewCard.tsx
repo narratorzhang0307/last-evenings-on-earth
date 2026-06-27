@@ -10,6 +10,7 @@ export function WriterPreviewCard({ writer, onEnter }: WriterPreviewCardProps) {
   return (
     <button
       className="writer-preview-card"
+      aria-label={`进入${writer.name_zh}的夜窗，${writer.city}`}
       onClick={() => onEnter(writer)}
       style={{ '--writer-light': writer.lantern_color } as CSSProperties}
       type="button"
