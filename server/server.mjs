@@ -143,6 +143,9 @@ app.set('trust proxy', true);
 app.use(express.json({ limit: '128kb' }));
 
 app.use((error, _req, res, next) => {
+  if (error?.type === 'entity.too.large') {
+    return sendError(res, 413, 'payload_too_large', '请求内容过大，请减少照片描述或附加字段。');
+  }
   if (error instanceof SyntaxError && 'body' in error) {
     return sendError(res, 400, 'invalid_json', '请求内容不是有效的 JSON。');
   }
