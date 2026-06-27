@@ -13,17 +13,23 @@ import type { CityData, PhotoData, PoemPoint, WriterData } from './lib/types';
 
 type LayerKey = 'photos' | 'poems' | 'writers';
 
-const GlobeView = lazy(() => import('./components/GlobeView'));
-const ArchiveDrawer = lazy(() => import('./components/ArchiveDrawer').then(({ ArchiveDrawer }) => ({ default: ArchiveDrawer })));
-const CityDetailsPanel = lazy(() =>
-  import('./components/CityDetailsPanel').then(({ CityDetailsPanel }) => ({ default: CityDetailsPanel })),
-);
-const FrostDrawer = lazy(() => import('./components/FrostDrawer').then(({ FrostDrawer }) => ({ default: FrostDrawer })));
-const PhotoViewer = lazy(() => import('./components/PhotoViewer').then(({ PhotoViewer }) => ({ default: PhotoViewer })));
-const PoemViewer = lazy(() => import('./components/PoemViewer').then(({ PoemViewer }) => ({ default: PoemViewer })));
-const WriterWindowPanel = lazy(() =>
-  import('./components/WriterWindowPanel').then(({ WriterWindowPanel }) => ({ default: WriterWindowPanel })),
-);
+const loadGlobeView = () => import('./components/GlobeView');
+const loadArchiveDrawer = () => import('./components/ArchiveDrawer').then(({ ArchiveDrawer }) => ({ default: ArchiveDrawer }));
+const loadCityDetailsPanel = () =>
+  import('./components/CityDetailsPanel').then(({ CityDetailsPanel }) => ({ default: CityDetailsPanel }));
+const loadFrostDrawer = () => import('./components/FrostDrawer').then(({ FrostDrawer }) => ({ default: FrostDrawer }));
+const loadPhotoViewer = () => import('./components/PhotoViewer').then(({ PhotoViewer }) => ({ default: PhotoViewer }));
+const loadPoemViewer = () => import('./components/PoemViewer').then(({ PoemViewer }) => ({ default: PoemViewer }));
+const loadWriterWindowPanel = () =>
+  import('./components/WriterWindowPanel').then(({ WriterWindowPanel }) => ({ default: WriterWindowPanel }));
+
+const GlobeView = lazy(loadGlobeView);
+const ArchiveDrawer = lazy(loadArchiveDrawer);
+const CityDetailsPanel = lazy(loadCityDetailsPanel);
+const FrostDrawer = lazy(loadFrostDrawer);
+const PhotoViewer = lazy(loadPhotoViewer);
+const PoemViewer = lazy(loadPoemViewer);
+const WriterWindowPanel = lazy(loadWriterWindowPanel);
 const LAYER_STORAGE_KEY = 'last-evenings-visible-layers';
 const DEFAULT_VISIBLE_LAYERS: Record<LayerKey, boolean> = {
   photos: true,
@@ -115,11 +121,23 @@ export default function App() {
           </span>
         </div>
         <div className="front-actions">
-          <button className="archive-open-button" onClick={() => setIsArchiveOpen(true)} type="button">
+          <button
+            className="archive-open-button"
+            onClick={() => setIsArchiveOpen(true)}
+            onFocus={loadArchiveDrawer}
+            onPointerEnter={loadArchiveDrawer}
+            type="button"
+          >
             <Archive size={16} />
             夜晚档案
           </button>
-          <button className="archive-open-button" onClick={() => setIsFrostOpen(true)} type="button">
+          <button
+            className="archive-open-button"
+            onClick={() => setIsFrostOpen(true)}
+            onFocus={loadFrostDrawer}
+            onPointerEnter={loadFrostDrawer}
+            type="button"
+          >
             <Snowflake size={16} />
             弗洛斯特
           </button>
@@ -163,7 +181,9 @@ export default function App() {
               key={city.id}
               aria-label={`打开${city.nameNative}城市详情，${city.author}`}
               aria-pressed={selectedCity?.id === city.id}
+              onFocus={loadCityDetailsPanel}
               onClick={() => openCity(city)}
+              onPointerEnter={loadCityDetailsPanel}
               type="button"
             >
               <span>{city.nameNative}</span>
@@ -179,7 +199,9 @@ export default function App() {
           </p>
         )}
         {activeWriter && (
-          <WriterPreviewCard writer={activeWriter} onEnter={setSelectedWriter} />
+          <div onFocus={loadWriterWindowPanel} onPointerEnter={loadWriterWindowPanel}>
+            <WriterPreviewCard writer={activeWriter} onEnter={setSelectedWriter} />
+          </div>
         )}
       </section>
       <Suspense fallback={<div className="panel-loading" role="status">正在打开夜晚档案...</div>}>
