@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Send, X } from 'lucide-react';
 import { answerAsFrost } from '../lib/frostBrain';
 import { useEscapeKey } from '../lib/useEscapeKey';
@@ -14,6 +14,7 @@ interface FrostTurn {
 }
 
 export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState('');
   const [turns, setTurns] = useState<FrostTurn[]>([
     {
@@ -23,6 +24,11 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   ]);
   const canSend = useMemo(() => input.trim().length > 0, [input]);
   useEscapeKey(isOpen, onClose);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    window.setTimeout(() => inputRef.current?.focus(), 0);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -47,7 +53,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
         <p>弗洛斯特</p>
         <h2>弗洛斯特</h2>
       </header>
-      <div className="frost-turns">
+      <div className="frost-turns" aria-live="polite">
         {turns.map((turn, index) => (
           <article className={`frost-turn is-${turn.role}`} key={`${turn.role}-${index}`}>
             <p>{turn.text}</p>
@@ -56,6 +62,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
       </div>
       <form className="frost-input" onSubmit={handleSubmit}>
         <input
+          ref={inputRef}
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder="问一座城市、一个作家，或只是说一句夜里的话"
