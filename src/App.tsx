@@ -6,11 +6,13 @@ import GlobeView from './components/GlobeView';
 import { PhotoStrip } from './components/PhotoStrip';
 import { PhotoViewer } from './components/PhotoViewer';
 import { PoemViewer } from './components/PoemViewer';
+import { WriterPreviewCard } from './components/WriterPreviewCard';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
 import { getPhotosForCity } from './lib/photoArchive';
-import type { CityData, PhotoData, PoemPoint } from './lib/types';
+import { getWritersForCity } from './lib/writerArchive';
+import type { CityData, PhotoData, PoemPoint, WriterData } from './lib/types';
 
 export default function App() {
   const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
@@ -18,9 +20,11 @@ export default function App() {
   const [hoveredCity, setHoveredCity] = useState<CityData | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoData | null>(null);
   const [selectedPoem, setSelectedPoem] = useState<PoemPoint | null>(null);
+  const [selectedWriter, setSelectedWriter] = useState<WriterData | null>(null);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const activeCity = hoveredCity || selectedCity || CITIES[0];
   const activePhotos = getPhotosForCity(activeCity);
+  const activeWriter = getWritersForCity(activeCity)[0];
   const openCity = (city: CityData) => {
     setSelectedCity(city);
     setDetailCity(city);
@@ -73,6 +77,14 @@ export default function App() {
         {selectedPhoto && (
           <p className="photo-selection">
             {selectedPhoto.city_zh || selectedPhoto.city} · {selectedPhoto.photographer || '夜晚照片'}
+          </p>
+        )}
+        {activeWriter && (
+          <WriterPreviewCard writer={activeWriter} onEnter={setSelectedWriter} />
+        )}
+        {selectedWriter && (
+          <p className="writer-selection">
+            {selectedWriter.knock_text.zh_title} {selectedWriter.knock_text.zh_question}
           </p>
         )}
       </section>

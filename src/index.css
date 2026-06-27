@@ -263,6 +263,13 @@ h1 {
   font-size: 12px;
 }
 
+.writer-selection {
+  margin: 8px 0 0;
+  color: rgba(244, 238, 226, 0.58);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+}
+
 .writer-preview-card {
   position: relative;
   display: grid;
