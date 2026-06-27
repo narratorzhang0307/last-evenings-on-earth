@@ -1,29 +1,129 @@
-# Rebuild Boundary
+# 重构边界
 
-This rebuild keeps the parts of the original project that make the night atlas feel alive:
+这份文档用来说明这个仓库该保留什么、不该保留什么，以及后续迭代时怎么判断一条改动是否应该提交。
 
-- city and dusk calculations
-- globe navigation
-- curated world photos
-- poem and writer interactions
-- Frost as a night conversation layer
-- user photo submission
+## 保留的体验
 
-The music and playback system stays out of this repository:
+这个项目的核心不是音乐播放器，而是“夜晚地球档案”。
 
-- no local audio files
-- no YouTube playback bridge
-- no DJ pipeline
-- no generated song cache
-- no TTS audio generation
+需要持续保留和增强的部分：
 
-Large or private runtime inputs stay local and are not committed:
+- 地球视图
+- 城市点位
+- 黄昏和当地时间逻辑
+- 城市详情
+- 夜晚照片
+- 诗歌档案
+- 作家档案
+- 作家夜窗
+- Frost 夜谈
+- 用户黄昏投稿
+- 照片服务端接口
+- 桌面端和移动端体验
 
-- environment files
-- SQLite databases
-- raw books and extracted indexes
-- generated caches
-- private keys
-- old deployment bundles
+## 明确排除的内容
 
-Each commit should leave a small, understandable step behind.
+下面这些内容不进入这个仓库：
+
+- 音乐播放器
+- DJ 播放面板
+- 歌单编排链路
+- YouTube 播放桥
+- TTS 语音合成
+- 音频缓存
+- 本地音频和视频文件
+- 旧部署包
+- 原始书籍
+- 向量索引和知识库缓存
+- 本地密钥
+- 运行时数据库
+
+如果后续需要恢复 Frost，它只恢复非音乐部分：
+
+- 城市问答
+- 作家问答
+- 闲聊
+- 夜晚人格
+- 可解释的工作轨迹
+
+不恢复：
+
+- 音乐推荐
+- 播放控制
+- 语音生成
+- 音频上传
+- 歌曲缓存
+
+## 提交规则
+
+每次提交都要是一个真实、可理解的小步。
+
+适合单独提交的内容：
+
+- 增加一个功能
+- 接入一个数据批次
+- 改善一个界面状态
+- 增加一个接口
+- 修复一个明确问题
+- 补充一段文档
+- 完成一次可验证优化
+
+不应该提交的内容：
+
+- 空提交
+- 只为了凑数量的提交
+- 没有实际变化的提交
+- 把多个无关大改混在一起
+- 含有本地密钥、数据库、缓存或音视频文件的提交
+
+提交信息使用中文，直接说明这一小步完成了什么。
+
+## 检查要求
+
+前端改动至少运行：
+
+```bash
+npm run lint
+```
+
+影响构建、布局、地球、抽屉或弹层时运行：
+
+```bash
+npm run build
+```
+
+服务端改动至少运行：
+
+```bash
+node --check server/server.mjs
+```
+
+视觉体验变化需要尽量做浏览器验收，尤其是：
+
+- 首页是否能加载
+- 地球是否出现
+- 档案抽屉是否能打开
+- 照片、诗歌、作家弹层是否能关闭
+- 手机宽度是否没有横向溢出
+
+## 迭代顺序
+
+当前阶段优先推进：
+
+1. 数据扩展：城市、照片、诗歌、作家。
+2. 前端体验：档案、投稿、夜窗、Frost。
+3. 服务端：照片列表、注册、软删除、限流。
+4. 文档：启动、接口、边界、迭代说明。
+5. 验收：类型检查、构建、浏览器、移动端。
+
+达到 150 条真实提交以后，继续进入长期优化阶段：
+
+- 性能优化
+- 包体积拆分
+- 移动端适配
+- 错误状态
+- 空状态
+- 可访问性
+- 数据质量
+- 文档持续更新
+
