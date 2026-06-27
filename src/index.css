@@ -771,6 +771,12 @@ h1 {
   font-size: 11px;
 }
 
+.archive-result-status {
+  margin: 0;
+  color: rgba(244, 238, 226, 0.48);
+  font-size: 12px;
+}
+
 .archive-drawer-body {
   display: grid;
   gap: 24px;

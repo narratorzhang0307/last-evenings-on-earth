@@ -77,6 +77,13 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const stats = getPhotoStats(filteredPhotos);
   const poemStats = getPoemStats(filteredPoems);
   const writerStats = getWriterStats(filteredWriters);
+  const activeQueryLabel = query.trim() ? `搜索“${query.trim()}”` : '全部档案';
+  const resultCountLabel =
+    viewMode === 'photos'
+      ? `${filteredPhotos.length} 张照片`
+      : viewMode === 'poems'
+        ? `${filteredPoems.length} 首诗`
+        : `${filteredWriters.length} 位作家`;
   const hasResults =
     viewMode === 'photos'
       ? filteredPhotos.length > 0
@@ -142,7 +149,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
               ? `${stats.cityCount} 座城市`
               : viewMode === 'poems'
                 ? `${poemStats.authorCount} 位作者`
-                : `${writerStats.cityCount} 扇窗`}
+                : `${writerStats.writerCount} 扇窗`}
           </span>
           <span>
             {viewMode === 'photos'
@@ -152,6 +159,9 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                 : `${writerStats.writerCount} 位作家`}
           </span>
         </div>
+        <p className="archive-result-status" aria-live="polite">
+          {activeQueryLabel}，当前显示 {resultCountLabel}
+        </p>
       </header>
       <div className="archive-drawer-body">
         {viewMode === 'photos' && (
