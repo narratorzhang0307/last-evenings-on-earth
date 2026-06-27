@@ -48,6 +48,7 @@ http://127.0.0.1:3008
 本地 `.env` 不提交到仓库。
 跨域预检请求会缓存 `600` 秒。
 预检允许的请求头包括 `Accept` 和 `Content-Type`。
+跨域响应会暴露 `X-Photo-Limit`、`X-RateLimit-Limit`、`X-RateLimit-Remaining` 和 `X-RateLimit-Reset`，方便前端读取列表上限和投稿额度。
 
 ## 接口
 
@@ -67,6 +68,7 @@ GET /api/photos
 
 返回尚未软删除的用户投稿照片。
 可以传入 `limit` 控制返回数量，最大 `200`。
+响应头 `X-Photo-Limit` 会给出服务端实际使用的列表上限。
 
 ### 注册照片
 
