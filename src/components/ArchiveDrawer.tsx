@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Images, Search, X } from 'lucide-react';
 import { POEMS } from '../data/poems';
 import { WRITERS } from '../data/writers';
@@ -46,59 +46,69 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
     return () => window.cancelAnimationFrame(frame);
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const activeQuery = normalizeSearchText(query);
-  const filteredPhotos = allPhotos.filter((photo) =>
-    textIncludesQuery(activeQuery, [
-      photo.city,
-      photo.city_zh,
-      photo.country,
-      photo.description,
-      photo.signature,
-      photo.photographer,
-      photo.query_used,
-    ]),
+  const filteredPhotos = useMemo(
+    () =>
+      allPhotos.filter((photo) =>
+        textIncludesQuery(activeQuery, [
+          photo.city,
+          photo.city_zh,
+          photo.country,
+          photo.description,
+          photo.signature,
+          photo.photographer,
+          photo.query_used,
+        ]),
+      ),
+    [activeQuery, allPhotos],
   );
-  const filteredPoems = POEMS.filter((poem) =>
-    textIncludesQuery(activeQuery, [
-      poem.author_zh,
-      poem.author_en,
-      poem.title_zh,
-      poem.city,
-      poem.region,
-      poem.translator,
-      poem.author,
-      poem.poem,
-      poem.body_zh,
-      poem.source_note,
-      getPoemFirstLine(poem),
-    ]),
+  const filteredPoems = useMemo(
+    () =>
+      POEMS.filter((poem) =>
+        textIncludesQuery(activeQuery, [
+          poem.author_zh,
+          poem.author_en,
+          poem.title_zh,
+          poem.city,
+          poem.region,
+          poem.translator,
+          poem.author,
+          poem.poem,
+          poem.body_zh,
+          poem.source_note,
+          getPoemFirstLine(poem),
+        ]),
+      ),
+    [activeQuery],
   );
-  const filteredWriters = WRITERS.filter((writer) =>
-    textIncludesQuery(activeQuery, [
-      writer.name_zh,
-      writer.name_en,
-      writer.city,
-      writer.soul_intro.zh,
-      writer.soul_intro.en,
-      writer.knock_text.zh_title,
-      writer.knock_text.en_title,
-      writer.knock_text.zh_question,
-      writer.knock_text.en_question,
-      writer.opening_lines,
-      writer.farewell_lines,
-      writer.sleeping_text.zh,
-      writer.sleeping_text.en,
-      writer.closed_window_text.zh,
-      writer.closed_window_text.en,
-    ]),
+  const filteredWriters = useMemo(
+    () =>
+      WRITERS.filter((writer) =>
+        textIncludesQuery(activeQuery, [
+          writer.name_zh,
+          writer.name_en,
+          writer.city,
+          writer.soul_intro.zh,
+          writer.soul_intro.en,
+          writer.knock_text.zh_title,
+          writer.knock_text.en_title,
+          writer.knock_text.zh_question,
+          writer.knock_text.en_question,
+          writer.opening_lines,
+          writer.farewell_lines,
+          writer.sleeping_text.zh,
+          writer.sleeping_text.en,
+          writer.closed_window_text.zh,
+          writer.closed_window_text.en,
+        ]),
+      ),
+    [activeQuery],
   );
-  const groupedPhotos = groupPhotosByCountry(filteredPhotos);
-  const groupedPoems = groupPoemsByCountry(filteredPoems);
-  const stats = getPhotoStats(filteredPhotos);
-  const poemStats = getPoemStats(filteredPoems);
-  const writerStats = getWriterStats(filteredWriters);
+  const groupedPhotos = useMemo(() => groupPhotosByCountry(filteredPhotos), [filteredPhotos]);
+  const groupedPoems = useMemo(() => groupPoemsByCountry(filteredPoems), [filteredPoems]);
+  const stats = useMemo(() => getPhotoStats(filteredPhotos), [filteredPhotos]);
+  const poemStats = useMemo(() => getPoemStats(filteredPoems), [filteredPoems]);
+  const writerStats = useMemo(() => getWriterStats(filteredWriters), [filteredWriters]);
   const activeQueryLabel = query.trim() ? `搜索“${query.trim()}”` : '全部档案';
   const resultCountLabel =
     viewMode === 'photos'
@@ -112,6 +122,8 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
       : viewMode === 'poems'
         ? filteredPoems.length > 0
         : filteredWriters.length > 0;
+
+  if (!isOpen) return null;
 
   return (
     <aside className="archive-drawer" role="dialog" aria-modal="true" aria-label="夜晚档案馆">
