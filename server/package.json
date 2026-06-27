@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check server.mjs"
+    "check": "node --check server.mjs",
+    "smoke": "node smoke-test.mjs"
   },
   "dependencies": {
     "better-sqlite3": "^12.4.1",
