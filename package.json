@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host=127.0.0.1 --port=3000",
     "build": "vite build",
+    "build:report": "node scripts/report-build-assets.mjs",
     "preview": "vite preview --host=127.0.0.1",
     "lint": "tsc --noEmit",
     "repo:guard": "node scripts/check-repository-boundaries.mjs",
