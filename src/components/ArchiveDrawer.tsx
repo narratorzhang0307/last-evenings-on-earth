@@ -173,6 +173,11 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           <div className="archive-empty">
             <strong>没有找到对应档案</strong>
             <span>换一个城市、作者或关键词试试。</span>
+            {activeQuery && (
+              <button className="archive-empty-clear" onClick={() => setQuery('')} type="button">
+                清空搜索
+              </button>
+            )}
           </div>
         )}
         {viewMode === 'photos' &&
