@@ -30,6 +30,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const allPhotos = useAllPhotos();
+  const resultStatusId = 'archive-result-status';
   useEscapeKey(isOpen && !isSubmitOpen, onClose);
 
   useEffect(() => {
@@ -107,6 +108,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜索城市、作者、诗句"
             aria-label="搜索夜晚档案"
+            aria-describedby={resultStatusId}
           />
           {query && (
             <button onClick={() => setQuery('')} type="button" aria-label="清空搜索">
@@ -159,7 +161,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                 : `${writerStats.writerCount} 位作家`}
           </span>
         </div>
-        <p className="archive-result-status" aria-live="polite">
+        <p className="archive-result-status" id={resultStatusId} aria-live="polite">
           {activeQueryLabel}，当前显示 {resultCountLabel}
         </p>
       </header>
