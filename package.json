@@ -14,7 +14,7 @@
     "scope:check": "node scripts/check-runtime-scope.mjs",
     "server:check": "npm --prefix server run check",
     "server:smoke": "npm --prefix server run smoke",
-    "check": "npm run repo:guard && npm run data:check && npm run lint && npm run build && npm run build:report && npm run server:check && npm run server:smoke"
+    "check": "npm run repo:guard && npm run scope:check && npm run data:check && npm run lint && npm run build && npm run build:report && npm run server:check && npm run server:smoke"
   },
   "dependencies": {
     "lucide-react": "^0.546.0",

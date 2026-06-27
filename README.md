@@ -132,6 +132,12 @@ npm run server:check
 npm run repo:guard
 ```
 
+运行范围检查：
+
+```bash
+npm run scope:check
+```
+
 档案数据检查：
 
 ```bash
