@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { ExternalLink, X } from 'lucide-react';
 import { useEscapeKey } from '../lib/useEscapeKey';
 import type { PhotoData } from '../lib/types';
@@ -20,6 +21,7 @@ function formatSubmittedAt(value?: number) {
 }
 
 export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const sourceLabel = photo.source === 'pexels' ? 'Pexels' : 'Unsplash';
   const sourceUrl = photo.unsplash_url || photo.photographer_url;
   const title = photo.city_zh || photo.city || '未命名地点';
@@ -29,6 +31,10 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
   const titleId = `photo-title-${photo.id}`;
   const metaId = `photo-meta-${photo.id}`;
   useEscapeKey(true, onClose);
+
+  useEffect(() => {
+    closeButtonRef.current?.focus();
+  }, []);
 
   return (
     <div className="photo-viewer" onClick={onClose} role="presentation">
@@ -40,7 +46,7 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
         aria-describedby={metaId}
         onClick={(event) => event.stopPropagation()}
       >
-        <button className="photo-viewer-close" onClick={onClose} type="button" aria-label="关闭照片">
+        <button ref={closeButtonRef} className="photo-viewer-close" onClick={onClose} type="button" aria-label="关闭照片">
           <X size={18} />
         </button>
         <div className="photo-viewer-image" style={{ backgroundColor: photo.color || '#191713' }}>
