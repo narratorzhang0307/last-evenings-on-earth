@@ -38,8 +38,12 @@ function isStoredPhoto(value: unknown): value is PhotoData {
 }
 
 function writeStoredPhotos(photos: PhotoData[]) {
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
-  emitPhotosUpdated();
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
+    emitPhotosUpdated();
+  } catch {
+    // 本地兜底保存失败时，不阻断当前投稿在页面内继续展示。
+  }
 }
 
 export function saveLocalUserPhoto(photo: PhotoData) {
