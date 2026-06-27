@@ -164,6 +164,7 @@ app.get('/api/photos', (_req, res) => {
 });
 
 app.post('/api/photos', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   const body = req.body || {};
   const id = String(body.id || `usr_${Date.now().toString(36)}`).trim();
   const url = normalizePhotoUrl(body.url);
@@ -222,6 +223,7 @@ app.post('/api/photos', (req, res) => {
 });
 
 app.delete('/api/photos/:id', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   const id = String(req.params.id || '').trim();
   if (!/^usr_[a-z0-9_-]+$/i.test(id)) return sendError(res, 400, 'invalid_id', '照片编号格式不正确。');
   const result = softDeletePhotoStmt.run(Date.now(), id);
