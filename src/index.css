@@ -720,6 +720,11 @@ h1 {
   color: rgba(244, 238, 226, 0.38);
 }
 
+.archive-search:focus-within {
+  border-color: rgba(246, 173, 85, 0.42);
+  box-shadow: 0 0 0 3px rgba(246, 173, 85, 0.12);
+}
+
 .archive-search button {
   display: grid;
   place-items: center;
@@ -755,6 +760,18 @@ h1 {
 .archive-view-toggle button.is-active {
   color: #191713;
   background: #f6ad55;
+}
+
+.archive-drawer-close:focus-visible,
+.archive-search button:focus-visible,
+.archive-view-toggle button:focus-visible,
+.archive-empty-clear:focus-visible,
+.archive-photo:focus-visible,
+.submit-photo-card:focus-visible,
+.archive-poem:focus-visible,
+.archive-writer:focus-visible {
+  outline: 2px solid #f6ad55;
+  outline-offset: 3px;
 }
 
 .archive-drawer-stats {
