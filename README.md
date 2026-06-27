@@ -163,6 +163,12 @@ npm run scope:check
 npm run data:check
 ```
 
+档案检索规则检查：
+
+```bash
+npm run archive:search
+```
+
 照片服务接口冒烟验收：
 
 ```bash
