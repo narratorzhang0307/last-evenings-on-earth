@@ -208,6 +208,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                     <button
                       className="archive-poem"
                       key={poem.id}
+                      aria-label={`${poem.author_zh}，《${poem.title_zh}》，${poem.city}，诗歌档案`}
                       onClick={() => onSelectPoem?.(poem)}
                       type="button"
                     >
@@ -230,6 +231,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                 <button
                   className="archive-writer"
                   key={writer.id}
+                  aria-label={`${writer.name_zh}，${writer.name_en}，${writer.city}，作家窗灯`}
                   onClick={() => onSelectWriter?.(writer)}
                   style={{ '--writer-light': writer.lantern_color } as CSSProperties}
                   type="button"
