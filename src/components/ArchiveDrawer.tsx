@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Images, Search, X } from 'lucide-react';
 import { POEMS } from '../data/poems';
 import { WRITERS } from '../data/writers';
@@ -28,8 +28,15 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const [viewMode, setViewMode] = useState<'poems' | 'photos' | 'writers'>('photos');
   const [query, setQuery] = useState('');
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const allPhotos = useAllPhotos();
   useEscapeKey(isOpen && !isSubmitOpen, onClose);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const frame = window.requestAnimationFrame(() => searchInputRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -88,6 +95,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         <div className="archive-search" role="search">
           <Search size={14} />
           <input
+            ref={searchInputRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜索城市、作者、诗句"
