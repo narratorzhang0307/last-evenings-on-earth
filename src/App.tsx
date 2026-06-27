@@ -32,6 +32,7 @@ export default function App() {
         selectedCity={selectedCity}
         onHoverCity={setHoveredCity}
         onClickCity={openCity}
+        onClickPhoto={setSelectedPhoto}
         isPaused={!!detailCity}
       />
       <section className="intro-panel" aria-label="project status">

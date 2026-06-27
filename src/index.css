@@ -841,6 +841,36 @@ h1 {
   opacity: 1;
 }
 
+.photo-globe-marker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.photo-globe-marker::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #9ae6b4;
+  box-shadow: 0 0 10px rgba(154, 230, 180, 0.78);
+}
+
+.photo-globe-marker span {
+  opacity: 0;
+  color: #9ae6b4;
+  font-size: 10px;
+  white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  transition: opacity 180ms ease;
+}
+
+.photo-globe-marker:hover span {
+  opacity: 1;
+}
+
 .literary-city-marker {
   pointer-events: auto;
 }

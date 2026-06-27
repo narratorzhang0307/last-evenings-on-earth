@@ -3,7 +3,8 @@ import Globe from 'react-globe.gl';
 import * as THREE from 'three';
 import { CITIES, ARCS } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
-import type { CityData, MajorCity } from '../lib/types';
+import { PHOTOS } from '../data/worldPhotos';
+import type { CityData, MajorCity, PhotoData } from '../lib/types';
 
 const CONTINENTS = [
   { lat: 40, lng: 90, name: 'ASIA' },
@@ -18,6 +19,7 @@ interface GlobeViewProps {
   selectedCity?: CityData | null;
   onHoverCity?: (city: CityData | null) => void;
   onClickCity?: (city: CityData) => void;
+  onClickPhoto?: (photo: PhotoData) => void;
   rotationSpeed?: number;
   isPaused?: boolean;
 }
@@ -26,6 +28,7 @@ type CountryFeature = Record<string, unknown>;
 
 type Marker =
   | (MajorCity & { elementType: 'major-city' })
+  | (PhotoData & { elementType: 'photo' })
   | (CityData & { elementType: 'literary-city' })
   | (typeof CONTINENTS[number] & { elementType: 'continent' });
 
@@ -33,6 +36,7 @@ export default function GlobeView({
   selectedCity,
   onHoverCity,
   onClickCity,
+  onClickPhoto,
   rotationSpeed = 0.35,
   isPaused = false,
 }: GlobeViewProps) {
@@ -112,6 +116,7 @@ export default function GlobeView({
     () => [
       ...CONTINENTS.map((continent) => ({ ...continent, elementType: 'continent' as const })),
       ...MAJOR_CITIES.map((city) => ({ ...city, elementType: 'major-city' as const })),
+      ...PHOTOS.map((photo) => ({ ...photo, elementType: 'photo' as const })),
       ...CITIES.map((city) => ({ ...city, elementType: 'literary-city' as const })),
     ],
     [],
@@ -165,6 +170,18 @@ export default function GlobeView({
             el.title = `${d.nameZh} / ${d.nameEn}`;
             el.setAttribute('aria-label', `${d.nameZh} / ${d.nameEn}`);
             el.innerHTML = `<span>${d.nameZh}</span>`;
+            return el;
+          }
+
+          if (d.elementType === 'photo') {
+            el.className = 'photo-globe-marker';
+            el.title = `${d.city_zh || d.city || '夜晚照片'} / ${d.photographer || 'archive'}`;
+            el.innerHTML = `<span>${d.city_zh || d.city || '照片'}</span>`;
+            el.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onClickPhoto?.(d);
+            });
             return el;
           }
 
