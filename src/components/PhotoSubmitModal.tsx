@@ -2,7 +2,7 @@ import { useMemo, useState, type FormEvent } from 'react';
 import { X } from 'lucide-react';
 import { CITIES } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
-import { saveLocalUserPhoto } from '../lib/localUserPhotos';
+import { rememberServerUserPhoto, saveLocalUserPhoto } from '../lib/localUserPhotos';
 import { PhotoApiError, registerServerPhoto } from '../lib/photoApi';
 import { useEscapeKey } from '../lib/useEscapeKey';
 import type { PhotoData } from '../lib/types';
@@ -82,6 +82,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       let savedPhoto = photo;
       try {
         savedPhoto = await registerServerPhoto(photo);
+        rememberServerUserPhoto(savedPhoto);
       } catch (error) {
         if (error instanceof PhotoApiError && error.status < 500) throw error;
         saveLocalUserPhoto(photo);

@@ -8,6 +8,11 @@ const EVENT_NAME = 'last-evenings:user-photos-updated';
 let serverPhotos: PhotoData[] = [];
 let pendingServerRefresh: Promise<void> | null = null;
 
+function emitPhotosUpdated() {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(EVENT_NAME));
+}
+
 function readStoredPhotos() {
   if (typeof window === 'undefined') return [];
   try {
@@ -22,7 +27,7 @@ function readStoredPhotos() {
 
 function writeStoredPhotos(photos: PhotoData[]) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
-  window.dispatchEvent(new CustomEvent(EVENT_NAME));
+  emitPhotosUpdated();
 }
 
 export function saveLocalUserPhoto(photo: PhotoData) {
@@ -41,7 +46,7 @@ export function refreshServerUserPhotos() {
     pendingServerRefresh = listServerPhotos()
       .then((photos) => {
         serverPhotos = photos;
-        window.dispatchEvent(new CustomEvent(EVENT_NAME));
+        emitPhotosUpdated();
       })
       .catch(() => {
         serverPhotos = [];
@@ -51,6 +56,11 @@ export function refreshServerUserPhotos() {
       });
   }
   return pendingServerRefresh;
+}
+
+export function rememberServerUserPhoto(photo: PhotoData) {
+  serverPhotos = [{ ...photo, isUserSubmitted: true }, ...serverPhotos.filter((item) => item.id !== photo.id)];
+  emitPhotosUpdated();
 }
 
 export function useAllPhotos() {
