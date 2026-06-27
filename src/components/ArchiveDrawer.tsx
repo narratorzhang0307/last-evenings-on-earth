@@ -19,12 +19,16 @@ interface ArchiveDrawerProps {
   onSelectWriter?: (writer: WriterData) => void;
 }
 
-function textIncludesQuery(query: string, values: Array<string | number | undefined | readonly string[]>) {
+type SearchableValue = string | number | undefined | readonly string[];
+
+function normalizeSearchText(value: SearchableValue) {
+  const text = Array.isArray(value) ? value.join(' ') : String(value ?? '');
+  return text.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function textIncludesQuery(query: string, values: SearchableValue[]) {
   if (!query) return true;
-  return values.some((value) => {
-    const searchableText = Array.isArray(value) ? value.join(' ') : String(value || '');
-    return searchableText.toLowerCase().includes(query);
-  });
+  return values.some((value) => normalizeSearchText(value).includes(query));
 }
 
 export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
@@ -44,7 +48,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
 
   if (!isOpen) return null;
 
-  const activeQuery = query.trim().toLowerCase();
+  const activeQuery = normalizeSearchText(query);
   const filteredPhotos = allPhotos.filter((photo) =>
     textIncludesQuery(activeQuery, [
       photo.city,
