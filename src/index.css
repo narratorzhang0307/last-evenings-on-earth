@@ -408,6 +408,31 @@ h1 {
   line-height: 1;
 }
 
+.archive-view-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  width: 160px;
+  padding: 4px;
+  border: 1px solid rgba(244, 238, 226, 0.12);
+  border-radius: 999px;
+  background: rgba(244, 238, 226, 0.04);
+}
+
+.archive-view-toggle button {
+  min-height: 30px;
+  border: 0;
+  border-radius: 999px;
+  color: rgba(244, 238, 226, 0.58);
+  background: transparent;
+  cursor: pointer;
+}
+
+.archive-view-toggle button.is-active {
+  color: #191713;
+  background: #f6ad55;
+}
+
 .archive-drawer-header div {
   display: flex;
   flex-wrap: wrap;
@@ -490,6 +515,57 @@ h1 {
   color: #f4eee2;
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.86));
   font-size: 11px;
+}
+
+.archive-poem-list {
+  display: grid;
+  gap: 7px;
+}
+
+.archive-poem {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+  min-height: 42px;
+  padding: 9px 7px;
+  border: 0;
+  border-bottom: 1px solid rgba(244, 238, 226, 0.06);
+  color: #f4eee2;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.archive-poem:hover {
+  background: rgba(244, 238, 226, 0.05);
+}
+
+.archive-poem strong,
+.archive-poem span,
+.archive-poem em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.archive-poem strong {
+  color: #f6ad55;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.archive-poem span {
+  color: rgba(244, 238, 226, 0.84);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+}
+
+.archive-poem em {
+  color: rgba(244, 238, 226, 0.42);
+  font-size: 12px;
+  font-style: normal;
 }
 
 .city-details {
