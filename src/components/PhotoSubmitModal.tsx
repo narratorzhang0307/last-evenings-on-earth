@@ -118,7 +118,6 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       signature: signature.trim().slice(0, SIGNATURE_MAX_LENGTH) || undefined,
       submittedAt: Date.now(),
       isUserSubmitted: true,
-      source: 'unsplash',
       color: '#191713',
     };
     try {
