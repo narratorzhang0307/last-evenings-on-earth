@@ -63,6 +63,9 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   if (!isOpen) return null;
 
   const selectedCity = cityOptions.find((city) => city.key === cityKey) || cityOptions[0];
+  const submitErrorId = submitError ? 'photo-submit-error' : undefined;
+  const hasUrlError = submitError.includes('图片链接') || submitError.includes('http 或 https');
+  const hasCountryError = submitError.includes('国家或地区');
   const handleCityChange = (nextCityKey: string) => {
     const nextCity = cityOptions.find((city) => city.key === nextCityKey);
     setCityKey(nextCityKey);
@@ -155,11 +158,20 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
             value={url}
             onChange={(event) => setUrl(event.target.value)}
             placeholder="https://..."
+            aria-describedby={submitErrorId}
+            aria-invalid={hasUrlError || undefined}
           />
         </label>
         <label>
           国家或地区
-          <input required value={country} onChange={(event) => setCountry(event.target.value)} placeholder="例如：中国" />
+          <input
+            required
+            value={country}
+            onChange={(event) => setCountry(event.target.value)}
+            placeholder="例如：中国"
+            aria-describedby={submitErrorId}
+            aria-invalid={hasCountryError || undefined}
+          />
         </label>
         <label>
           写一句话
@@ -170,7 +182,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           <input value={signature} onChange={(event) => setSignature(event.target.value)} placeholder="匿名也可以" />
         </label>
         {submitError && (
-          <p className="photo-submit-error" role="alert">
+          <p className="photo-submit-error" id="photo-submit-error" role="alert">
             {submitError}
           </p>
         )}
