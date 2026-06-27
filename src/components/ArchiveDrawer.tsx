@@ -110,6 +110,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         <nav className="archive-view-toggle" aria-label="档案视图">
           <button
             className={viewMode === 'photos' ? 'is-active' : ''}
+            aria-pressed={viewMode === 'photos'}
             onClick={() => setViewMode('photos')}
             type="button"
           >
@@ -117,6 +118,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           </button>
           <button
             className={viewMode === 'poems' ? 'is-active' : ''}
+            aria-pressed={viewMode === 'poems'}
             onClick={() => setViewMode('poems')}
             type="button"
           >
@@ -124,6 +126,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           </button>
           <button
             className={viewMode === 'writers' ? 'is-active' : ''}
+            aria-pressed={viewMode === 'writers'}
             onClick={() => setViewMode('writers')}
             type="button"
           >
