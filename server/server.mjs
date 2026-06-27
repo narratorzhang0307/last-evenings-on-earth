@@ -218,6 +218,7 @@ app.delete('/api/photos/:id', (req, res) => {
   const id = String(req.params.id || '').trim();
   if (!/^usr_[a-z0-9_-]+$/i.test(id)) return sendError(res, 400, 'invalid_id', '照片编号格式不正确。');
   const result = softDeletePhotoStmt.run(Date.now(), id);
+  if (!result.changes) return sendError(res, 404, 'photo_not_found', '没有找到可删除的照片。');
   res.json({ ok: true, affected: result.changes });
 });
 
