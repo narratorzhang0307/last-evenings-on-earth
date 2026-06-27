@@ -60,6 +60,8 @@ const insertPhotoStmt = db.prepare(`
   )
 `);
 
+const softDeletePhotoStmt = db.prepare('UPDATE photos SET deleted_at = ? WHERE id = ? AND deleted_at IS NULL');
+
 function rowToPhoto(row) {
   return {
     id: row.id,
@@ -140,6 +142,13 @@ app.post('/api/photos', (req, res) => {
     console.error('[photos] register failed', error);
     return res.status(500).json({ error: 'register failed' });
   }
+});
+
+app.delete('/api/photos/:id', (req, res) => {
+  const id = String(req.params.id || '').trim();
+  if (!/^usr_[a-z0-9_-]+$/i.test(id)) return res.status(400).json({ error: 'invalid id' });
+  const result = softDeletePhotoStmt.run(Date.now(), id);
+  res.json({ ok: true, affected: result.changes });
 });
 
 app.listen(PORT, HOST, () => {
