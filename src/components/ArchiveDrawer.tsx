@@ -121,6 +121,9 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
       : viewMode === 'poems'
         ? `${filteredPoems.length} 首诗`
         : `${filteredWriters.length} 位作家`;
+  const photoViewLabel = `查看照片档案，当前筛选下有 ${filteredPhotos.length} 张照片`;
+  const poemViewLabel = `查看诗歌档案，当前筛选下有 ${filteredPoems.length} 首诗`;
+  const writerViewLabel = `查看作家档案，当前筛选下有 ${filteredWriters.length} 位作家`;
   const hasResults =
     viewMode === 'photos'
       ? filteredPhotos.length > 0
@@ -157,6 +160,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         <nav className="archive-view-toggle" aria-label="档案视图">
           <button
             className={viewMode === 'photos' ? 'is-active' : ''}
+            aria-label={photoViewLabel}
             aria-pressed={viewMode === 'photos'}
             onClick={() => setViewMode('photos')}
             type="button"
@@ -165,6 +169,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           </button>
           <button
             className={viewMode === 'poems' ? 'is-active' : ''}
+            aria-label={poemViewLabel}
             aria-pressed={viewMode === 'poems'}
             onClick={() => setViewMode('poems')}
             type="button"
@@ -173,6 +178,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           </button>
           <button
             className={viewMode === 'writers' ? 'is-active' : ''}
+            aria-label={writerViewLabel}
             aria-pressed={viewMode === 'writers'}
             onClick={() => setViewMode('writers')}
             type="button"
