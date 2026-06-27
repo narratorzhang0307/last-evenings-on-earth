@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Archive, Snowflake } from 'lucide-react';
 import { ArchiveDrawer } from './components/ArchiveDrawer';
 import { CityDetailsPanel } from './components/CityDetailsPanel';
@@ -17,6 +17,25 @@ import { getPhotosForCity } from './lib/photoArchive';
 import { getWriterStats, getWritersForCity } from './lib/writerArchive';
 import type { CityData, PhotoData, PoemPoint, WriterData } from './lib/types';
 
+type LayerKey = 'photos' | 'poems' | 'writers';
+
+const LAYER_STORAGE_KEY = 'last-evenings-visible-layers';
+const DEFAULT_VISIBLE_LAYERS: Record<LayerKey, boolean> = {
+  photos: true,
+  poems: true,
+  writers: true,
+};
+
+function readSavedLayers() {
+  try {
+    const saved = window.localStorage.getItem(LAYER_STORAGE_KEY);
+    if (!saved) return DEFAULT_VISIBLE_LAYERS;
+    return { ...DEFAULT_VISIBLE_LAYERS, ...JSON.parse(saved) } as Record<LayerKey, boolean>;
+  } catch {
+    return DEFAULT_VISIBLE_LAYERS;
+  }
+}
+
 export default function App() {
   const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
   const [detailCity, setDetailCity] = useState<CityData | null>(null);
@@ -26,11 +45,7 @@ export default function App() {
   const [selectedWriter, setSelectedWriter] = useState<WriterData | null>(null);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isFrostOpen, setIsFrostOpen] = useState(false);
-  const [visibleLayers, setVisibleLayers] = useState({
-    photos: true,
-    poems: true,
-    writers: true,
-  });
+  const [visibleLayers, setVisibleLayers] = useState(readSavedLayers);
   const allPhotos = useAllPhotos();
   const activeCity = hoveredCity || selectedCity || CITIES[0];
   const activePhotos = getPhotosForCity(activeCity, 6, allPhotos);
@@ -40,7 +55,11 @@ export default function App() {
     setSelectedCity(city);
     setDetailCity(city);
   };
-  const toggleLayer = (layer: keyof typeof visibleLayers) => {
+  useEffect(() => {
+    window.localStorage.setItem(LAYER_STORAGE_KEY, JSON.stringify(visibleLayers));
+  }, [visibleLayers]);
+
+  const toggleLayer = (layer: LayerKey) => {
     setVisibleLayers((current) => ({ ...current, [layer]: !current[layer] }));
   };
 
