@@ -77,7 +77,17 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
       writer.name_en,
       writer.city,
       writer.soul_intro.zh,
+      writer.soul_intro.en,
       writer.knock_text.zh_title,
+      writer.knock_text.en_title,
+      writer.knock_text.zh_question,
+      writer.knock_text.en_question,
+      writer.opening_lines,
+      writer.farewell_lines,
+      writer.sleeping_text.zh,
+      writer.sleeping_text.en,
+      writer.closed_window_text.zh,
+      writer.closed_window_text.en,
     ]),
   );
   const groupedPhotos = groupPhotosByCountry(filteredPhotos);
