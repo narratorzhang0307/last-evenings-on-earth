@@ -22,7 +22,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   const [turns, setTurns] = useState<FrostTurn[]>([
     {
       role: 'frost',
-      text: '这里是弗洛斯特。音乐和电台已经安静下来，现在只留下城市、作家和夜里的问题。',
+      text: '这里是弗洛斯特。现在只留下城市、作家和夜里的问题。',
     },
   ]);
   const canSend = useMemo(() => input.trim().length > 0, [input]);
