@@ -18,6 +18,15 @@ function slugCityName(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'user-city';
 }
 
+function normalizePhotoUrl(value: string) {
+  try {
+    const parsed = new URL(value.trim());
+    return ['http:', 'https:'].includes(parsed.protocol) ? parsed.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
 export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitModalProps) {
   const cityOptions = useMemo(
     () => [
@@ -63,8 +72,13 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (isSubmitting) return;
-    if (!selectedCity || !url.trim() || !country.trim()) {
+    const photoUrl = normalizePhotoUrl(url);
+    if (!selectedCity || !country.trim()) {
       setSubmitError('请补全图片链接和国家或地区。');
+      return;
+    }
+    if (!photoUrl) {
+      setSubmitError('请填写 http 或 https 开头的图片链接。');
       return;
     }
     setIsSubmitting(true);
@@ -73,7 +87,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       id: `usr_${Date.now().toString(36)}`,
       lat: selectedCity.lat,
       lng: selectedCity.lng,
-      url: url.trim(),
+      url: photoUrl,
       cityId: slugCityName(selectedCity.city),
       rot: 0,
       city: selectedCity.city,
