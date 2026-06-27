@@ -339,5 +339,345 @@ export const WRITERS: WriterData[] = [
       "zh": "百叶窗放下了。他白天不见人。",
       "en": "The shutters are down. He sees no one by day."
     }
+  },
+  {
+    "id": "char",
+    "name_en": "René Char",
+    "name_zh": "勒内·夏尔",
+    "city": "L'Isle-sur-la-Sorgue",
+    "lat": 43.9215,
+    "lng": 5.0521,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/char.png",
+    "soul_intro": {
+      "zh": "他曾在石灰窑里藏身，把诗写在面包包装纸上。",
+      "en": "He hid in a lime kiln, writing poems on bread wrappers."
+    },
+    "lantern_color": "#C24532",
+    "knock_text": {
+      "zh_title": "夏尔还在石屋里。",
+      "en_title": "Char is still in the stone house.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "门没锁。小心那根掉下来的核桃木梁。",
+      "我在磨咖啡豆。您要是不嫌吵就进来。",
+      "桌上那本《Hypnos》别动——里面有片夹了四十年的薰衣草。",
+      "您听见索尔格河了吗？今晚水大。",
+      "我刚从地窖上来。那里还留着些旧地图。",
+      "如果您是来谈诗，我可能只会给您看一块石头。"
+    ],
+    "farewell_lines": [
+      "出去时把门带好，风会把院子里的无花果吹进来。",
+      "我得去给那棵老桑树浇水了。",
+      "灯油不多了。您认得回去的路吧？",
+      "明天会有雨。您最好趁星还在时走。"
+    ],
+    "sleeping_text": {
+      "zh": "夏尔沉入石头的寂静里。",
+      "en": "Char has sunk into the silence of stone."
+    },
+    "closed_window_text": {
+      "zh": "百叶窗关上了。明天，河会继续流。",
+      "en": "The shutters are closed. Tomorrow, the river will go on."
+    }
+  },
+  {
+    "id": "stevens",
+    "name_en": "Wallace Stevens",
+    "name_zh": "华莱士·史蒂文斯",
+    "city": "Hartford",
+    "lat": 41.7637,
+    "lng": -72.6851,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/stevens.png",
+    "soul_intro": {
+      "zh": "他走了四十年同一条路去卖保险，晚上写下了最不可能的秩序。",
+      "en": "He walked the same road to sell insurance for forty years, and at night composed the most improbable order."
+    },
+    "lantern_color": "#C5483B",
+    "knock_text": {
+      "zh_title": "史蒂文斯正坐在他的大椅子上。",
+      "en_title": "Stevens is sitting in his large chair.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "请进，但别碰那把曼陀林，它走音很多年了。",
+      "我正在读一本关于逻辑的书——可能没用，但能让我安静。",
+      "雪茄在桌上，如果您不介意烟味，尽管拿。",
+      "窗外的枫树今晚很吵，像在争论什么不可能的事。",
+      "这房间的灯太暗了——我一直懒得换。",
+      "我以为这个钟点不会有人来，除了我自己。"
+    ],
+    "farewell_lines": [
+      "您走吧，我还得听那棵树把话说完。",
+      "请带上门——这房子的走廊里风会自己打转。",
+      "明天早上我还得走同一条路去办公室，您知道我走了多少年吗？",
+      "灯不用留，我习惯在黑暗里想事情。"
+    ],
+    "sleeping_text": {
+      "zh": "史蒂文斯睡了。",
+      "en": "Stevens has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "保险箱锁好了，灯也熄了。今晚别再敲他的门。",
+      "en": "The safe is locked, the lamp is out. Don't knock on his door again tonight."
+    }
+  },
+  {
+    "id": "borges",
+    "name_en": "Jorge Luis Borges",
+    "name_zh": "豪尔赫·路易斯·博尔赫斯",
+    "city": "Buenos Aires",
+    "lat": -34.6037,
+    "lng": -58.3816,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/borges.png",
+    "soul_intro": {
+      "zh": "上帝给了他书，又给了他夜，这是同一个玩笑说了两遍。",
+      "en": "God gave him books and the dark — the same joke twice."
+    },
+    "lantern_color": "#C84A36",
+    "knock_text": {
+      "zh_title": "博尔赫斯还在图书馆里。",
+      "en_title": "Borges is still in the library.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "门没锁。我听见您的脚步声在走廊里回荡。迷宫般的声响。",
+      "请原谅，我看不见您。我的母亲可能在隔壁，她在读《埃达》。",
+      "桌上有一杯冷了的马黛茶。您想喝点什么吗？",
+      "我正试着回忆一只老虎的斑纹。它刚刚穿过我的脑海。",
+      "您闻到旧书的气味了吗？那是时间在发酵。",
+      "请坐——小心那把椅子，扶手有些松动。我很少移动它。",
+      "我在想一个句子，来自盎格鲁-撒克逊的哀歌。‘命运多么无情。’"
+    ],
+    "farewell_lines": [
+      "您走吧。我得回到我的黑暗里去了。那里有无数本书在等我。",
+      "门在那一边。小心门槛，它总是绊倒陌生人。",
+      "请留我一个人和我的迷宫在一起。今晚它不太友善。",
+      "天快亮了吗？我分不清。我的母亲会来叫醒我。"
+    ],
+    "sleeping_text": {
+      "zh": "博尔赫斯睡着了。",
+      "en": "Borges has fallen asleep."
+    },
+    "closed_window_text": {
+      "zh": "图书馆关了。他的黑暗合上了。",
+      "en": "The library is closed. His darkness has folded shut."
+    }
+  },
+  {
+    "id": "cavafy",
+    "name_en": "Constantine Cavafy",
+    "name_zh": "康斯坦丁·卡瓦菲斯",
+    "city": "Alexandria",
+    "lat": 31.2001,
+    "lng": 29.9187,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/cavafy.png",
+    "soul_intro": {
+      "zh": "他在档案室里偷偷写诗，三十三年没让任何人发现。",
+      "en": "He wrote poems in a government office for thirty-three years, undiscovered."
+    },
+    "lantern_color": "#C5483B",
+    "knock_text": {
+      "zh_title": "卡瓦菲斯的窗还亮着。",
+      "en_title": "Cavafy’s window is still lit.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "是您啊。我正在看一份关于灌溉工程的文件。请进，别踩到地上的纸页。",
+      "咖啡还热，土耳其式的。杯子只有一个——您不介意的话。",
+      "我刚从办公室回来，衣领还没解开。外面有海的气味，您闻到了吗？",
+      "窗台上那盆罗勒快枯了。我总是忘记浇水。",
+      "打字机坏了，今天只能手写。请坐，椅子上没有钉子。",
+      "您听到了吗？远处有汽笛声。这个时辰港口最安静。",
+      "我刚刚在记起一个年轻人——天啊，那是二十五年前的事了。"
+    ],
+    "farewell_lines": [
+      "我得把那份文件放回抽屉。明天一早衙门要查的。",
+      "请把窗子关一半，海风会把纸吹乱。",
+      "您走吧。我得在记忆消失前把它写下来。",
+      "这瓶希腊葡萄酒留不住您——也好，我自己慢慢喝。"
+    ],
+    "sleeping_text": {
+      "zh": "卡瓦菲斯睡了。",
+      "en": "Cavafy has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "灯灭了。他回到档案室去了。",
+      "en": "The lamp is out. He has returned to the archives."
+    }
+  },
+  {
+    "id": "yeats",
+    "name_en": "W.B. Yeats",
+    "name_zh": "威廉·巴特勒·叶芝",
+    "city": "Dublin",
+    "lat": 53.3498,
+    "lng": -6.2603,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/yeats.png",
+    "soul_intro": {
+      "zh": "他为一位从不回头的女人建了一座诗的城堡。",
+      "en": "He built a castle of verse for a woman who never looked back."
+    },
+    "lantern_color": "#CB4838",
+    "knock_text": {
+      "zh_title": "叶芝还醒着，炉火未熄。",
+      "en_title": "Yeats is still awake, the fire not yet out.",
+      "zh_question": "您敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "请进——小心台阶，这老房子地板有些斜。",
+      "我刚在读一份手稿，乔治在隔壁房间。她今晚没和我一起工作。",
+      "那幅画是莫德·冈妮年轻时，您若愿意，可以看看。",
+      "窗外是梅里恩广场，这时节雾重。您听到钟声了吗？",
+      "炉架上有壶茶，恐怕凉了。我总忘了喝。",
+      "桌上那枚海螺是斯莱戈带来的，您拿起来听听——大西洋还在里头。",
+      "抱歉，我刚走神了。我在想库尔庄园的七棵树。"
+    ],
+    "farewell_lines": [
+      "雾更浓了。您回去时小心路灯昏暗。",
+      "我得继续等那只白鸟——它总在午夜前来。",
+      "请把门带上，风会吹散我摊开的纸页。",
+      "乔治会来叫我睡。您走吧，这炉火还能燃一阵。"
+    ],
+    "sleeping_text": {
+      "zh": "叶芝睡了。",
+      "en": "Yeats has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "窗帘后透出火光，但不要再打扰他。",
+      "en": "A firelight slips through the curtain, but don't disturb him now."
+    }
+  },
+  {
+    "id": "pound",
+    "name_en": "Ezra Pound",
+    "name_zh": "埃兹拉·庞德",
+    "city": "Venice",
+    "lat": 45.438,
+    "lng": 12.332,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/pound.png",
+    "soul_intro": {
+      "zh": "他翻译了世界，却译不出自己的罪。",
+      "en": "He translated the world, but couldn't translate his own guilt."
+    },
+    "lantern_color": "#BE3E33",
+    "knock_text": {
+      "zh_title": "庞德坐在威尼斯的水光里。",
+      "en_title": "Pound sits in the watery light of Venice.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "门没锁。进来小心那些纸——到处都是。",
+      "您听到运河的水声了吗？这个时候最清楚。",
+      "茶在炉子上，可能凉了。请便。",
+      "我刚在读一份希腊文手稿。或是在看窗外的船。",
+      "您不是来送信的。没关系——很少有人是。",
+      "请坐那把藤椅。小心别碰倒那堆但丁。",
+      "我在试着不说话。显然又失败了。"
+    ],
+    "farewell_lines": [
+      "您走吧。我得回到这些碎纸片里去了。",
+      "请把门带上。威尼斯的夜很潮。",
+      "天快亮了。我还有一些词要划掉。",
+      "不用再来——除非您带着一封旧信。"
+    ],
+    "sleeping_text": {
+      "zh": "庞德伏在桌上睡着了。",
+      "en": "Pound has fallen asleep at his desk."
+    },
+    "closed_window_text": {
+      "zh": "灯灭了。今晚不要再敲他的门。",
+      "en": "The lamp is out. Don't knock on his door tonight."
+    }
+  },
+  {
+    "id": "vallejo",
+    "name_en": "César Vallejo",
+    "name_zh": "塞萨尔·巴列霍",
+    "city": "Paris",
+    "lat": 48.85,
+    "lng": 2.345,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/vallejo.png",
+    "soul_intro": {
+      "zh": "他在星期四的雨里，提前写下了自己的死。",
+      "en": "He wrote his own death in the Thursday rain, years in advance."
+    },
+    "lantern_color": "#BE3E33",
+    "knock_text": {
+      "zh_title": "巴列霍在旅馆房间里咳嗽。",
+      "en_title": "Vallejo is coughing in his hotel room.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "炉子又坏了。您坐那把椅子——它不瘸。",
+      "Soup is cold. Georgette is out.",
+      "这雨……星期四的雨，您听见没。我写过这个。",
+      "桌子上有药。别碰。",
+      "我在数骨头。他们说这是发烧，我不知道。",
+      "您迟到了。死已经来过，又走了。",
+      "Trilce 在枕头下。翻吧，那本书比我清醒。"
+    ],
+    "farewell_lines": [
+      "走吧，炉子要灭了，我也得躺下。",
+      "您别信医生。他们不会说奇楚亚语。",
+      "雨停了。您走楼梯，电梯在哭。",
+      "告诉 Georgette 我睡了。虽然她知道。"
+    ],
+    "sleeping_text": {
+      "zh": "巴列霍在星期四的雨里睡着了。",
+      "en": "Vallejo has fallen asleep in the Thursday rain."
+    },
+    "closed_window_text": {
+      "zh": "雨还在下。旅馆的灯全黑了。",
+      "en": "The rain continues. The hotel lights are all out."
+    }
+  },
+  {
+    "id": "paz",
+    "name_en": "Octavio Paz",
+    "name_zh": "奥克塔维奥·帕斯",
+    "city": "Mexico City",
+    "lat": 19.4326,
+    "lng": -99.1332,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/paz.png",
+    "soul_intro": {
+      "zh": "他辞去大使职务，因为死太多人。",
+      "en": "He resigned as ambassador because too many had died."
+    },
+    "lantern_color": "#C84A36",
+    "knock_text": {
+      "zh_title": "帕斯还在书房里。",
+      "en_title": "Paz is still in his study.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "灯很暗。我正在读一段维永——您介意我念完这一行吗？",
+      "茶壶在那边，是玛丽的乌龙。杯子可能不太干净。",
+      "您来时经过广场没有？今晚的月亮像一枚磨旧的硬币。",
+      "这本书是伯纳尔从巴黎寄来的。他在扉页上画了只鸟。",
+      "您听到隔壁的打字机声了吗？那不是我。是楼上的小说家，总在凌晨两点开始工作。",
+      "请稍等——我得把这个词记下来。不然它会消失。"
+    ],
+    "farewell_lines": [
+      "您走吧。我得给内鲁写一封信，虽然他已经死很久了。",
+      "天快亮了。诗不喜欢天亮。",
+      "请把门带上。这些书怕风。"
+    ],
+    "sleeping_text": {
+      "zh": "帕斯睡了。",
+      "en": "Paz has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "书房灯灭了。今晚的对话就此结束。",
+      "en": "The study light is out. The conversation ends here tonight."
+    }
   }
 ];
