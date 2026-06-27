@@ -244,6 +244,95 @@ h1 {
   font-size: 12px;
 }
 
+.photo-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.12) 64%);
+}
+
+.photo-viewer-card {
+  position: relative;
+  width: min(420px, 100%);
+  padding: 14px 14px 24px;
+  color: #191713;
+  background: #f4eee2;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.72),
+    0 0 0 1px rgba(25, 23, 19, 0.12);
+}
+
+.photo-viewer-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(244, 238, 226, 0.2);
+  border-radius: 999px;
+  color: #f4eee2;
+  background: rgba(5, 5, 5, 0.72);
+  cursor: pointer;
+}
+
+.photo-viewer-image {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #191713;
+}
+
+.photo-viewer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.08) saturate(0.9);
+}
+
+.photo-viewer-caption {
+  display: grid;
+  gap: 8px;
+  padding: 16px 10px 0;
+}
+
+.photo-viewer-caption p {
+  margin: 0;
+  color: rgba(25, 23, 19, 0.48);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.photo-viewer-caption h2 {
+  margin: 0;
+  color: #191713;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.photo-viewer-caption div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  color: rgba(25, 23, 19, 0.58);
+  font-size: 12px;
+}
+
+.photo-viewer-caption a {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  color: #7c2d12;
+  text-decoration: none;
+}
+
 .city-details {
   position: fixed;
   z-index: 5;
