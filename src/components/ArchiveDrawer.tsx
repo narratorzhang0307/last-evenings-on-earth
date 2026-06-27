@@ -174,6 +174,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                     <button
                       className="archive-photo"
                       key={photo.id}
+                      aria-label={`${photo.city_zh || photo.city || '未命名照片'}，${country}，照片档案`}
                       onClick={() => onSelectPhoto(photo)}
                       style={{ backgroundColor: photo.color || '#191713' }}
                       type="button"
