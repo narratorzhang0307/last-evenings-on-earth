@@ -1,20 +1,138 @@
-# Last Evenings on Earth
+# 地球上最后的夜晚 PLUS
 
-A clean rebuild of the night atlas experience from the original local project.
+这是一个围绕“夜晚的地球”重新整理和重构的项目。
 
-This repository keeps the city, dusk, writer, poem, and photo interactions, while leaving the music and playback system out of scope.
+它保留原项目里最重要的体验：地球、城市、黄昏、照片、诗歌、作家、Frost 夜谈和用户投稿；同时明确移除音乐播放、DJ 歌单、TTS 语音生成、YouTube 播放桥、音频缓存和所有本地密钥。
 
-## Current Shape
+## 现在已经有的内容
 
-- React + TypeScript + Vite application shell
-- Safety-first repository boundary for secrets, runtime databases, caches, audio files, and large local source assets
-- Room for a small server layer under `server/`
+- 可旋转的夜晚地球视图
+- 文学城市、普通城市、照片点、作家窗灯点
+- 当前城市的近似当地时间和日落提示
+- 城市详情面板
+- 城市照片胶片和照片查看器
+- 夜晚档案馆：照片、诗歌、作家三种视图
+- 诗歌查看器
+- 作家夜窗：敲门、回应、告别
+- Frost 夜谈抽屉：保留城市、作家、闲聊问答
+- 黄昏投稿表单：服务端优先，本地兜底
+- 简洁照片服务：健康检查、照片列表、注册、软删除、限流
 
-## Local Development
+## 不放进这个仓库的内容
+
+- 音乐播放功能
+- DJ 播放和歌单决策链路
+- TTS 语音生成
+- 本地音频、视频文件
+- 本地密钥和环境文件
+- 运行时数据库
+- `node_modules`
+- 原始书籍、索引库、缓存和旧部署包
+
+## 本地启动
+
+安装依赖：
 
 ```bash
 npm install
+```
+
+启动前端：
+
+```bash
 npm run dev
 ```
 
-The app runs on `http://127.0.0.1:3000` by default.
+默认访问地址：
+
+```bash
+http://127.0.0.1:3000
+```
+
+如果端口被占用，Vite 会自动换到下一个端口。
+
+## 照片服务
+
+照片服务放在 `server/` 目录。
+
+安装服务端依赖：
+
+```bash
+cd server
+npm install
+```
+
+启动服务：
+
+```bash
+npm start
+```
+
+默认服务地址：
+
+```bash
+http://127.0.0.1:3008
+```
+
+前端连接服务端时，在本地环境里设置：
+
+```bash
+VITE_API_BASE=http://127.0.0.1:3008
+```
+
+服务端当前接口：
+
+- `GET /healthz`
+- `GET /api/photos`
+- `POST /api/photos`
+- `DELETE /api/photos/:id`
+
+运行时数据库是 `server/data.db`，不会提交到仓库。
+
+## 检查命令
+
+类型检查：
+
+```bash
+npm run lint
+```
+
+生产构建：
+
+```bash
+npm run build
+```
+
+服务端语法检查：
+
+```bash
+node --check server/server.mjs
+```
+
+## 迭代原则
+
+这个仓库会持续小步提交。
+
+每一次提交都应该对应一个真实变化：一个功能、一个数据批次、一个界面状态、一个服务端接口、一段文档整理，或者一次可验证的优化。
+
+不做空提交，不做时间填充提交，不用含糊的提交名。提交信息使用中文，直接描述这一小步完成了什么。
+
+## 当前方向
+
+短期继续推进到至少 150 条真实提交：
+
+- 扩充城市、照片、诗歌和作家数据
+- 完善投稿流程
+- 补全服务端接口
+- 恢复 Frost 的非音乐问答能力
+- 整理文档和启动说明
+- 做桌面和移动端验收
+
+到达 150 条以后继续优化项目本身：
+
+- 降低首屏包体积
+- 改善移动端阅读和抽屉体验
+- 增强地球点位密度控制
+- 增加更清晰的错误状态和空状态
+- 继续清理音乐、音频、TTS 残留边界
+
