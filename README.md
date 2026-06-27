@@ -114,6 +114,12 @@ npm run lint
 npm run build
 ```
 
+构建体积报表：
+
+```bash
+npm run build:report
+```
+
 服务端语法检查：
 
 ```bash
