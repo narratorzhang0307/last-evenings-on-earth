@@ -14,6 +14,7 @@ export function PhotoStrip({ photos, onSelectPhoto }: PhotoStripProps) {
         <button
           className="photo-strip-item"
           key={photo.id}
+          aria-label={`查看${photo.city_zh || photo.city || '城市'}照片${photo.photographer ? `，摄影：${photo.photographer}` : ''}`}
           onClick={() => onSelectPhoto(photo)}
           style={{ backgroundColor: photo.color || '#191713' }}
           type="button"
