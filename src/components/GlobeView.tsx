@@ -162,6 +162,8 @@ export default function GlobeView({
 
           if (d.elementType === 'major-city') {
             el.className = 'major-city-marker';
+            el.title = `${d.nameZh} / ${d.nameEn}`;
+            el.setAttribute('aria-label', `${d.nameZh} / ${d.nameEn}`);
             el.innerHTML = `<span>${d.nameZh}</span>`;
             return el;
           }
