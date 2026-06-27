@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { CityDetailsPanel } from './components/CityDetailsPanel';
 import GlobeView from './components/GlobeView';
+import { PhotoStrip } from './components/PhotoStrip';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
-import type { CityData } from './lib/types';
+import { getPhotosForCity } from './lib/photoArchive';
+import type { CityData, PhotoData } from './lib/types';
 
 export default function App() {
   const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
   const [detailCity, setDetailCity] = useState<CityData | null>(null);
   const [hoveredCity, setHoveredCity] = useState<CityData | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<PhotoData | null>(null);
   const activeCity = hoveredCity || selectedCity || CITIES[0];
+  const activePhotos = getPhotosForCity(activeCity);
   const openCity = (city: CityData) => {
     setSelectedCity(city);
     setDetailCity(city);
@@ -54,6 +58,12 @@ export default function App() {
           ))}
         </div>
         <p className="dusk-line">{getDuskString(activeCity)}</p>
+        <PhotoStrip photos={activePhotos} onSelectPhoto={setSelectedPhoto} />
+        {selectedPhoto && (
+          <p className="photo-selection">
+            {selectedPhoto.city_zh || selectedPhoto.city} · {selectedPhoto.photographer || '夜晚照片'}
+          </p>
+        )}
       </section>
       <CityDetailsPanel city={detailCity} onClose={() => setDetailCity(null)} />
     </main>
