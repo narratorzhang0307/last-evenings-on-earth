@@ -66,6 +66,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder="问一座城市、一个作家，或只是说一句夜里的话"
+          aria-label="写给弗洛斯特的问题"
         />
         <button disabled={!canSend} type="submit" aria-label="发送给弗洛斯特">
           <Send size={16} />
