@@ -856,6 +856,17 @@ h1 {
   resize: vertical;
 }
 
+.photo-submit-error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(124, 45, 18, 0.18);
+  border-radius: 7px;
+  color: #7c2d12;
+  background: rgba(124, 45, 18, 0.08);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .photo-submit-save {
   min-height: 42px;
   border: 0;
@@ -864,6 +875,11 @@ h1 {
   background: #f6ad55;
   cursor: pointer;
   font-weight: 700;
+}
+
+.photo-submit-save:disabled {
+  cursor: default;
+  opacity: 0.58;
 }
 
 .frost-drawer {

@@ -156,11 +156,16 @@ app.post('/api/photos', (req, res) => {
   const body = req.body || {};
   const id = String(body.id || `usr_${Date.now().toString(36)}`).trim();
   const url = String(body.url || '').trim();
+  const city = String(body.city || body.city_zh || '').trim();
+  const cityZh = String(body.city_zh || body.city || '').trim();
+  const country = String(body.country || '').trim();
   const lat = Number(body.lat);
   const lng = Number(body.lng);
 
   if (!/^usr_[a-z0-9_-]+$/i.test(id)) return sendError(res, 400, 'invalid_id', '照片编号格式不正确。');
   if (!/^https?:\/\//i.test(url)) return sendError(res, 400, 'invalid_url', '照片链接需要以 http 或 https 开头。');
+  if (!city) return sendError(res, 400, 'missing_city', '城市不能为空。');
+  if (!country) return sendError(res, 400, 'missing_country', '国家或地区不能为空。');
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return sendError(res, 400, 'missing_coordinates', '照片坐标不能为空。');
   if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
     return sendError(res, 400, 'coordinates_out_of_range', '照片坐标超出可用范围。');
@@ -170,9 +175,9 @@ app.post('/api/photos', (req, res) => {
   const row = {
     id,
     url,
-    city: String(body.city || '').slice(0, 80) || null,
-    city_zh: String(body.city_zh || '').slice(0, 80) || null,
-    country: String(body.country || '').slice(0, 80) || null,
+    city: city.slice(0, 80),
+    city_zh: cityZh.slice(0, 80) || city.slice(0, 80),
+    country: country.slice(0, 80),
     lat,
     lng,
     description: String(body.description || '').slice(0, 500) || null,

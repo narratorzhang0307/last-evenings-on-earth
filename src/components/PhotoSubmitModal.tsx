@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { CITIES } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
 import { saveLocalUserPhoto } from '../lib/localUserPhotos';
-import { registerServerPhoto } from '../lib/photoApi';
+import { PhotoApiError, registerServerPhoto } from '../lib/photoApi';
 import type { PhotoData } from '../lib/types';
 
 interface PhotoSubmitModalProps {
@@ -43,6 +43,8 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   const [country, setCountry] = useState('');
   const [description, setDescription] = useState('');
   const [signature, setSignature] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   if (!isOpen) return null;
 
@@ -50,7 +52,13 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!selectedCity || !url.trim()) return;
+    if (isSubmitting) return;
+    if (!selectedCity || !url.trim() || !country.trim()) {
+      setSubmitError('请补全图片链接和国家或地区。');
+      return;
+    }
+    setIsSubmitting(true);
+    setSubmitError('');
     const photo: PhotoData = {
       id: `usr_${Date.now().toString(36)}`,
       lat: selectedCity.lat,
@@ -68,17 +76,25 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       source: 'unsplash',
       color: '#191713',
     };
-    let savedPhoto = photo;
     try {
-      savedPhoto = await registerServerPhoto(photo);
-    } catch {
-      saveLocalUserPhoto(photo);
+      let savedPhoto = photo;
+      try {
+        savedPhoto = await registerServerPhoto(photo);
+      } catch (error) {
+        if (error instanceof PhotoApiError && error.status < 500) throw error;
+        saveLocalUserPhoto(photo);
+      }
+      onSubmitted?.(savedPhoto);
+      onClose();
+      setUrl('');
+      setCountry('');
+      setDescription('');
+      setSignature('');
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : '投稿暂时没有成功，请稍后再试。');
+    } finally {
+      setIsSubmitting(false);
     }
-    onSubmitted?.(savedPhoto);
-    onClose();
-    setUrl('');
-    setDescription('');
-    setSignature('');
   };
 
   return (
@@ -111,7 +127,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         </label>
         <label>
           国家或地区
-          <input value={country} onChange={(event) => setCountry(event.target.value)} placeholder="可选" />
+          <input required value={country} onChange={(event) => setCountry(event.target.value)} placeholder="例如：中国" />
         </label>
         <label>
           写一句话
@@ -121,8 +137,13 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           署名
           <input value={signature} onChange={(event) => setSignature(event.target.value)} placeholder="匿名也可以" />
         </label>
-        <button className="photo-submit-save" type="submit">
-          钉到档案里
+        {submitError && (
+          <p className="photo-submit-error" role="alert">
+            {submitError}
+          </p>
+        )}
+        <button className="photo-submit-save" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? '正在钉入档案...' : '钉到档案里'}
         </button>
       </form>
     </div>

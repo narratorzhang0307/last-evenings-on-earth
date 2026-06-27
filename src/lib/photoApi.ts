@@ -2,20 +2,35 @@ import type { PhotoData } from './types';
 
 const API_BASE = import.meta.env.VITE_API_BASE || '';
 
+export class PhotoApiError extends Error {
+  status: number;
+  code?: string;
+
+  constructor(status: number, message: string, code?: string) {
+    super(message);
+    this.name = 'PhotoApiError';
+    this.status = status;
+    this.code = code;
+  }
+}
+
 async function parseJson<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const detail = await readErrorDetail(response);
-    throw new Error(detail || `请求失败（状态 ${response.status}）`);
+    throw new PhotoApiError(
+      response.status,
+      detail.message || detail.error || `请求失败（状态 ${response.status}）`,
+      detail.error,
+    );
   }
   return response.json() as Promise<T>;
 }
 
 async function readErrorDetail(response: Response) {
   try {
-    const data = (await response.clone().json()) as { message?: string; error?: string };
-    return data.message || data.error || '';
+    return (await response.clone().json()) as { message?: string; error?: string };
   } catch {
-    return response.text();
+    return { message: await response.text() };
   }
 }
 
