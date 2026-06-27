@@ -110,7 +110,14 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
 
   return (
     <div className="photo-submit-modal" role="presentation" onClick={onClose}>
-      <form className="photo-submit-card" onClick={(event) => event.stopPropagation()} onSubmit={handleSubmit}>
+      <form
+        className="photo-submit-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label="黄昏投稿表单"
+        onClick={(event) => event.stopPropagation()}
+        onSubmit={handleSubmit}
+      >
         <button className="photo-submit-close" onClick={onClose} type="button" aria-label="关闭投稿表单">
           <X size={18} />
         </button>

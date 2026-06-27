@@ -78,7 +78,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         : filteredWriters.length > 0;
 
   return (
-    <aside className="archive-drawer" aria-label="夜晚档案馆">
+    <aside className="archive-drawer" role="dialog" aria-modal="true" aria-label="夜晚档案馆">
       <header className="archive-drawer-header">
         <button className="archive-drawer-close" onClick={onClose} type="button" aria-label="关闭夜晚档案馆">
           <X size={18} />

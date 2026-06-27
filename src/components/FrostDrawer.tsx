@@ -45,7 +45,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   };
 
   return (
-    <aside className="frost-drawer" aria-label="弗洛斯特夜谈">
+    <aside className="frost-drawer" role="dialog" aria-modal="true" aria-label="弗洛斯特夜谈">
       <button className="frost-close" onClick={onClose} type="button" aria-label="关闭弗洛斯特夜谈">
         <X size={18} />
       </button>

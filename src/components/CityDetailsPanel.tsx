@@ -34,7 +34,7 @@ export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsP
   const writers = getWritersForCity(city);
 
   return (
-    <aside className="city-details" aria-label={`${city.nameNative} 城市详情`}>
+    <aside className="city-details" role="dialog" aria-modal="true" aria-label={`${city.nameNative} 城市详情`}>
       <button className="city-details-close" type="button" onClick={onClose} aria-label="关闭城市详情">
         <X size={18} strokeWidth={1.8} />
       </button>

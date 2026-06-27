@@ -14,7 +14,13 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
 
   return (
     <div className="photo-viewer" onClick={onClose} role="presentation">
-      <article className="photo-viewer-card" onClick={(event) => event.stopPropagation()}>
+      <article
+        className="photo-viewer-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label="照片查看器"
+        onClick={(event) => event.stopPropagation()}
+      >
         <button className="photo-viewer-close" onClick={onClose} type="button" aria-label="关闭照片">
           <X size={18} />
         </button>

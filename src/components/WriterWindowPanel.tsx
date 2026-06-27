@@ -22,6 +22,8 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
     <aside
       className="writer-window-panel"
       style={{ '--writer-light': writer.lantern_color } as CSSProperties}
+      role="dialog"
+      aria-modal="true"
       aria-label={`${writer.name_zh} 的夜窗`}
     >
       <button className="writer-window-close" onClick={onClose} type="button" aria-label="关闭作家夜窗">
