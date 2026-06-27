@@ -37,6 +37,12 @@ const DEFAULT_VISIBLE_LAYERS: Record<LayerKey, boolean> = {
   writers: true,
 };
 
+function warmLazyView(load: () => Promise<unknown>) {
+  void load().catch(() => {
+    // 预热失败时不打断当前页面；真正打开时会走 Suspense 的加载路径。
+  });
+}
+
 function readSavedLayers() {
   try {
     const saved = window.localStorage.getItem(LAYER_STORAGE_KEY);
@@ -67,6 +73,10 @@ export default function App() {
   const activePhotos = getPhotosForCity(activeCity, 6, allPhotos);
   const activeWriter = getWritersForCity(activeCity)[0];
   const writerStats = getWriterStats();
+  const warmArchiveDrawer = () => warmLazyView(loadArchiveDrawer);
+  const warmCityDetailsPanel = () => warmLazyView(loadCityDetailsPanel);
+  const warmFrostDrawer = () => warmLazyView(loadFrostDrawer);
+  const warmWriterWindowPanel = () => warmLazyView(loadWriterWindowPanel);
   const openCity = (city: CityData) => {
     setSelectedCity(city);
     setDetailCity(city);
@@ -124,8 +134,8 @@ export default function App() {
           <button
             className="archive-open-button"
             onClick={() => setIsArchiveOpen(true)}
-            onFocus={loadArchiveDrawer}
-            onPointerEnter={loadArchiveDrawer}
+            onFocus={warmArchiveDrawer}
+            onPointerEnter={warmArchiveDrawer}
             type="button"
           >
             <Archive size={16} />
@@ -134,8 +144,8 @@ export default function App() {
           <button
             className="archive-open-button"
             onClick={() => setIsFrostOpen(true)}
-            onFocus={loadFrostDrawer}
-            onPointerEnter={loadFrostDrawer}
+            onFocus={warmFrostDrawer}
+            onPointerEnter={warmFrostDrawer}
             type="button"
           >
             <Snowflake size={16} />
@@ -181,9 +191,9 @@ export default function App() {
               key={city.id}
               aria-label={`打开${city.nameNative}城市详情，${city.author}`}
               aria-pressed={selectedCity?.id === city.id}
-              onFocus={loadCityDetailsPanel}
+              onFocus={warmCityDetailsPanel}
               onClick={() => openCity(city)}
-              onPointerEnter={loadCityDetailsPanel}
+              onPointerEnter={warmCityDetailsPanel}
               type="button"
             >
               <span>{city.nameNative}</span>
@@ -199,7 +209,7 @@ export default function App() {
           </p>
         )}
         {activeWriter && (
-          <div onFocus={loadWriterWindowPanel} onPointerEnter={loadWriterWindowPanel}>
+          <div onFocus={warmWriterWindowPanel} onPointerEnter={warmWriterWindowPanel}>
             <WriterPreviewCard writer={activeWriter} onEnter={setSelectedWriter} />
           </div>
         )}
