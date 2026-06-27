@@ -62,7 +62,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   const [signature, setSignature] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  useEscapeKey(isOpen && !isSubmitting, onClose);
+  const requestClose = () => {
+    if (!isSubmitting) onClose();
+  };
+  useEscapeKey(isOpen && !isSubmitting, requestClose);
 
   if (!isOpen) return null;
 
@@ -131,16 +134,23 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   };
 
   return (
-    <div className="photo-submit-modal" role="presentation" onClick={onClose}>
+    <div className="photo-submit-modal" role="presentation" onClick={requestClose}>
       <form
         className="photo-submit-card"
         role="dialog"
         aria-modal="true"
         aria-label="黄昏投稿表单"
+        aria-busy={isSubmitting}
         onClick={(event) => event.stopPropagation()}
         onSubmit={handleSubmit}
       >
-        <button className="photo-submit-close" onClick={onClose} type="button" aria-label="关闭投稿表单">
+        <button
+          className="photo-submit-close"
+          onClick={requestClose}
+          type="button"
+          aria-label="关闭投稿表单"
+          disabled={isSubmitting}
+        >
           <X size={18} />
         </button>
         <p>你的黄昏</p>
