@@ -25,6 +25,9 @@ interface GlobeViewProps {
   onClickPoem?: (poem: PoemPoint) => void;
   onClickWriter?: (writer: WriterData) => void;
   photos?: PhotoData[];
+  showPhotos?: boolean;
+  showPoems?: boolean;
+  showWriters?: boolean;
   rotationSpeed?: number;
   isPaused?: boolean;
 }
@@ -47,6 +50,9 @@ export default function GlobeView({
   onClickPoem,
   onClickWriter,
   photos = PHOTOS,
+  showPhotos = true,
+  showPoems = true,
+  showWriters = true,
   rotationSpeed = 0.35,
   isPaused = false,
 }: GlobeViewProps) {
@@ -126,12 +132,12 @@ export default function GlobeView({
     () => [
       ...CONTINENTS.map((continent) => ({ ...continent, elementType: 'continent' as const })),
       ...MAJOR_CITIES.map((city) => ({ ...city, elementType: 'major-city' as const })),
-      ...photos.map((photo) => ({ ...photo, elementType: 'photo' as const })),
-      ...POEMS.map((poem) => ({ ...poem, elementType: 'poem' as const })),
-      ...WRITERS.map((writer) => ({ ...writer, elementType: 'writer' as const })),
+      ...(showPhotos ? photos.map((photo) => ({ ...photo, elementType: 'photo' as const })) : []),
+      ...(showPoems ? POEMS.map((poem) => ({ ...poem, elementType: 'poem' as const })) : []),
+      ...(showWriters ? WRITERS.map((writer) => ({ ...writer, elementType: 'writer' as const })) : []),
       ...CITIES.map((city) => ({ ...city, elementType: 'literary-city' as const })),
     ],
-    [photos],
+    [photos, showPhotos, showPoems, showWriters],
   );
 
   const globeSize = Math.min(dimensions.width * 0.78, dimensions.height * 0.78, 560);

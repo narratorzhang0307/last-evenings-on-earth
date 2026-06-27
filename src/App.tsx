@@ -26,6 +26,11 @@ export default function App() {
   const [selectedWriter, setSelectedWriter] = useState<WriterData | null>(null);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isFrostOpen, setIsFrostOpen] = useState(false);
+  const [visibleLayers, setVisibleLayers] = useState({
+    photos: true,
+    poems: true,
+    writers: true,
+  });
   const allPhotos = useAllPhotos();
   const activeCity = hoveredCity || selectedCity || CITIES[0];
   const activePhotos = getPhotosForCity(activeCity, 6, allPhotos);
@@ -34,6 +39,9 @@ export default function App() {
   const openCity = (city: CityData) => {
     setSelectedCity(city);
     setDetailCity(city);
+  };
+  const toggleLayer = (layer: keyof typeof visibleLayers) => {
+    setVisibleLayers((current) => ({ ...current, [layer]: !current[layer] }));
   };
 
   return (
@@ -46,6 +54,9 @@ export default function App() {
         onClickPoem={setSelectedPoem}
         onClickWriter={setSelectedWriter}
         photos={allPhotos}
+        showPhotos={visibleLayers.photos}
+        showPoems={visibleLayers.poems}
+        showWriters={visibleLayers.writers}
         isPaused={!!detailCity}
       />
       <section className="intro-panel" aria-label="项目状态">
@@ -76,6 +87,32 @@ export default function App() {
           <button className="archive-open-button" onClick={() => setIsFrostOpen(true)} type="button">
             <Snowflake size={16} />
             弗洛斯特
+          </button>
+        </div>
+        <div className="layer-toggles" aria-label="地球图层">
+          <button
+            className={visibleLayers.photos ? 'is-active' : ''}
+            onClick={() => toggleLayer('photos')}
+            type="button"
+            aria-pressed={visibleLayers.photos}
+          >
+            照片
+          </button>
+          <button
+            className={visibleLayers.poems ? 'is-active' : ''}
+            onClick={() => toggleLayer('poems')}
+            type="button"
+            aria-pressed={visibleLayers.poems}
+          >
+            诗歌
+          </button>
+          <button
+            className={visibleLayers.writers ? 'is-active' : ''}
+            onClick={() => toggleLayer('writers')}
+            type="button"
+            aria-pressed={visibleLayers.writers}
+          >
+            作家
           </button>
         </div>
         <div className="city-strip" aria-label="文学城市">
