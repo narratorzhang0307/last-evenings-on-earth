@@ -12,7 +12,7 @@ import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
 import { getPhotosForCity } from './lib/photoArchive';
-import { getWritersForCity } from './lib/writerArchive';
+import { getWriterStats, getWritersForCity } from './lib/writerArchive';
 import type { CityData, PhotoData, PoemPoint, WriterData } from './lib/types';
 
 export default function App() {
@@ -26,6 +26,7 @@ export default function App() {
   const activeCity = hoveredCity || selectedCity || CITIES[0];
   const activePhotos = getPhotosForCity(activeCity);
   const activeWriter = getWritersForCity(activeCity)[0];
+  const writerStats = getWriterStats();
   const openCity = (city: CityData) => {
     setSelectedCity(city);
     setDetailCity(city);
@@ -55,6 +56,10 @@ export default function App() {
           <span>
             <strong>{MAJOR_CITIES.length}</strong>
             全球光点
+          </span>
+          <span>
+            <strong>{writerStats.writerCount}</strong>
+            夜窗作家
           </span>
         </div>
         <button className="archive-open-button" onClick={() => setIsArchiveOpen(true)} type="button">
