@@ -60,6 +60,7 @@ const listPhotosStmt = db.prepare(`
   WHERE deleted_at IS NULL
   ORDER BY submitted_at DESC
 `);
+const countPhotosStmt = db.prepare('SELECT COUNT(*) AS count FROM photos WHERE deleted_at IS NULL');
 
 const insertPhotoStmt = db.prepare(`
   INSERT INTO photos (
@@ -148,7 +149,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/healthz', (_req, res) => {
-  res.json({ ok: true, service: 'last-evenings-on-earth', photos: listPhotosStmt.all().length });
+  res.json({ ok: true, service: 'last-evenings-on-earth', photos: countPhotosStmt.get().count });
 });
 
 app.get('/api/photos', (_req, res) => {
