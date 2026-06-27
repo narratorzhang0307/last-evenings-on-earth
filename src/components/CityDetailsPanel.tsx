@@ -2,11 +2,13 @@ import { X } from 'lucide-react';
 import { useEffect } from 'react';
 import SunCalc from 'suncalc';
 import { getApproxLocalTime } from '../lib/dusk';
-import type { CityData } from '../lib/types';
+import { getWritersForCity } from '../lib/writerArchive';
+import type { CityData, WriterData } from '../lib/types';
 
 interface CityDetailsPanelProps {
   city: CityData | null;
   onClose: () => void;
+  onSelectWriter?: (writer: WriterData) => void;
 }
 
 function getSunsetDistance(city: CityData, now = new Date()) {
@@ -21,7 +23,7 @@ function getSunsetDistance(city: CityData, now = new Date()) {
   return '此刻正接近日落';
 }
 
-export function CityDetailsPanel({ city, onClose }: CityDetailsPanelProps) {
+export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsPanelProps) {
   useEffect(() => {
     if (!city) return undefined;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -36,6 +38,7 @@ export function CityDetailsPanel({ city, onClose }: CityDetailsPanelProps) {
   const now = new Date();
   const localTime = `${getApproxLocalTime(now, city.lng)} LOCAL`;
   const sunsetDistance = getSunsetDistance(city, now);
+  const writers = getWritersForCity(city);
 
   return (
     <aside className="city-details" aria-label={`${city.nameNative} details`}>
@@ -69,6 +72,18 @@ export function CityDetailsPanel({ city, onClose }: CityDetailsPanelProps) {
           </blockquote>
         ))}
       </section>
+
+      {!!writers.length && (
+        <section className="city-details-writers" aria-label="nearby writers">
+          <h3>附近夜窗</h3>
+          {writers.map((writer) => (
+            <button key={writer.id} onClick={() => onSelectWriter?.(writer)} type="button">
+              <span>{writer.name_zh}</span>
+              <em>{writer.soul_intro.zh}</em>
+            </button>
+          ))}
+        </section>
+      )}
     </aside>
   );
 }

@@ -90,7 +90,14 @@ export default function App() {
           <WriterPreviewCard writer={activeWriter} onEnter={setSelectedWriter} />
         )}
       </section>
-      <CityDetailsPanel city={detailCity} onClose={() => setDetailCity(null)} />
+      <CityDetailsPanel
+        city={detailCity}
+        onClose={() => setDetailCity(null)}
+        onSelectWriter={(writer) => {
+          setSelectedWriter(writer);
+          setDetailCity(null);
+        }}
+      />
       <ArchiveDrawer
         isOpen={isArchiveOpen}
         onClose={() => setIsArchiveOpen(false)}
