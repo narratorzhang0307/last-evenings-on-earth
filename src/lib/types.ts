@@ -70,3 +70,34 @@ export interface PoemPoint {
   author: string;
   poem: string;
 }
+
+export interface WriterData {
+  id: string;
+  name_en: string;
+  name_zh: string;
+  city: string;
+  lat: number;
+  lng: number;
+  portrait: string;
+  soul_intro: {
+    zh: string;
+    en: string;
+  };
+  lantern_color: string;
+  knock_text: {
+    zh_title: string;
+    en_title: string;
+    zh_question: string;
+    en_question: string;
+  };
+  opening_lines: string[];
+  farewell_lines: string[];
+  sleeping_text: {
+    zh: string;
+    en: string;
+  };
+  closed_window_text: {
+    zh: string;
+    en: string;
+  };
+}
