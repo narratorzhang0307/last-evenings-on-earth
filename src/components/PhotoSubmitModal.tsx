@@ -80,8 +80,12 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   const submitErrorId = submitError ? 'photo-submit-error' : undefined;
   const hasUrlError = submitError.includes('图片链接') || submitError.includes('http 或 https');
   const hasCountryError = submitError.includes('国家或地区');
+  const clearSubmitError = () => {
+    if (submitError) setSubmitError('');
+  };
   const handleCityChange = (nextCityKey: string) => {
     const nextCity = cityOptions.find((city) => city.key === nextCityKey);
+    clearSubmitError();
     setCityKey(nextCityKey);
     setCountry(nextCity?.country || '');
   };
@@ -179,7 +183,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
             required
             type="url"
             value={url}
-            onChange={(event) => setUrl(event.target.value)}
+            onChange={(event) => {
+              clearSubmitError();
+              setUrl(event.target.value);
+            }}
             placeholder="https://..."
             aria-describedby={submitErrorId}
             aria-invalid={hasUrlError || undefined}
@@ -190,7 +197,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           <input
             required
             value={country}
-            onChange={(event) => setCountry(event.target.value)}
+            onChange={(event) => {
+              clearSubmitError();
+              setCountry(event.target.value);
+            }}
             placeholder="例如：中国"
             maxLength={COUNTRY_MAX_LENGTH}
             aria-describedby={submitErrorId}
