@@ -172,7 +172,9 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                     >
                       <img
                         alt={photo.alt_text || photo.city_zh || photo.city || '夜晚档案照片'}
+                        decoding="async"
                         draggable="false"
+                        loading="lazy"
                         referrerPolicy="no-referrer"
                         src={photo.url}
                       />
@@ -223,7 +225,14 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                   style={{ '--writer-light': writer.lantern_color } as CSSProperties}
                   type="button"
                 >
-                  <img alt="" draggable="false" referrerPolicy="no-referrer" src={writer.portrait} />
+                  <img
+                    alt=""
+                    decoding="async"
+                    draggable="false"
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    src={writer.portrait}
+                  />
                   <span>
                     <strong>{writer.name_zh}</strong>
                     <em>

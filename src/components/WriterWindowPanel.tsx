@@ -30,7 +30,7 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
         <X size={18} />
       </button>
       <div className="writer-window-portrait">
-        <img alt="" draggable="false" referrerPolicy="no-referrer" src={writer.portrait} />
+        <img alt="" decoding="async" draggable="false" referrerPolicy="no-referrer" src={writer.portrait} />
       </div>
       <div className="writer-window-copy">
         <p>{writer.knock_text.zh_title}</p>

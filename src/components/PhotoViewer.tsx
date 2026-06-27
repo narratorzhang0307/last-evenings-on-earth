@@ -27,6 +27,7 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
         <div className="photo-viewer-image" style={{ backgroundColor: photo.color || '#191713' }}>
           <img
             alt={photo.alt_text || photo.city_zh || photo.city || '夜晚档案照片'}
+            decoding="async"
             draggable="false"
             referrerPolicy="no-referrer"
             src={photo.original_url || photo.url}

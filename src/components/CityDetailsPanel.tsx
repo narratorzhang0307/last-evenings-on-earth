@@ -73,7 +73,9 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
               <button key={photo.id} onClick={() => onSelectPhoto?.(photo)} type="button">
                 <img
                   alt={photo.alt_text || photo.city_zh || photo.city || '城市照片'}
+                  decoding="async"
                   draggable="false"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                   src={photo.url}
                 />

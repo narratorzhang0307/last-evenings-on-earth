@@ -20,7 +20,9 @@ export function PhotoStrip({ photos, onSelectPhoto }: PhotoStripProps) {
         >
           <img
             alt={photo.alt_text || photo.city_zh || photo.city || '夜晚档案照片'}
+            decoding="async"
             draggable="false"
+            loading="lazy"
             referrerPolicy="no-referrer"
             src={photo.url}
           />

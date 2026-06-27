@@ -14,7 +14,7 @@ export function WriterPreviewCard({ writer, onEnter }: WriterPreviewCardProps) {
       style={{ '--writer-light': writer.lantern_color } as CSSProperties}
       type="button"
     >
-      <img alt="" draggable="false" referrerPolicy="no-referrer" src={writer.portrait} />
+      <img alt="" decoding="async" draggable="false" loading="lazy" referrerPolicy="no-referrer" src={writer.portrait} />
       <span>
         <strong>{writer.name_zh}</strong>
         <em>
