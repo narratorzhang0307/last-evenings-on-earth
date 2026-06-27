@@ -38,9 +38,21 @@ async function readErrorDetail(response: Response) {
   }
 }
 
+function isPhotoPayload(value: unknown): value is PhotoData {
+  if (!value || typeof value !== 'object') return false;
+  const photo = value as Partial<PhotoData>;
+  return (
+    typeof photo.id === 'string' &&
+    typeof photo.url === 'string' &&
+    typeof photo.cityId === 'string' &&
+    Number.isFinite(photo.lat) &&
+    Number.isFinite(photo.lng)
+  );
+}
+
 export async function listServerPhotos() {
   const data = await parseJson<{ photos: PhotoData[] }>(await fetch(`${API_BASE}/api/photos`));
-  return Array.isArray(data.photos) ? data.photos : [];
+  return Array.isArray(data.photos) ? data.photos.filter(isPhotoPayload) : [];
 }
 
 export async function registerServerPhoto(photo: PhotoData) {
@@ -51,7 +63,7 @@ export async function registerServerPhoto(photo: PhotoData) {
       body: JSON.stringify(photo),
     }),
   );
-  if (!data.photo || typeof data.photo.id !== 'string') {
+  if (!isPhotoPayload(data.photo)) {
     throw new PhotoApiError(502, '照片服务没有返回可保存的照片。', 'missing_photo');
   }
   return data.photo;
