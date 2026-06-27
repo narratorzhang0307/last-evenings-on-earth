@@ -10,6 +10,8 @@ interface PoemViewerProps {
 
 export function PoemViewer({ poem, onClose }: PoemViewerProps) {
   useEscapeKey(true, onClose);
+  const titleId = `poem-title-${poem.id}`;
+  const metaId = `poem-meta-${poem.id}`;
 
   return (
     <div className="poem-viewer" onClick={onClose} role="presentation">
@@ -17,16 +19,17 @@ export function PoemViewer({ poem, onClose }: PoemViewerProps) {
         className="poem-viewer-card"
         role="dialog"
         aria-modal="true"
-        aria-label="诗歌查看器"
+        aria-labelledby={titleId}
+        aria-describedby={metaId}
         onClick={(event) => event.stopPropagation()}
       >
         <button className="poem-viewer-close" onClick={onClose} type="button" aria-label="关闭诗歌">
           <X size={18} />
         </button>
-        <p className="poem-viewer-kicker">
+        <p className="poem-viewer-kicker" id={metaId}>
           {regionToCountry(poem.region)} · {poem.city}
         </p>
-        <h2>《{poem.title_zh}》</h2>
+        <h2 id={titleId}>《{poem.title_zh}》</h2>
         <p className="poem-viewer-author">{poem.author_zh}</p>
         <div className="poem-viewer-body">
           {(poem.body_zh.length ? poem.body_zh : [getPoemFirstLine(poem)]).map((line, index) => (
