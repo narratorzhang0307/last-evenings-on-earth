@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { CITIES } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
 import { saveLocalUserPhoto } from '../lib/localUserPhotos';
+import { registerServerPhoto } from '../lib/photoApi';
 import type { PhotoData } from '../lib/types';
 
 interface PhotoSubmitModalProps {
@@ -47,11 +48,11 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
 
   const selectedCity = cityOptions.find((city) => city.key === cityKey) || cityOptions[0];
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!selectedCity || !url.trim()) return;
     const photo: PhotoData = {
-      id: `user-${Date.now()}`,
+      id: `usr_${Date.now().toString(36)}`,
       lat: selectedCity.lat,
       lng: selectedCity.lng,
       url: url.trim(),
@@ -67,8 +68,13 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       source: 'unsplash',
       color: '#191713',
     };
-    saveLocalUserPhoto(photo);
-    onSubmitted?.(photo);
+    let savedPhoto = photo;
+    try {
+      savedPhoto = await registerServerPhoto(photo);
+    } catch {
+      saveLocalUserPhoto(photo);
+    }
+    onSubmitted?.(savedPhoto);
     onClose();
     setUrl('');
     setDescription('');
