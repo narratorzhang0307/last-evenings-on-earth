@@ -726,6 +726,42 @@ h1 {
   font-size: 11px;
 }
 
+.submit-photo-card {
+  display: grid;
+  gap: 8px;
+  place-items: center;
+  min-height: 136px;
+  padding: 16px 12px;
+  border: 1px dashed rgba(246, 173, 85, 0.42);
+  border-radius: 8px;
+  color: #f4eee2;
+  background: rgba(246, 173, 85, 0.06);
+  cursor: pointer;
+  text-align: center;
+}
+
+.submit-photo-card span {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 56px;
+  color: #f6ad55;
+  background: rgba(244, 238, 226, 0.08);
+  border: 1px solid rgba(244, 238, 226, 0.12);
+  border-radius: 6px;
+}
+
+.submit-photo-card strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+}
+
+.submit-photo-card em {
+  color: rgba(244, 238, 226, 0.48);
+  font-size: 11px;
+  font-style: normal;
+}
+
 .archive-poem-list {
   display: grid;
   gap: 7px;
