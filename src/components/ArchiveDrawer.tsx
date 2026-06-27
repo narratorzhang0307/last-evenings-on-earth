@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react';
-import { Images, X } from 'lucide-react';
+import { Images, Search, X } from 'lucide-react';
+import { POEMS } from '../data/poems';
 import { WRITERS } from '../data/writers';
 import { useAllPhotos } from '../lib/localUserPhotos';
 import { getPhotoStats, groupPhotosByCountry } from '../lib/photoArchive';
@@ -18,19 +19,63 @@ interface ArchiveDrawerProps {
   onSelectWriter?: (writer: WriterData) => void;
 }
 
+function textIncludesQuery(query: string, values: Array<string | number | undefined>) {
+  if (!query) return true;
+  return values.some((value) => String(value || '').toLowerCase().includes(query));
+}
+
 export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
   const [viewMode, setViewMode] = useState<'poems' | 'photos' | 'writers'>('photos');
+  const [query, setQuery] = useState('');
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const allPhotos = useAllPhotos();
   useEscapeKey(isOpen && !isSubmitOpen, onClose);
 
   if (!isOpen) return null;
 
-  const groupedPhotos = groupPhotosByCountry(allPhotos);
-  const groupedPoems = groupPoemsByCountry();
-  const stats = getPhotoStats(allPhotos);
-  const poemStats = getPoemStats();
-  const writerStats = getWriterStats();
+  const activeQuery = query.trim().toLowerCase();
+  const filteredPhotos = allPhotos.filter((photo) =>
+    textIncludesQuery(activeQuery, [
+      photo.city,
+      photo.city_zh,
+      photo.country,
+      photo.description,
+      photo.signature,
+      photo.photographer,
+      photo.query_used,
+    ]),
+  );
+  const filteredPoems = POEMS.filter((poem) =>
+    textIncludesQuery(activeQuery, [
+      poem.author_zh,
+      poem.author_en,
+      poem.title_zh,
+      poem.city,
+      poem.region,
+      poem.translator,
+      getPoemFirstLine(poem),
+    ]),
+  );
+  const filteredWriters = WRITERS.filter((writer) =>
+    textIncludesQuery(activeQuery, [
+      writer.name_zh,
+      writer.name_en,
+      writer.city,
+      writer.soul_intro.zh,
+      writer.knock_text.zh_title,
+    ]),
+  );
+  const groupedPhotos = groupPhotosByCountry(filteredPhotos);
+  const groupedPoems = groupPoemsByCountry(filteredPoems);
+  const stats = getPhotoStats(filteredPhotos);
+  const poemStats = getPoemStats(filteredPoems);
+  const writerStats = getWriterStats(filteredWriters);
+  const hasResults =
+    viewMode === 'photos'
+      ? filteredPhotos.length > 0
+      : viewMode === 'poems'
+        ? filteredPoems.length > 0
+        : filteredWriters.length > 0;
 
   return (
     <aside className="archive-drawer" aria-label="夜晚档案馆">
@@ -40,6 +85,20 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         </button>
         <p>夜晚档案</p>
         <h2>夜晚档案馆</h2>
+        <div className="archive-search" role="search">
+          <Search size={14} />
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜索城市、作者、诗句"
+            aria-label="搜索夜晚档案"
+          />
+          {query && (
+            <button onClick={() => setQuery('')} type="button" aria-label="清空搜索">
+              <X size={13} />
+            </button>
+          )}
+        </div>
         <nav className="archive-view-toggle" aria-label="档案视图">
           <button
             className={viewMode === 'photos' ? 'is-active' : ''}
@@ -63,7 +122,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
             作家
           </button>
         </nav>
-        <div>
+        <div className="archive-drawer-stats">
           <span>
             {viewMode === 'writers' ? `${writerStats.cityCount} 座城市` : `${viewMode === 'photos' ? stats.countryCount : poemStats.countryCount} 个国家`}
           </span>
@@ -87,6 +146,12 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         {viewMode === 'photos' && (
           <div className="archive-submit-entry">
             <SubmitPhotoCard onClick={() => setIsSubmitOpen(true)} />
+          </div>
+        )}
+        {!hasResults && (
+          <div className="archive-empty">
+            <strong>没有找到对应档案</strong>
+            <span>换一个城市、作者或关键词试试。</span>
           </div>
         )}
         {viewMode === 'photos' &&
@@ -147,10 +212,10 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           <section className="archive-country">
             <h3>
               <span>夜晚的人</span>
-              <em>{WRITERS.length}</em>
+              <em>{filteredWriters.length}</em>
             </h3>
             <div className="archive-writer-list">
-              {WRITERS.map((writer) => (
+              {filteredWriters.map((writer) => (
                 <button
                   className="archive-writer"
                   key={writer.id}
