@@ -136,6 +136,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
       setCountry(cityOptions[0]?.country || '');
       setDescription('');
       setSignature('');
+      setSubmitError('');
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : '投稿暂时没有成功，请稍后再试。');
     } finally {
