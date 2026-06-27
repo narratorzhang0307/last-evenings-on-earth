@@ -1,21 +1,27 @@
 import { useState } from 'react';
+import { CityDetailsPanel } from './components/CityDetailsPanel';
 import GlobeView from './components/GlobeView';
 import { CITIES } from './data/literaryCities';
 import { getDuskString } from './lib/dusk';
 import type { CityData } from './lib/types';
 
 export default function App() {
-  const [selectedCity, setSelectedCity] = useState<CityData | null>(CITIES[0]);
+  const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
+  const [detailCity, setDetailCity] = useState<CityData | null>(null);
   const [hoveredCity, setHoveredCity] = useState<CityData | null>(null);
   const activeCity = hoveredCity || selectedCity || CITIES[0];
+  const openCity = (city: CityData) => {
+    setSelectedCity(city);
+    setDetailCity(city);
+  };
 
   return (
     <main className="night-shell">
       <GlobeView
         selectedCity={selectedCity}
         onHoverCity={setHoveredCity}
-        onClickCity={setSelectedCity}
-        isPaused={!!selectedCity}
+        onClickCity={openCity}
+        isPaused={!!detailCity}
       />
       <section className="intro-panel" aria-label="project status">
         <p className="eyebrow">Last Evenings on Earth</p>
@@ -28,7 +34,7 @@ export default function App() {
             <button
               className={`city-card ${selectedCity?.id === city.id ? 'is-active' : ''}`}
               key={city.id}
-              onClick={() => setSelectedCity(city)}
+              onClick={() => openCity(city)}
               type="button"
             >
               <span>{city.nameNative}</span>
@@ -38,6 +44,7 @@ export default function App() {
         </div>
         <p className="dusk-line">{getDuskString(activeCity)}</p>
       </section>
+      <CityDetailsPanel city={detailCity} onClose={() => setDetailCity(null)} />
     </main>
   );
 }
