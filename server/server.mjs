@@ -142,6 +142,13 @@ const app = express();
 app.set('trust proxy', true);
 app.use(express.json({ limit: '128kb' }));
 
+app.use((error, _req, res, next) => {
+  if (error instanceof SyntaxError && 'body' in error) {
+    return sendError(res, 400, 'invalid_json', '请求内容不是有效的 JSON。');
+  }
+  return next(error);
+});
+
 app.use((req, res, next) => {
   res.set('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
