@@ -913,6 +913,11 @@ h1 {
   cursor: pointer;
 }
 
+.photo-submit-close:disabled {
+  opacity: 0.42;
+  cursor: wait;
+}
+
 .photo-submit-card > p {
   margin: 0;
   color: rgba(25, 23, 19, 0.44);
