@@ -1,6 +1,7 @@
 import type { PhotoData } from './types';
 
-const API_BASE = import.meta.env.VITE_API_BASE || '';
+const API_BASE = import.meta.env.VITE_API_BASE?.trim() || '';
+const HAS_CONFIGURED_API_BASE = API_BASE.length > 0;
 const SERVER_PHOTO_LIMIT = 200;
 const ERROR_MESSAGE_MAX_LENGTH = 180;
 
@@ -84,6 +85,7 @@ function isPhotoPayload(value: unknown): value is PhotoData {
 }
 
 export async function listServerPhotos() {
+  if (!HAS_CONFIGURED_API_BASE) return [];
   const data = await parseJson<{ photos: PhotoData[] }>(
     await fetch(`${API_BASE}/api/photos?limit=${SERVER_PHOTO_LIMIT}`, {
       headers: { Accept: 'application/json' },
@@ -93,6 +95,9 @@ export async function listServerPhotos() {
 }
 
 export async function registerServerPhoto(photo: PhotoData) {
+  if (!HAS_CONFIGURED_API_BASE) {
+    throw new PhotoApiError(503, '照片服务未配置，已使用本机保存。', 'api_base_missing');
+  }
   const data = await parseJson<{ ok: boolean; photo: PhotoData }>(
     await fetch(`${API_BASE}/api/photos`, {
       method: 'POST',
