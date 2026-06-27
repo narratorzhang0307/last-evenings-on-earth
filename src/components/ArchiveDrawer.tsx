@@ -205,7 +205,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
                 : `${writerStats.writerCount} 位作家`}
           </span>
         </div>
-        <p className="archive-result-status" id={resultStatusId} aria-live="polite">
+        <p className="archive-result-status" id={resultStatusId} role="status" aria-live="polite" aria-atomic="true">
           {activeQueryLabel}，当前显示 {resultCountLabel}
         </p>
       </header>
