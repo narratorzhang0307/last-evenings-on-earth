@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview --host=127.0.0.1",
     "lint": "tsc --noEmit",
+    "repo:guard": "node scripts/check-repository-boundaries.mjs",
     "server:check": "npm --prefix server run check",
     "server:smoke": "npm --prefix server run smoke",
     "check": "npm run lint && npm run build && npm run server:check && npm run server:smoke"
