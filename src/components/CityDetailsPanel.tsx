@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import SunCalc from 'suncalc';
 import { getApproxLocalTime } from '../lib/dusk';
@@ -29,7 +30,12 @@ function getSunsetDistance(city: CityData, now = new Date()) {
 }
 
 export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, onSelectPoem, onSelectWriter }: CityDetailsPanelProps) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   useEscapeKey(!!city, onClose);
+
+  useEffect(() => {
+    if (city) closeButtonRef.current?.focus();
+  }, [city]);
 
   if (!city) return null;
 
@@ -42,7 +48,7 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
 
   return (
     <aside className="city-details" role="dialog" aria-modal="true" aria-label={`${city.nameNative} 城市详情`}>
-      <button className="city-details-close" type="button" onClick={onClose} aria-label="关闭城市详情">
+      <button ref={closeButtonRef} className="city-details-close" type="button" onClick={onClose} aria-label="关闭城市详情">
         <X size={18} strokeWidth={1.8} />
       </button>
 
