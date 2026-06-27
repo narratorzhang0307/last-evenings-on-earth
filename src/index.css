@@ -333,6 +333,146 @@ h1 {
   text-decoration: none;
 }
 
+.archive-drawer {
+  position: fixed;
+  z-index: 7;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(440px, 100vw);
+  overflow-y: auto;
+  color: #f4eee2;
+  background: rgba(8, 9, 8, 0.96);
+  border-left: 1px solid rgba(244, 238, 226, 0.12);
+  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.56);
+}
+
+.archive-drawer-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  padding: 42px 28px 22px;
+  background: rgba(8, 9, 8, 0.94);
+  border-bottom: 1px solid rgba(244, 238, 226, 0.1);
+  backdrop-filter: blur(18px);
+}
+
+.archive-drawer-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(244, 238, 226, 0.14);
+  border-radius: 999px;
+  color: #f4eee2;
+  background: transparent;
+  cursor: pointer;
+}
+
+.archive-drawer-header p {
+  margin: 0;
+  color: #f6ad55;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.archive-drawer-header h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.archive-drawer-header div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.archive-drawer-header span {
+  padding: 6px 8px;
+  border: 1px solid rgba(244, 238, 226, 0.1);
+  border-radius: 999px;
+  color: rgba(244, 238, 226, 0.66);
+  font-size: 11px;
+}
+
+.archive-drawer-body {
+  display: grid;
+  gap: 24px;
+  padding: 22px 18px 34px;
+}
+
+.archive-country h3 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(244, 238, 226, 0.1);
+  color: rgba(244, 238, 226, 0.72);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.archive-country em {
+  color: rgba(244, 238, 226, 0.38);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.archive-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.archive-photo {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(244, 238, 226, 0.08);
+  border-radius: 6px;
+  background: #191713;
+  cursor: pointer;
+}
+
+.archive-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.68;
+  transition:
+    opacity 180ms ease,
+    transform 280ms ease;
+}
+
+.archive-photo:hover img {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.archive-photo span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 24px 7px 7px;
+  color: #f4eee2;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.86));
+  font-size: 11px;
+}
+
 .city-details {
   position: fixed;
   z-index: 5;
