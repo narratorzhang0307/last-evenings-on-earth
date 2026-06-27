@@ -11,8 +11,7 @@ export function SubmitPhotoCard({ onClick }: SubmitPhotoCardProps) {
         <Plus size={22} />
       </span>
       <strong>留下你的黄昏</strong>
-      <em>免登录 · 先保存到本地</em>
+      <em>免登录 · 服务端优先</em>
     </button>
   );
 }
-
