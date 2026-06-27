@@ -143,16 +143,6 @@ app.get('/api/photos', (_req, res) => {
 });
 
 app.post('/api/photos', (req, res) => {
-  const quota = consumeSubmitQuota(getClientIp(req));
-  res.set('X-RateLimit-Limit', String(SUBMIT_LIMIT));
-  res.set('X-RateLimit-Remaining', String(quota.remaining));
-  res.set('X-RateLimit-Reset', String(quota.resetAt));
-  if (!quota.allowed) {
-    return sendError(res, 429, 'rate_limit_exceeded', '今天的投稿次数已经用完，请稍后再试。', {
-      resetAt: quota.resetAt,
-    });
-  }
-
   const body = req.body || {};
   const id = String(body.id || `usr_${Date.now().toString(36)}`).trim();
   const url = String(body.url || '').trim();
@@ -169,6 +159,16 @@ app.post('/api/photos', (req, res) => {
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return sendError(res, 400, 'missing_coordinates', '照片坐标不能为空。');
   if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
     return sendError(res, 400, 'coordinates_out_of_range', '照片坐标超出可用范围。');
+  }
+
+  const quota = consumeSubmitQuota(getClientIp(req));
+  res.set('X-RateLimit-Limit', String(SUBMIT_LIMIT));
+  res.set('X-RateLimit-Remaining', String(quota.remaining));
+  res.set('X-RateLimit-Reset', String(quota.resetAt));
+  if (!quota.allowed) {
+    return sendError(res, 429, 'rate_limit_exceeded', '今天的投稿次数已经用完，请稍后再试。', {
+      resetAt: quota.resetAt,
+    });
   }
 
   const now = Date.now();
