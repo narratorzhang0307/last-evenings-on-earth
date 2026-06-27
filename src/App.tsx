@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CityDetailsPanel } from './components/CityDetailsPanel';
 import GlobeView from './components/GlobeView';
 import { PhotoStrip } from './components/PhotoStrip';
+import { PhotoViewer } from './components/PhotoViewer';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
@@ -66,6 +67,9 @@ export default function App() {
         )}
       </section>
       <CityDetailsPanel city={detailCity} onClose={() => setDetailCity(null)} />
+      {selectedPhoto && (
+        <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
+      )}
     </main>
   );
 }
