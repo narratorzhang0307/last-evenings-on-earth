@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CityDetailsPanel } from './components/CityDetailsPanel';
 import GlobeView from './components/GlobeView';
 import { CITIES } from './data/literaryCities';
+import { MAJOR_CITIES } from './data/majorCities';
 import { getDuskString } from './lib/dusk';
 import type { CityData } from './lib/types';
 
@@ -29,6 +30,16 @@ export default function App() {
         <p className="summary">
           City light, dusk logic, writers, poems, and photo archives are being rebuilt without the music layer.
         </p>
+        <div className="archive-counts" aria-label="archive counts">
+          <span>
+            <strong>{CITIES.length}</strong>
+            文学城市
+          </span>
+          <span>
+            <strong>{MAJOR_CITIES.length}</strong>
+            全球光点
+          </span>
+        </div>
         <div className="city-strip" aria-label="literary cities">
           {CITIES.map((city) => (
             <button

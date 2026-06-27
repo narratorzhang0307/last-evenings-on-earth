@@ -82,6 +82,33 @@ h1 {
   line-height: 1.7;
 }
 
+.archive-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.archive-counts span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid rgba(244, 238, 226, 0.14);
+  border-radius: 999px;
+  color: rgba(244, 238, 226, 0.66);
+  background: rgba(8, 9, 8, 0.36);
+  font-size: 12px;
+}
+
+.archive-counts strong {
+  color: #f6ad55;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .city-strip {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
