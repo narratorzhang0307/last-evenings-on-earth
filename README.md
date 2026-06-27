@@ -117,7 +117,13 @@ npm run build
 服务端语法检查：
 
 ```bash
-node --check server/server.mjs
+npm run server:check
+```
+
+完整检查：
+
+```bash
+npm run check
 ```
 
 ## 迭代原则
