@@ -686,6 +686,11 @@ h1 {
   gap: 8px;
 }
 
+.archive-submit-entry {
+  display: grid;
+  margin-bottom: -4px;
+}
+
 .archive-photo {
   position: relative;
   aspect-ratio: 1;

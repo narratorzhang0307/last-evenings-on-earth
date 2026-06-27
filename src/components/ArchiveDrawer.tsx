@@ -6,6 +6,8 @@ import { getPhotoStats, groupPhotosByCountry } from '../lib/photoArchive';
 import { getPoemFirstLine, getPoemStats, groupPoemsByCountry } from '../lib/poemArchive';
 import { getWriterStats } from '../lib/writerArchive';
 import type { PhotoData, PoemPoint, WriterData } from '../lib/types';
+import { PhotoSubmitModal } from './PhotoSubmitModal';
+import { SubmitPhotoCard } from './SubmitPhotoCard';
 
 interface ArchiveDrawerProps {
   isOpen: boolean;
@@ -17,6 +19,7 @@ interface ArchiveDrawerProps {
 
 export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
   const [viewMode, setViewMode] = useState<'poems' | 'photos' | 'writers'>('photos');
+  const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const allPhotos = useAllPhotos();
 
   if (!isOpen) return null;
@@ -79,6 +82,11 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         </div>
       </header>
       <div className="archive-drawer-body">
+        {viewMode === 'photos' && (
+          <div className="archive-submit-entry">
+            <SubmitPhotoCard onClick={() => setIsSubmitOpen(true)} />
+          </div>
+        )}
         {viewMode === 'photos' &&
           Object.entries(groupedPhotos).map(([country, photos]) => (
               <section className="archive-country" key={country}>
@@ -161,6 +169,14 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
           </section>
         )}
       </div>
+      <PhotoSubmitModal
+        isOpen={isSubmitOpen}
+        onClose={() => setIsSubmitOpen(false)}
+        onSubmitted={(photo) => {
+          setViewMode('photos');
+          onSelectPhoto(photo);
+        }}
+      />
     </aside>
   );
 }
