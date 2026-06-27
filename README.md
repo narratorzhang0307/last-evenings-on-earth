@@ -120,6 +120,12 @@ npm run build
 npm run server:check
 ```
 
+照片服务接口冒烟验收：
+
+```bash
+npm run server:smoke
+```
+
 完整检查：
 
 ```bash

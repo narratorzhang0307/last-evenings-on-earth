@@ -123,5 +123,11 @@ npm run check
 从仓库根目录检查：
 
 ```bash
-node --check server/server.mjs
+npm run server:check
+```
+
+从仓库根目录启动临时服务并跑接口冒烟验收：
+
+```bash
+npm run server:smoke
 ```
