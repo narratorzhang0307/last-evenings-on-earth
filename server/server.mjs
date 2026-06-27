@@ -243,6 +243,10 @@ app.delete('/api/photos/:id', (req, res) => {
   res.json({ ok: true, affected: result.changes });
 });
 
+app.use('/api', (_req, res) => {
+  sendError(res, 404, 'api_not_found', '没有找到对应的照片服务接口。');
+});
+
 app.listen(PORT, HOST, () => {
   console.log(`[server] listening on http://${HOST}:${PORT}`);
 });
