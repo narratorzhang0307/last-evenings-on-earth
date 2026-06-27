@@ -156,6 +156,7 @@ app.use((req, res, next) => {
   res.set('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Accept, Content-Type');
+  res.set('Access-Control-Expose-Headers', 'X-Photo-Limit, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset');
   res.set('Access-Control-Max-Age', '600');
   if (req.method === 'OPTIONS') return res.status(204).end();
   return next();

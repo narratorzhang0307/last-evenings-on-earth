@@ -128,6 +128,10 @@ async function run() {
     const emptyList = await requestJson(baseUrl, '/api/photos?limit=999');
     assert(emptyList.response.status === 200, '照片列表应返回 200');
     assert(emptyList.response.headers.get('x-photo-limit') === '200', '照片列表应把上限压到 200');
+    assert(
+      String(emptyList.response.headers.get('access-control-expose-headers')).includes('X-Photo-Limit'),
+      '跨域响应应暴露照片列表上限响应头',
+    );
     assert(Array.isArray(emptyList.json?.photos), '照片列表应返回 photos 数组');
     assert(emptyList.json.photos.length === 0, '临时数据库的照片列表应为空');
 
@@ -176,6 +180,10 @@ async function run() {
     assert(created.response.status === 201, '有效照片应返回 201');
     assert(created.json?.photo?.id === photo.id, '注册响应应返回照片编号');
     assert(created.response.headers.get('x-ratelimit-remaining') === '0', '首张照片后剩余额度应为 0');
+    assert(
+      String(created.response.headers.get('access-control-expose-headers')).includes('X-RateLimit-Remaining'),
+      '跨域响应应暴露剩余投稿额度响应头',
+    );
 
     const duplicate = await requestJson(baseUrl, '/api/photos', {
       method: 'POST',
