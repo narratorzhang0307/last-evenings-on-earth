@@ -1,6 +1,7 @@
 import { FormEvent, useMemo, useState } from 'react';
 import { Send, X } from 'lucide-react';
 import { answerAsFrost } from '../lib/frostBrain';
+import { useEscapeKey } from '../lib/useEscapeKey';
 
 interface FrostDrawerProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
     },
   ]);
   const canSend = useMemo(() => input.trim().length > 0, [input]);
+  useEscapeKey(isOpen, onClose);
 
   if (!isOpen) return null;
 

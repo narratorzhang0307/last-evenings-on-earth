@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react';
 import { X } from 'lucide-react';
+import { useEscapeKey } from '../lib/useEscapeKey';
 import type { WriterData } from '../lib/types';
 
 interface WriterWindowPanelProps {
@@ -10,6 +11,7 @@ interface WriterWindowPanelProps {
 export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
   const [lineIndex, setLineIndex] = useState(0);
   const [isLeaving, setIsLeaving] = useState(false);
+  useEscapeKey(true, onClose);
   const lines = writer.opening_lines.length ? writer.opening_lines : [writer.knock_text.zh_title];
   const farewellLines = writer.farewell_lines.length ? writer.farewell_lines : [writer.closed_window_text.zh];
   const activeLine = isLeaving

@@ -5,6 +5,7 @@ import { useAllPhotos } from '../lib/localUserPhotos';
 import { getPhotoStats, groupPhotosByCountry } from '../lib/photoArchive';
 import { getPoemFirstLine, getPoemStats, groupPoemsByCountry } from '../lib/poemArchive';
 import { getWriterStats } from '../lib/writerArchive';
+import { useEscapeKey } from '../lib/useEscapeKey';
 import type { PhotoData, PoemPoint, WriterData } from '../lib/types';
 import { PhotoSubmitModal } from './PhotoSubmitModal';
 import { SubmitPhotoCard } from './SubmitPhotoCard';
@@ -21,6 +22,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const [viewMode, setViewMode] = useState<'poems' | 'photos' | 'writers'>('photos');
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const allPhotos = useAllPhotos();
+  useEscapeKey(isOpen && !isSubmitOpen, onClose);
 
   if (!isOpen) return null;
 

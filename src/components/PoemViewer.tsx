@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import { getPoemFirstLine, regionToCountry } from '../lib/poemArchive';
+import { useEscapeKey } from '../lib/useEscapeKey';
 import type { PoemPoint } from '../lib/types';
 
 interface PoemViewerProps {
@@ -8,6 +9,8 @@ interface PoemViewerProps {
 }
 
 export function PoemViewer({ poem, onClose }: PoemViewerProps) {
+  useEscapeKey(true, onClose);
+
   return (
     <div className="poem-viewer" onClick={onClose} role="presentation">
       <article className="poem-viewer-card" onClick={(event) => event.stopPropagation()}>

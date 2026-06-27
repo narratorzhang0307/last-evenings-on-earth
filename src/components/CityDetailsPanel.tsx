@@ -1,8 +1,8 @@
 import { X } from 'lucide-react';
-import { useEffect } from 'react';
 import SunCalc from 'suncalc';
 import { getApproxLocalTime } from '../lib/dusk';
 import { getWritersForCity } from '../lib/writerArchive';
+import { useEscapeKey } from '../lib/useEscapeKey';
 import type { CityData, WriterData } from '../lib/types';
 
 interface CityDetailsPanelProps {
@@ -24,14 +24,7 @@ function getSunsetDistance(city: CityData, now = new Date()) {
 }
 
 export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsPanelProps) {
-  useEffect(() => {
-    if (!city) return undefined;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [city, onClose]);
+  useEscapeKey(!!city, onClose);
 
   if (!city) return null;
 

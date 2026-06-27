@@ -1,4 +1,5 @@
 import { ExternalLink, X } from 'lucide-react';
+import { useEscapeKey } from '../lib/useEscapeKey';
 import type { PhotoData } from '../lib/types';
 
 interface PhotoViewerProps {
@@ -9,6 +10,7 @@ interface PhotoViewerProps {
 export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
   const sourceLabel = photo.source === 'pexels' ? 'Pexels' : 'Unsplash';
   const sourceUrl = photo.unsplash_url || photo.photographer_url;
+  useEscapeKey(true, onClose);
 
   return (
     <div className="photo-viewer" onClick={onClose} role="presentation">

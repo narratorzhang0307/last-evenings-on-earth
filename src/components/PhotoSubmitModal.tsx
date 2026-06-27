@@ -4,6 +4,7 @@ import { CITIES } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
 import { saveLocalUserPhoto } from '../lib/localUserPhotos';
 import { PhotoApiError, registerServerPhoto } from '../lib/photoApi';
+import { useEscapeKey } from '../lib/useEscapeKey';
 import type { PhotoData } from '../lib/types';
 
 interface PhotoSubmitModalProps {
@@ -45,6 +46,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   const [signature, setSignature] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  useEscapeKey(isOpen && !isSubmitting, onClose);
 
   if (!isOpen) return null;
 
