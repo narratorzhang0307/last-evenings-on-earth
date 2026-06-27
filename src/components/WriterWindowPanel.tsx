@@ -9,8 +9,12 @@ interface WriterWindowPanelProps {
 
 export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
   const [lineIndex, setLineIndex] = useState(0);
+  const [isLeaving, setIsLeaving] = useState(false);
   const lines = writer.opening_lines.length ? writer.opening_lines : [writer.knock_text.zh_title];
-  const activeLine = lines[lineIndex % lines.length];
+  const farewellLines = writer.farewell_lines.length ? writer.farewell_lines : [writer.closed_window_text.zh];
+  const activeLine = isLeaving
+    ? farewellLines[lineIndex % farewellLines.length]
+    : lines[lineIndex % lines.length];
 
   return (
     <aside
@@ -31,13 +35,31 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
           {writer.name_en} · {writer.city}
         </span>
         <blockquote>{activeLine}</blockquote>
-        <button
-          className="writer-window-knock"
-          onClick={() => setLineIndex((current) => current + 1)}
-          type="button"
-        >
-          再敲一次
-        </button>
+        <div className="writer-window-actions">
+          {!isLeaving && (
+            <button
+              className="writer-window-knock"
+              onClick={() => setLineIndex((current) => current + 1)}
+              type="button"
+            >
+              再敲一次
+            </button>
+          )}
+          <button
+            className="writer-window-knock"
+            onClick={() => {
+              if (isLeaving) {
+                onClose();
+                return;
+              }
+              setIsLeaving(true);
+              setLineIndex(0);
+            }}
+            type="button"
+          >
+            {isLeaving ? '关窗' : '离开'}
+          </button>
+        </div>
         <small>{writer.soul_intro.zh}</small>
       </div>
     </aside>
