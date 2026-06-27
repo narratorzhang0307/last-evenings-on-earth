@@ -43,6 +43,7 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
           {!isLeaving && (
             <button
               className="writer-window-knock"
+              aria-label={`再敲一次${writer.name_zh}的夜窗`}
               onClick={() => setLineIndex((current) => current + 1)}
               type="button"
             >
@@ -51,6 +52,7 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
           )}
           <button
             className="writer-window-knock"
+            aria-label={isLeaving ? `关闭${writer.name_zh}的夜窗` : `离开${writer.name_zh}的夜窗`}
             onClick={() => {
               if (isLeaving) {
                 onClose();
