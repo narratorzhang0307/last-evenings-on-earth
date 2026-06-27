@@ -117,6 +117,10 @@ function rowToPhoto(row) {
   };
 }
 
+function sendError(res, status, error, message, extra = {}) {
+  return res.status(status).json({ error, message, ...extra });
+}
+
 const app = express();
 app.set('trust proxy', true);
 app.use(express.json({ limit: '128kb' }));
@@ -143,7 +147,11 @@ app.post('/api/photos', (req, res) => {
   res.set('X-RateLimit-Limit', String(SUBMIT_LIMIT));
   res.set('X-RateLimit-Remaining', String(quota.remaining));
   res.set('X-RateLimit-Reset', String(quota.resetAt));
-  if (!quota.allowed) return res.status(429).json({ error: 'rate_limit_exceeded', resetAt: quota.resetAt });
+  if (!quota.allowed) {
+    return sendError(res, 429, 'rate_limit_exceeded', '今天的投稿次数已经用完，请稍后再试。', {
+      resetAt: quota.resetAt,
+    });
+  }
 
   const body = req.body || {};
   const id = String(body.id || `usr_${Date.now().toString(36)}`).trim();
@@ -151,10 +159,12 @@ app.post('/api/photos', (req, res) => {
   const lat = Number(body.lat);
   const lng = Number(body.lng);
 
-  if (!/^usr_[a-z0-9_-]+$/i.test(id)) return res.status(400).json({ error: 'invalid id' });
-  if (!/^https?:\/\//i.test(url)) return res.status(400).json({ error: 'url must be http(s)' });
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return res.status(400).json({ error: 'lat/lng required' });
-  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return res.status(400).json({ error: 'lat/lng out of range' });
+  if (!/^usr_[a-z0-9_-]+$/i.test(id)) return sendError(res, 400, 'invalid_id', '照片编号格式不正确。');
+  if (!/^https?:\/\//i.test(url)) return sendError(res, 400, 'invalid_url', '照片链接需要以 http 或 https 开头。');
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return sendError(res, 400, 'missing_coordinates', '照片坐标不能为空。');
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+    return sendError(res, 400, 'coordinates_out_of_range', '照片坐标超出可用范围。');
+  }
 
   const now = Date.now();
   const row = {
@@ -178,15 +188,15 @@ app.post('/api/photos', (req, res) => {
     insertPhotoStmt.run(row);
     return res.status(201).json({ ok: true, photo: rowToPhoto(row) });
   } catch (error) {
-    if (String(error).includes('UNIQUE')) return res.status(409).json({ error: 'duplicate id' });
+    if (String(error).includes('UNIQUE')) return sendError(res, 409, 'duplicate_id', '这张照片已经登记过。');
     console.error('[photos] register failed', error);
-    return res.status(500).json({ error: 'register failed' });
+    return sendError(res, 500, 'register_failed', '照片登记失败，请稍后再试。');
   }
 });
 
 app.delete('/api/photos/:id', (req, res) => {
   const id = String(req.params.id || '').trim();
-  if (!/^usr_[a-z0-9_-]+$/i.test(id)) return res.status(400).json({ error: 'invalid id' });
+  if (!/^usr_[a-z0-9_-]+$/i.test(id)) return sendError(res, 400, 'invalid_id', '照片编号格式不正确。');
   const result = softDeletePhotoStmt.run(Date.now(), id);
   res.json({ ok: true, affected: result.changes });
 });

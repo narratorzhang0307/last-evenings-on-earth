@@ -4,10 +4,19 @@ const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 async function parseJson<T>(response: Response): Promise<T> {
   if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(detail || `HTTP ${response.status}`);
+    const detail = await readErrorDetail(response);
+    throw new Error(detail || `请求失败（状态 ${response.status}）`);
   }
   return response.json() as Promise<T>;
+}
+
+async function readErrorDetail(response: Response) {
+  try {
+    const data = (await response.clone().json()) as { message?: string; error?: string };
+    return data.message || data.error || '';
+  } catch {
+    return response.text();
+  }
 }
 
 export async function listServerPhotos() {
@@ -25,4 +34,3 @@ export async function registerServerPhoto(photo: PhotoData) {
   );
   return data.photo;
 }
-
