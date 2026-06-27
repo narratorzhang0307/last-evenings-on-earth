@@ -62,7 +62,11 @@ export default function App() {
     setDetailCity(city);
   };
   useEffect(() => {
-    window.localStorage.setItem(LAYER_STORAGE_KEY, JSON.stringify(visibleLayers));
+    try {
+      window.localStorage.setItem(LAYER_STORAGE_KEY, JSON.stringify(visibleLayers));
+    } catch {
+      // 图层状态只是体验偏好，写入失败时保持当前页面状态即可。
+    }
   }, [visibleLayers]);
 
   const toggleLayer = (layer: LayerKey) => {
