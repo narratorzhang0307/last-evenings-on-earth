@@ -263,6 +263,90 @@ h1 {
   font-size: 12px;
 }
 
+.writer-preview-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 104px;
+  margin-top: 18px;
+  padding: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--writer-light) 38%, transparent);
+  border-radius: 8px;
+  color: #f4eee2;
+  background: rgba(8, 9, 8, 0.58);
+  cursor: pointer;
+  text-align: left;
+}
+
+.writer-preview-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--writer-light);
+}
+
+.writer-preview-card img {
+  width: 70px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  filter: grayscale(0.2) contrast(0.95);
+}
+
+.writer-preview-card span,
+.writer-preview-card p,
+.writer-preview-card small {
+  position: relative;
+  z-index: 1;
+}
+
+.writer-preview-card span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.writer-preview-card strong,
+.writer-preview-card em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.writer-preview-card strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+}
+
+.writer-preview-card em {
+  color: rgba(244, 238, 226, 0.48);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.writer-preview-card p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: color-mix(in srgb, var(--writer-light) 78%, #f4eee2);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.writer-preview-card small {
+  grid-column: 1 / -1;
+  justify-self: end;
+  color: rgba(244, 238, 226, 0.56);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .photo-viewer {
   position: fixed;
   inset: 0;
