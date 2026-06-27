@@ -115,6 +115,7 @@ export default function App() {
             onClick={() => toggleLayer('photos')}
             type="button"
             aria-pressed={visibleLayers.photos}
+            aria-label={`照片图层，${allPhotos.length} 个点位`}
           >
             <span>照片</span>
             <strong>{allPhotos.length}</strong>
@@ -124,6 +125,7 @@ export default function App() {
             onClick={() => toggleLayer('poems')}
             type="button"
             aria-pressed={visibleLayers.poems}
+            aria-label={`诗歌图层，${POEMS.length} 个点位`}
           >
             <span>诗歌</span>
             <strong>{POEMS.length}</strong>
@@ -133,6 +135,7 @@ export default function App() {
             onClick={() => toggleLayer('writers')}
             type="button"
             aria-pressed={visibleLayers.writers}
+            aria-label={`作家图层，${writerStats.writerCount} 个点位`}
           >
             <span>作家</span>
             <strong>{writerStats.writerCount}</strong>
