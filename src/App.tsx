@@ -156,6 +156,7 @@ export default function App() {
               className={`city-card ${selectedCity?.id === city.id ? 'is-active' : ''}`}
               key={city.id}
               aria-label={`打开${city.nameNative}城市详情，${city.author}`}
+              aria-pressed={selectedCity?.id === city.id}
               onClick={() => openCity(city)}
               type="button"
             >
