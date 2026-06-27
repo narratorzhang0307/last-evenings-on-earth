@@ -211,7 +211,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           写一句话
           <textarea
             value={description}
-            onChange={(event) => setDescription(event.target.value)}
+            onChange={(event) => {
+              clearSubmitError();
+              setDescription(event.target.value);
+            }}
             rows={3}
             maxLength={DESCRIPTION_MAX_LENGTH}
           />
@@ -220,7 +223,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           署名
           <input
             value={signature}
-            onChange={(event) => setSignature(event.target.value)}
+            onChange={(event) => {
+              clearSubmitError();
+              setSignature(event.target.value);
+            }}
             placeholder="匿名也可以"
             maxLength={SIGNATURE_MAX_LENGTH}
           />
