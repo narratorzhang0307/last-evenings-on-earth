@@ -70,6 +70,7 @@ const insertPhotoStmt = db.prepare(`
 `);
 
 const softDeletePhotoStmt = db.prepare('UPDATE photos SET deleted_at = ? WHERE id = ? AND deleted_at IS NULL');
+const selectPhotoIdStmt = db.prepare('SELECT id FROM photos WHERE id = ?');
 const selectRateStmt = db.prepare('SELECT count, window_start FROM rate_limits WHERE ip = ?');
 const insertRateStmt = db.prepare('INSERT INTO rate_limits (ip, count, window_start, last_hit) VALUES (?, ?, ?, ?)');
 const updateRateStmt = db.prepare('UPDATE rate_limits SET count = ?, window_start = ?, last_hit = ? WHERE ip = ?');
@@ -173,6 +174,7 @@ app.post('/api/photos', (req, res) => {
   if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
     return sendError(res, 400, 'coordinates_out_of_range', '照片坐标超出可用范围。');
   }
+  if (selectPhotoIdStmt.get(id)) return sendError(res, 409, 'duplicate_id', '这张照片已经登记过。');
 
   const quota = consumeSubmitQuota(getClientIp(req));
   res.set('X-RateLimit-Limit', String(SUBMIT_LIMIT));
