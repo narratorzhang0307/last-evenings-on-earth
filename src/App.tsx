@@ -11,6 +11,7 @@ import { WriterPreviewCard } from './components/WriterPreviewCard';
 import { WriterWindowPanel } from './components/WriterWindowPanel';
 import { CITIES } from './data/literaryCities';
 import { MAJOR_CITIES } from './data/majorCities';
+import { POEMS } from './data/poems';
 import { getDuskString } from './lib/dusk';
 import { useAllPhotos } from './lib/localUserPhotos';
 import { getPhotosForCity } from './lib/photoArchive';
@@ -115,7 +116,8 @@ export default function App() {
             type="button"
             aria-pressed={visibleLayers.photos}
           >
-            照片
+            <span>照片</span>
+            <strong>{allPhotos.length}</strong>
           </button>
           <button
             className={visibleLayers.poems ? 'is-active' : ''}
@@ -123,7 +125,8 @@ export default function App() {
             type="button"
             aria-pressed={visibleLayers.poems}
           >
-            诗歌
+            <span>诗歌</span>
+            <strong>{POEMS.length}</strong>
           </button>
           <button
             className={visibleLayers.writers ? 'is-active' : ''}
@@ -131,7 +134,8 @@ export default function App() {
             type="button"
             aria-pressed={visibleLayers.writers}
           >
-            作家
+            <span>作家</span>
+            <strong>{writerStats.writerCount}</strong>
           </button>
         </div>
         <div className="city-strip" aria-label="文学城市">
