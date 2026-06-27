@@ -66,6 +66,7 @@ export function refreshServerUserPhotos() {
       })
       .catch(() => {
         serverPhotos = [];
+        emitPhotosUpdated();
       })
       .finally(() => {
         pendingServerRefresh = null;
@@ -81,10 +82,14 @@ export function rememberServerUserPhoto(photo: PhotoData) {
 
 export function useAllPhotos() {
   const [userPhotos, setUserPhotos] = useState<PhotoData[]>(() => readStoredPhotos());
+  const [photosRevision, setPhotosRevision] = useState(0);
 
   useEffect(() => {
     refreshServerUserPhotos();
-    return subscribeLocalUserPhotos(() => setUserPhotos(readStoredPhotos()));
+    return subscribeLocalUserPhotos(() => {
+      setUserPhotos(readStoredPhotos());
+      setPhotosRevision((revision) => revision + 1);
+    });
   }, []);
 
   return useMemo(() => {
@@ -94,5 +99,5 @@ export function useAllPhotos() {
       seen.add(photo.id);
       return true;
     });
-  }, [userPhotos]);
+  }, [photosRevision, userPhotos]);
 }
