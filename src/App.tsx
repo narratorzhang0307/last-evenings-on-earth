@@ -168,6 +168,11 @@ export default function App() {
       <CityDetailsPanel
         city={detailCity}
         onClose={() => setDetailCity(null)}
+        photos={allPhotos}
+        onSelectPhoto={(photo) => {
+          setSelectedPhoto(photo);
+          setDetailCity(null);
+        }}
         onSelectWriter={(writer) => {
           setSelectedWriter(writer);
           setDetailCity(null);

@@ -1385,6 +1385,50 @@ h1 {
   letter-spacing: 0.08em;
 }
 
+.city-details-photos {
+  display: grid;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.city-details-photos h3 {
+  margin: 0;
+  color: rgba(25, 23, 19, 0.46);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.city-details-photos div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.city-details-photos button {
+  aspect-ratio: 1;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(25, 23, 19, 0.1);
+  border-radius: 7px;
+  background: #191713;
+  cursor: pointer;
+}
+
+.city-details-photos img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.78;
+  transition:
+    opacity 180ms ease,
+    transform 280ms ease;
+}
+
+.city-details-photos button:hover img {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
 .city-details-poems {
   display: grid;
   gap: 18px;

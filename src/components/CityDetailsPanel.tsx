@@ -1,13 +1,16 @@
 import { X } from 'lucide-react';
 import SunCalc from 'suncalc';
 import { getApproxLocalTime } from '../lib/dusk';
+import { getPhotosForCity } from '../lib/photoArchive';
 import { getWritersForCity } from '../lib/writerArchive';
 import { useEscapeKey } from '../lib/useEscapeKey';
-import type { CityData, WriterData } from '../lib/types';
+import type { CityData, PhotoData, WriterData } from '../lib/types';
 
 interface CityDetailsPanelProps {
   city: CityData | null;
   onClose: () => void;
+  photos?: PhotoData[];
+  onSelectPhoto?: (photo: PhotoData) => void;
   onSelectWriter?: (writer: WriterData) => void;
 }
 
@@ -23,7 +26,7 @@ function getSunsetDistance(city: CityData, now = new Date()) {
   return '此刻正接近日落';
 }
 
-export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsPanelProps) {
+export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, onSelectWriter }: CityDetailsPanelProps) {
   useEscapeKey(!!city, onClose);
 
   if (!city) return null;
@@ -32,6 +35,7 @@ export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsP
   const localTime = `${getApproxLocalTime(now, city.lng)} 当地时间`;
   const sunsetDistance = getSunsetDistance(city, now);
   const writers = getWritersForCity(city);
+  const cityPhotos = getPhotosForCity(city, 3, photos);
 
   return (
     <aside className="city-details" role="dialog" aria-modal="true" aria-label={`${city.nameNative} 城市详情`}>
@@ -57,6 +61,24 @@ export function CityDetailsPanel({ city, onClose, onSelectWriter }: CityDetailsP
           {city.author} · {city.book}
         </span>
       </section>
+
+      {!!cityPhotos.length && (
+        <section className="city-details-photos" aria-label="城市照片">
+          <h3>这座城市的照片</h3>
+          <div>
+            {cityPhotos.map((photo) => (
+              <button key={photo.id} onClick={() => onSelectPhoto?.(photo)} type="button">
+                <img
+                  alt={photo.alt_text || photo.city_zh || photo.city || '城市照片'}
+                  draggable="false"
+                  referrerPolicy="no-referrer"
+                  src={photo.url}
+                />
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="city-details-poems" aria-label="夜晚诗句">
         {city.poems.map((poem) => (
