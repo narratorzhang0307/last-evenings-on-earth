@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Archive } from 'lucide-react';
+import { ArchiveDrawer } from './components/ArchiveDrawer';
 import { CityDetailsPanel } from './components/CityDetailsPanel';
 import GlobeView from './components/GlobeView';
 import { PhotoStrip } from './components/PhotoStrip';
@@ -14,6 +16,7 @@ export default function App() {
   const [detailCity, setDetailCity] = useState<CityData | null>(null);
   const [hoveredCity, setHoveredCity] = useState<CityData | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoData | null>(null);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const activeCity = hoveredCity || selectedCity || CITIES[0];
   const activePhotos = getPhotosForCity(activeCity);
   const openCity = (city: CityData) => {
@@ -45,6 +48,10 @@ export default function App() {
             全球光点
           </span>
         </div>
+        <button className="archive-open-button" onClick={() => setIsArchiveOpen(true)} type="button">
+          <Archive size={16} />
+          夜晚档案
+        </button>
         <div className="city-strip" aria-label="literary cities">
           {CITIES.map((city) => (
             <button
@@ -67,6 +74,14 @@ export default function App() {
         )}
       </section>
       <CityDetailsPanel city={detailCity} onClose={() => setDetailCity(null)} />
+      <ArchiveDrawer
+        isOpen={isArchiveOpen}
+        onClose={() => setIsArchiveOpen(false)}
+        onSelectPhoto={(photo) => {
+          setSelectedPhoto(photo);
+          setIsArchiveOpen(false);
+        }}
+      />
       {selectedPhoto && (
         <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
       )}
