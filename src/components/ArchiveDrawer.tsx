@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { Images, Search, X } from 'lucide-react';
 import { POEMS } from '../data/poems';
 import { WRITERS } from '../data/writers';
+import { ARCHIVE_QUERY_MAX_LENGTH, archiveTextMatchesQuery, normalizeArchiveSearchText } from '../lib/archiveSearch';
 import { useAllPhotos } from '../lib/localUserPhotos';
 import { getPhotoStats, groupPhotosByCountry } from '../lib/photoArchive';
 import { getPoemFirstLine, getPoemStats, groupPoemsByCountry } from '../lib/poemArchive';
@@ -19,20 +20,6 @@ interface ArchiveDrawerProps {
   onSelectWriter?: (writer: WriterData) => void;
 }
 
-type SearchableValue = string | number | undefined | readonly string[];
-const ARCHIVE_QUERY_MAX_LENGTH = 80;
-
-function normalizeSearchText(value: SearchableValue) {
-  const text = Array.isArray(value) ? value.join(' ') : String(value ?? '');
-  return text.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim();
-}
-
-function textIncludesQuery(query: string, values: SearchableValue[]) {
-  if (!query) return true;
-  const searchableText = values.map(normalizeSearchText).join(' ');
-  return query.split(' ').every((term) => searchableText.includes(term));
-}
-
 export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, onSelectWriter }: ArchiveDrawerProps) {
   const [viewMode, setViewMode] = useState<'poems' | 'photos' | 'writers'>('photos');
   const [query, setQuery] = useState('');
@@ -48,11 +35,11 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
     return () => window.cancelAnimationFrame(frame);
   }, [isOpen]);
 
-  const activeQuery = normalizeSearchText(query);
+  const activeQuery = normalizeArchiveSearchText(query);
   const filteredPhotos = useMemo(
     () =>
       allPhotos.filter((photo) =>
-        textIncludesQuery(activeQuery, [
+        archiveTextMatchesQuery(activeQuery, [
           photo.city,
           photo.city_zh,
           photo.country,
@@ -72,7 +59,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const filteredPoems = useMemo(
     () =>
       POEMS.filter((poem) =>
-        textIncludesQuery(activeQuery, [
+        archiveTextMatchesQuery(activeQuery, [
           poem.author_zh,
           poem.author_en,
           poem.title_zh,
@@ -91,7 +78,7 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const filteredWriters = useMemo(
     () =>
       WRITERS.filter((writer) =>
-        textIncludesQuery(activeQuery, [
+        archiveTextMatchesQuery(activeQuery, [
           writer.name_zh,
           writer.name_en,
           writer.city,
