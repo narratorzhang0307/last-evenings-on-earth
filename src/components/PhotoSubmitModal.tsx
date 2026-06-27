@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { X } from 'lucide-react';
 import { CITIES } from '../data/literaryCities';
 import { MAJOR_CITIES } from '../data/majorCities';
@@ -62,10 +62,17 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   const [signature, setSignature] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const urlInputRef = useRef<HTMLInputElement>(null);
   const requestClose = () => {
     if (!isSubmitting) onClose();
   };
   useEscapeKey(isOpen && !isSubmitting, requestClose);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const frame = window.requestAnimationFrame(() => urlInputRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -168,6 +175,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         <label>
           图片链接
           <input
+            ref={urlInputRef}
             required
             type="url"
             value={url}
