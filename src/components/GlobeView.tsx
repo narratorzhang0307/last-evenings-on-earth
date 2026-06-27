@@ -33,6 +33,7 @@ interface GlobeViewProps {
 }
 
 type CountryFeature = Record<string, unknown>;
+const COUNTRIES_CACHE_KEY = 'last-evenings:countries-geojson';
 
 type Marker =
   | (MajorCity & { elementType: 'major-city' })
@@ -41,6 +42,25 @@ type Marker =
   | (WriterData & { elementType: 'writer' })
   | (CityData & { elementType: 'literary-city' })
   | (typeof CONTINENTS[number] & { elementType: 'continent' });
+
+function readCachedCountries() {
+  try {
+    const cached = window.sessionStorage.getItem(COUNTRIES_CACHE_KEY);
+    if (!cached) return [];
+    const parsed = JSON.parse(cached);
+    return Array.isArray(parsed) ? (parsed as CountryFeature[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeCachedCountries(features: CountryFeature[]) {
+  try {
+    window.sessionStorage.setItem(COUNTRIES_CACHE_KEY, JSON.stringify(features));
+  } catch {
+    // Session storage can be unavailable in private browsing.
+  }
+}
 
 export default function GlobeView({
   selectedCity,
@@ -65,13 +85,20 @@ export default function GlobeView({
 
   useEffect(() => {
     let cancelled = false;
+    const cachedCountries = readCachedCountries();
+    if (cachedCountries.length) setCountries(cachedCountries);
+
     fetch('https://raw.githubusercontent.com/vasturiano/react-globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
       .then((res) => res.json())
       .then((data) => {
-        if (!cancelled) setCountries(data.features || []);
+        const features = Array.isArray(data.features) ? data.features : [];
+        if (!cancelled) {
+          setCountries(features);
+          writeCachedCountries(features);
+        }
       })
       .catch(() => {
-        if (!cancelled) setCountries([]);
+        if (!cancelled && !cachedCountries.length) setCountries([]);
       });
     return () => {
       cancelled = true;
