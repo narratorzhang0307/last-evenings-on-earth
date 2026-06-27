@@ -120,6 +120,12 @@ npm run build
 npm run server:check
 ```
 
+仓库边界检查：
+
+```bash
+npm run repo:guard
+```
+
 照片服务接口冒烟验收：
 
 ```bash
