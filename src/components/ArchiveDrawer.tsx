@@ -126,6 +126,18 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
   const photoViewLabel = `查看照片档案，当前筛选下有 ${filteredPhotos.length} 张照片`;
   const poemViewLabel = `查看诗歌档案，当前筛选下有 ${filteredPoems.length} 首诗`;
   const writerViewLabel = `查看作家档案，当前筛选下有 ${filteredWriters.length} 位作家`;
+  const emptyTitle =
+    viewMode === 'photos'
+      ? '没有找到对应照片'
+      : viewMode === 'poems'
+        ? '没有找到对应诗歌'
+        : '没有找到对应作家';
+  const emptyHint =
+    viewMode === 'photos'
+      ? '换一个城市、国家、摄影者或照片线索试试。'
+      : viewMode === 'poems'
+        ? '换一个作者、城市、诗句或译者试试。'
+        : '换一个作家、城市、窗灯文字或回应试试。';
   const hasResults =
     viewMode === 'photos'
       ? filteredPhotos.length > 0
@@ -223,8 +235,8 @@ export function ArchiveDrawer({ isOpen, onClose, onSelectPhoto, onSelectPoem, on
         )}
         {!hasResults && (
           <div className="archive-empty">
-            <strong>没有找到对应档案</strong>
-            <span>换一个城市、作者或关键词试试。</span>
+            <strong>{emptyTitle}</strong>
+            <span>{emptyHint}</span>
             {activeQuery && (
               <button className="archive-empty-clear" onClick={() => setQuery('')} type="button">
                 清空搜索
