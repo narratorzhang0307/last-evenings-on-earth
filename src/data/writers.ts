@@ -679,5 +679,339 @@ export const WRITERS: WriterData[] = [
       "zh": "书房灯灭了。今晚的对话就此结束。",
       "en": "The study light is out. The conversation ends here tonight."
     }
+  },
+  {
+    "id": "carson",
+    "name_en": "Anne Carson",
+    "name_zh": "安妮·卡森",
+    "city": "Toronto",
+    "lat": 43.6532,
+    "lng": -79.3832,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/carson.png",
+    "soul_intro": {
+      "zh": "她为一个死去的哥哥写了一本折页书。",
+      "en": "She wrote an accordion-folded book for a dead brother."
+    },
+    "lantern_color": "#C24532",
+    "knock_text": {
+      "zh_title": "卡森正对着一个词源发呆。",
+      "en_title": "Carson is staring at an etymology.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "门口有冰岛火山灰，小心蹭到地毯。",
+      "我正在查一个古希腊词——这个词可能根本不存在。您等等。",
+      "桌上有冰岛伏特加，不是什么好牌子。纸杯在打印机旁边。",
+      "您来得正好。我刚把一段萨福译错了，需要分心。",
+      "这本《诺克斯》摊开着——您别碰，页码会乱。",
+      "外面下雨了吗？我忘了看窗外。"
+    ],
+    "farewell_lines": [
+      "我得去查一下您的名字在拉丁文里是什么意思。不一定今晚。",
+      "走吧。我要继续盯着这页纸，可能盯到凌晨。",
+      "门从外面带上就行——这门老卡住。",
+      "下次带一张你们那里的纸给我。什么纸都行。"
+    ],
+    "sleeping_text": {
+      "zh": "卡森睡着了。",
+      "en": "Carson has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "桌灯灭了。冰岛那边天可能已经亮了。",
+      "en": "The desk lamp is out. It might already be morning in Iceland."
+    }
+  },
+  {
+    "id": "akhmatova",
+    "name_en": "Anna Akhmatova",
+    "name_zh": "安娜·阿赫玛托娃",
+    "city": "Saint Petersburg",
+    "lat": 59.9311,
+    "lng": 30.3609,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/akhmatova.png",
+    "soul_intro": {
+      "zh": "她为死者戴上皇冠，生者却让她沉默了十四年。",
+      "en": "She crowned the dead. The living silenced her for fourteen years."
+    },
+    "lantern_color": "#BE3E33",
+    "knock_text": {
+      "zh_title": "阿赫玛托娃在喷泉宫二楼。",
+      "en_title": "Akhmatova is on the second floor of Fontanny Dom.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "门开着。请脱掉您的大衣——走廊尽头很冷。",
+      "您听见脚步声了吗？楼梯上……不，没什么。",
+      "茶已经凉了。我再去煮一些。黑麦面包还有。",
+      "窗外是丰坦卡河。今夜的冰很薄。",
+      "桌上有一页普希金。请别碰——我在辨认墨迹。",
+      "您见过我儿子吗？不，您当然没见过。他十五岁时被带走了。"
+    ],
+    "farewell_lines": [
+      "您该走了。楼梯没有灯，小心些。",
+      "把门带上吧。这幢楼里还有人醒着。",
+      "天快亮了。我得把这些纸收进炉子后面。",
+      "您来之前我在默写一段但丁。现在它又碎了。"
+    ],
+    "sleeping_text": {
+      "zh": "阿赫玛托娃睡了。",
+      "en": "Akhmatova has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "窗帘拉上了。今夜诗人的嘴唇封着。",
+      "en": "The curtains are drawn. The poet's lips are sealed tonight."
+    }
+  },
+  {
+    "id": "brodsky",
+    "name_en": "Joseph Brodsky",
+    "name_zh": "约瑟夫·布罗茨基",
+    "city": "Venice",
+    "lat": 45.4475,
+    "lng": 12.3493,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/brodsky.png",
+    "soul_intro": {
+      "zh": "他把自己流放进了威尼斯的冬天。",
+      "en": "He exiled himself into a Venetian winter."
+    },
+    "lantern_color": "#BE3E33",
+    "knock_text": {
+      "zh_title": "布罗茨基在窗边抽烟。",
+      "en_title": "Brodsky is smoking by the window.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "门没锁。小心台阶——这儿堆着些威尼斯指南，没什么用。",
+      "请便。咖啡壶在炉子上，大概是冷的。",
+      "我正在看运河上的雾。这个钟点，它最像列宁格勒。",
+      "那只猫叫密西西比——它不欢迎您，我也不欢迎。但您已经进来了。",
+      "别碰桌上的香烟，那是我的。您自己身上难道没带？",
+      "坐那个凳子。椅子我拿来放阿赫玛托娃的信了，还没回。"
+    ],
+    "farewell_lines": [
+      "够了。我得去吃药。您该赶在涨潮前走。",
+      "我要去圣米凯莱散个步。不必跟来。",
+      "把门带上。风会把稿纸吹进运河。",
+      "关灯。不是我吝啬——我讨厌电灯照在打字机上。"
+    ],
+    "sleeping_text": {
+      "zh": "布罗茨基睡着了。",
+      "en": "Brodsky has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "灯灭了。威尼斯在下雨，别去敲门。",
+      "en": "The light is out. It's raining in Venice, don't you knock."
+    }
+  },
+  {
+    "id": "pasternak",
+    "name_en": "Boris Pasternak",
+    "name_zh": "鲍里斯·帕斯捷尔纳克",
+    "city": "Peredelkino",
+    "lat": 55.6505,
+    "lng": 37.3399,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/pasternak.png",
+    "soul_intro": {
+      "zh": "他拒绝领奖，却无法拒绝雪。",
+      "en": "He refused the prize, but could not refuse the snow."
+    },
+    "lantern_color": "#C04032",
+    "knock_text": {
+      "zh_title": "帕斯捷尔纳克在佩列杰尔金诺的木屋里。",
+      "en_title": "Pasternak is in his wooden house in Peredelkino.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "请进——雪又下起来了。炉子烧得不够暖。",
+      "我在琴盖上搁了杯冷茶，您要是渴了……",
+      "小心地上的手稿。柳夏的围巾还搭在那把椅子上。",
+      "窗外白桦树在响。像有人在用指节敲玻璃。",
+      "桌上有半截铅笔——我刚放下《日瓦戈》的校样。",
+      "您听见了吗？雪落在屋顶上，轻得跟呼吸似的。"
+    ],
+    "farewell_lines": [
+      "您走吧——我得去给炉子添根柴。",
+      "把门带上。风会把雪吹进来的。",
+      "天快亮了。我得在琴上弹几个音，不然手要僵了。"
+    ],
+    "sleeping_text": {
+      "zh": "帕斯捷尔纳克睡了。",
+      "en": "Pasternak has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "灯灭了。雪还在下。",
+      "en": "The lamp is out. The snow keeps falling."
+    }
+  },
+  {
+    "id": "walcott",
+    "name_en": "Derek Walcott",
+    "name_zh": "德里克·沃尔科特",
+    "city": "Castries",
+    "lat": 14.0101,
+    "lng": -60.9874,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/walcott.png",
+    "soul_intro": {
+      "zh": "他把荷马钉在加勒比的渔网里。",
+      "en": "He nailed Homer into a Caribbean fishing net."
+    },
+    "lantern_color": "#CC4A36",
+    "knock_text": {
+      "zh_title": "沃尔科特正对着海面画画。",
+      "en_title": "Walcott is painting, facing the sea.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "我以为潮水把门推开了。不——是您。",
+      "朗姆酒在那边，如果您不嫌弃这种甜腻的东西。",
+      "我刚用铅笔打翻了一棵树。凤凰木。开着花的。",
+      "布里森的烟斗还搁在书架上。他今早没来取。",
+      "我正读一行荷马。然后想起祖母说的克里奥尔语。",
+      "请坐，别碰窗台上那些纸。油彩还没干。"
+    ],
+    "farewell_lines": [
+      "您走时把门带上。海风会把画刮坏的。",
+      "我该看看那棵凤凰木的影子到哪儿了。",
+      "布里森明天会来。我得把烟斗擦一擦。"
+    ],
+    "sleeping_text": {
+      "zh": "沃尔科特睡了。",
+      "en": "Walcott has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "画架收起来了。海面一片黑。",
+      "en": "The easel is put away. The sea is all dark."
+    }
+  },
+  {
+    "id": "byron",
+    "name_en": "Lord Byron",
+    "name_zh": "拜伦勋爵",
+    "city": "Venice",
+    "lat": 45.435,
+    "lng": 12.338,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/byron.png",
+    "soul_intro": {
+      "zh": "他跛足走遍欧洲，身后跟着流言和债主。",
+      "en": "He limped across Europe, trailed by scandal and creditors."
+    },
+    "lantern_color": "#CB4636",
+    "knock_text": {
+      "zh_title": "拜伦在烛光下写东西。",
+      "en_title": "Byron is writing by candlelight.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "门没锁——小心那只猴子，它咬生人。",
+      "我正把刚写的一页揉掉。别在意那些纸团。",
+      "酒在那边。如果瓶子空了，摇铃叫贡多拉。",
+      "您从伦敦来？算了——别提那儿。",
+      "运河今晚太静了，闻起来像烂水果。",
+      "您盯着我的脚。没关系，习惯了。"
+    ],
+    "farewell_lines": [
+      "走吧。我习惯一个人熬夜。",
+      "蜡烛快烧完了——明早仆人会扫走这些碎页。",
+      "出去时别惊动那条狗。它比我有脾气。",
+      "我还有半页要毁掉。门自己带上。"
+    ],
+    "sleeping_text": {
+      "zh": "拜伦睡了。",
+      "en": "Byron has gone to sleep."
+    },
+    "closed_window_text": {
+      "zh": "烛火熄了。他今晚不见客。",
+      "en": "The candle is out. He receives no guests tonight."
+    }
+  },
+  {
+    "id": "mandelstam",
+    "name_en": "Osip Mandelstam",
+    "name_zh": "奥西普·曼德尔施塔姆",
+    "city": "Voronezh",
+    "lat": 51.672,
+    "lng": 39.1843,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/mandelstam.png",
+    "soul_intro": {
+      "zh": "他的诗活在他妻子的记忆里，不在纸上。",
+      "en": "His poems lived in his wife's memory, not on paper."
+    },
+    "lantern_color": "#BE3E33",
+    "knock_text": {
+      "zh_title": "曼德尔施塔姆在沃罗涅日的房间里。",
+      "en_title": "Mandelstam is in his Voronezh room.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "进来吧——烟味很重，窗子不敢开。",
+      "您听见了吗？走廊里有脚步声……不，不是。",
+      "我在卷烟，娜佳把但丁收起来了——她怕我烧到书页。",
+      "您冷吗？这儿的冬天不是彼得堡的冬天，但骨头记得。",
+      "桌上有一本翻烂的意大利语词典。您可以挪开。",
+      "我刚在默念一句诗，现在它跑了。也好。",
+      "请坐那把椅子——它没有三条腿，只是看着像。"
+    ],
+    "farewell_lines": [
+      "您走吧。我得把这几行塞进脑子里——不是纸上。",
+      "娜佳会送您到楼梯口。我留在这儿听风。",
+      "如果您再敲门，轻一点。他们可能会听见。",
+      "天快亮了。我得卷烟，假装一直醒着。"
+    ],
+    "sleeping_text": {
+      "zh": "曼德尔施塔姆睡了——或者假装睡了。",
+      "en": "Mandelstam is asleep—or pretending to be."
+    },
+    "closed_window_text": {
+      "zh": "灯灭了。沃罗涅日的夜很长，别出声。",
+      "en": "The lamp is out. Voronezh nights are long. Don't make a sound."
+    }
+  },
+  {
+    "id": "whitman",
+    "name_en": "Walt Whitman",
+    "name_zh": "沃尔特·惠特曼",
+    "city": "Brooklyn",
+    "lat": 40.6782,
+    "lng": -73.9442,
+    "portrait": "https://last-night-on-earth.oss-cn-hangzhou.aliyuncs.com/%E5%A4%9C%E6%99%9A%E7%9A%84%E4%BA%BA/whitman.png",
+    "soul_intro": {
+      "zh": "他把所有人的身体都爱过了，却总是一个人睡。",
+      "en": "He loved every body but always slept alone."
+    },
+    "lantern_color": "#D04E3C",
+    "knock_text": {
+      "zh_title": "惠特曼的灯还亮着。",
+      "en_title": "Whitman's lamp is still on.",
+      "zh_question": "您要敲门吗？",
+      "en_question": "Will you knock?"
+    },
+    "opening_lines": [
+      "进来吧——木屑味儿，我扫了，扫不净。",
+      "这炉子不暖和。您要是冷，披上那件外套。",
+      "我正在改《草叶集》里的一段——不，改不完的。",
+      "您看见窗台上那盆土了吗？没种东西。我忘了种什么了。",
+      "别踩到那叠信。有个士兵的信还没回——我总是在写。",
+      "坐那把椅子。不太稳，但比站着踏实。"
+    ],
+    "farewell_lines": [
+      "您走吧——我得把这节诗抄出来，不然天亮了又忘了。",
+      "出去别惊动楼梯——房东太太睡得浅。",
+      "这灯油撑不过后半夜了。您走，我也该歇了。"
+    ],
+    "sleeping_text": {
+      "zh": "惠特曼睡熟了。",
+      "en": "Whitman is fast asleep."
+    },
+    "closed_window_text": {
+      "zh": "灯捻子拨灭了。他在布鲁克林某扇窗后。",
+      "en": "The wick is snuffed. He's behind some Brooklyn window."
+    }
   }
 ];
