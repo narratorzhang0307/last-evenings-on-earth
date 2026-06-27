@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { X } from 'lucide-react';
 import { useEscapeKey } from '../lib/useEscapeKey';
 import type { WriterData } from '../lib/types';
@@ -9,6 +9,7 @@ interface WriterWindowPanelProps {
 }
 
 export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [lineIndex, setLineIndex] = useState(0);
   const [isLeaving, setIsLeaving] = useState(false);
   useEscapeKey(true, onClose);
@@ -18,6 +19,10 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
     ? farewellLines[lineIndex % farewellLines.length]
     : lines[lineIndex % lines.length];
 
+  useEffect(() => {
+    closeButtonRef.current?.focus();
+  }, []);
+
   return (
     <aside
       className="writer-window-panel"
@@ -26,7 +31,7 @@ export function WriterWindowPanel({ writer, onClose }: WriterWindowPanelProps) {
       aria-modal="true"
       aria-label={`${writer.name_zh} 的夜窗`}
     >
-      <button className="writer-window-close" onClick={onClose} type="button" aria-label="关闭作家夜窗">
+      <button ref={closeButtonRef} className="writer-window-close" onClick={onClose} type="button" aria-label="关闭作家夜窗">
         <X size={18} />
       </button>
       <div className="writer-window-portrait">
