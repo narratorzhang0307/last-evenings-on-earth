@@ -60,7 +60,9 @@ function readRateLimit(response: Response, resetAt?: number) {
 }
 
 function readNumberHeader(response: Response, header: string) {
-  const value = Number(response.headers.get(header));
+  const rawValue = response.headers.get(header);
+  if (rawValue === null) return undefined;
+  const value = Number(rawValue);
   return Number.isFinite(value) ? value : undefined;
 }
 
