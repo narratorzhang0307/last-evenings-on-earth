@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Archive, Radio, Snowflake } from 'lucide-react';
+import { GlobeErrorBoundary } from './components/GlobeErrorBoundary';
 import { PhotoStrip } from './components/PhotoStrip';
 import { WriterPreviewCard } from './components/WriterPreviewCard';
 import { CITIES } from './data/literaryCities';
@@ -104,21 +105,23 @@ export default function App() {
 
   return (
     <main className="night-shell">
-      <Suspense fallback={<div className="globe-loading" role="status">正在点亮夜晚地球...</div>}>
-        <GlobeView
-          selectedCity={selectedCity}
-          onHoverCity={setHoveredCity}
-          onClickCity={openCity}
-          onClickPhoto={setSelectedPhoto}
-          onClickPoem={setSelectedPoem}
-          onClickWriter={setSelectedWriter}
-          photos={allPhotos}
-          showPhotos={visibleLayers.photos}
-          showPoems={visibleLayers.poems}
-          showWriters={visibleLayers.writers}
-          isPaused={!!detailCity || !!radioCity}
-        />
-      </Suspense>
+      <GlobeErrorBoundary>
+        <Suspense fallback={<div className="globe-loading" role="status">正在点亮夜晚地球...</div>}>
+          <GlobeView
+            selectedCity={selectedCity}
+            onHoverCity={setHoveredCity}
+            onClickCity={openCity}
+            onClickPhoto={setSelectedPhoto}
+            onClickPoem={setSelectedPoem}
+            onClickWriter={setSelectedWriter}
+            photos={allPhotos}
+            showPhotos={visibleLayers.photos}
+            showPoems={visibleLayers.poems}
+            showWriters={visibleLayers.writers}
+            isPaused={!!detailCity || !!radioCity}
+          />
+        </Suspense>
+      </GlobeErrorBoundary>
       <section className="intro-panel" aria-label="项目状态">
         <p className="eyebrow">地球上最后的夜晚</p>
         <h1>地球上最后的夜晚</h1>
