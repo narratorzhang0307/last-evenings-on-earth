@@ -26,6 +26,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
     },
   ]);
   const canSend = useMemo(() => input.trim().length > 0, [input]);
+  const remainingInputLength = FROST_INPUT_MAX_LENGTH - input.length;
   useEscapeKey(isOpen, onClose);
 
   useEffect(() => {
@@ -70,14 +71,19 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
         <div ref={turnsEndRef} aria-hidden="true" />
       </div>
       <form className="frost-input" onSubmit={handleSubmit}>
-        <input
-          ref={inputRef}
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          placeholder="问一座城市、一个作家，或只是说一句夜里的话"
-          aria-label="写给弗洛斯特的问题"
-          maxLength={FROST_INPUT_MAX_LENGTH}
-        />
+        <label>
+          <span>
+            <span>写给弗洛斯特</span>
+            <em aria-live="polite">剩余 {remainingInputLength} 字</em>
+          </span>
+          <input
+            ref={inputRef}
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            placeholder="问一座城市、一个作家，或只是说一句夜里的话"
+            maxLength={FROST_INPUT_MAX_LENGTH}
+          />
+        </label>
         <button disabled={!canSend} type="submit" aria-label="发送给弗洛斯特">
           <Send size={16} />
         </button>
