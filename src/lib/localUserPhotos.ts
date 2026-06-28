@@ -54,8 +54,15 @@ export function saveLocalUserPhoto(photo: PhotoData) {
 
 export function subscribeLocalUserPhotos(callback: () => void) {
   if (typeof window === 'undefined') return () => {};
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === STORAGE_KEY) callback();
+  };
   window.addEventListener(EVENT_NAME, callback);
-  return () => window.removeEventListener(EVENT_NAME, callback);
+  window.addEventListener('storage', handleStorage);
+  return () => {
+    window.removeEventListener(EVENT_NAME, callback);
+    window.removeEventListener('storage', handleStorage);
+  };
 }
 
 export function refreshServerUserPhotos() {
