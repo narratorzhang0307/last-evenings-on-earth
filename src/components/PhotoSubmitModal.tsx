@@ -107,6 +107,8 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
 
   const selectedCity = cityOptions.find((city) => city.key === cityKey) || cityOptions[0];
   const submitErrorId = submitError ? 'photo-submit-error' : undefined;
+  const descriptionRemainingId = 'photo-submit-description-remaining';
+  const signatureRemainingId = 'photo-submit-signature-remaining';
   const hasUrlError = submitError.includes('图片链接') || submitError.includes('http 或 https');
   const hasCountryError = submitError.includes('国家或地区');
   const descriptionRemaining = DESCRIPTION_MAX_LENGTH - description.length;
@@ -250,7 +252,9 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         <label>
           <span className="photo-submit-field-head">
             <span>写一句话</span>
-            <em aria-live="polite">剩余 {descriptionRemaining} 字</em>
+            <em id={descriptionRemainingId} aria-live="polite">
+              剩余 {descriptionRemaining} 字
+            </em>
           </span>
           <textarea
             value={description}
@@ -260,12 +264,15 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
             }}
             rows={3}
             maxLength={DESCRIPTION_MAX_LENGTH}
+            aria-describedby={descriptionRemainingId}
           />
         </label>
         <label>
           <span className="photo-submit-field-head">
             <span>署名</span>
-            <em aria-live="polite">剩余 {signatureRemaining} 字</em>
+            <em id={signatureRemainingId} aria-live="polite">
+              剩余 {signatureRemaining} 字
+            </em>
           </span>
           <input
             autoComplete="name"
@@ -276,6 +283,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
             }}
             placeholder="匿名也可以"
             maxLength={SIGNATURE_MAX_LENGTH}
+            aria-describedby={signatureRemainingId}
           />
         </label>
         {submitError && (
