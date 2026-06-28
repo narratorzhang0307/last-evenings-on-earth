@@ -45,9 +45,12 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
   const writers = getWritersForCity(city);
   const cityPhotos = getPhotosForCity(city, 3, photos);
   const archivePoems = getPoemsForCity(city, 3);
+  const titleId = `city-details-title-${city.id}`;
+  const summaryId = `city-details-summary-${city.id}`;
+  const summaryText = `${city.nameNative}，${city.country}。${localTime}，${sunsetDistance}。关联 ${cityPhotos.length} 张照片、${archivePoems.length} 首档案诗歌、${writers.length} 扇附近夜窗。`;
 
   return (
-    <aside className="city-details" role="dialog" aria-modal="true" aria-label={`${city.nameNative} 城市详情`}>
+    <aside className="city-details" role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={summaryId}>
       <button ref={closeButtonRef} className="city-details-close" type="button" onClick={onClose} aria-label="关闭城市详情">
         <X size={18} strokeWidth={1.8} />
       </button>
@@ -55,7 +58,7 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
       <header className="city-details-header">
         <div>
           <p className="city-details-kicker">{city.country}</p>
-          <h2>{city.nameNative}</h2>
+          <h2 id={titleId}>{city.nameNative}</h2>
           <span>{city.name}</span>
         </div>
         <div className="city-details-time">
@@ -63,6 +66,9 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
           <span>{sunsetDistance}</span>
         </div>
       </header>
+      <p className="sr-only" id={summaryId}>
+        {summaryText}
+      </p>
 
       <section className="city-details-book" aria-label="文学出处">
         <p>{city.excerpt}</p>
