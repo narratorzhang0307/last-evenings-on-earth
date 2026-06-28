@@ -545,6 +545,12 @@ h1 {
   background: color-mix(in srgb, var(--writer-light) 18%, rgba(244, 238, 226, 0.05));
 }
 
+.writer-window-close:focus-visible,
+.writer-window-knock:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--writer-light) 78%, #f4eee2);
+  outline-offset: 3px;
+}
+
 .writer-window-copy small {
   color: rgba(244, 238, 226, 0.56);
   font-size: 12px;
