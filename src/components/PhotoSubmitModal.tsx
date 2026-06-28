@@ -109,6 +109,8 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
   const submitErrorId = submitError ? 'photo-submit-error' : undefined;
   const hasUrlError = submitError.includes('图片链接') || submitError.includes('http 或 https');
   const hasCountryError = submitError.includes('国家或地区');
+  const descriptionRemaining = DESCRIPTION_MAX_LENGTH - description.length;
+  const signatureRemaining = SIGNATURE_MAX_LENGTH - signature.length;
   const clearSubmitError = () => {
     if (submitError) setSubmitError('');
   };
@@ -237,7 +239,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           />
         </label>
         <label>
-          写一句话
+          <span className="photo-submit-field-head">
+            <span>写一句话</span>
+            <em>{descriptionRemaining}</em>
+          </span>
           <textarea
             value={description}
             onChange={(event) => {
@@ -249,7 +254,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           />
         </label>
         <label>
-          署名
+          <span className="photo-submit-field-head">
+            <span>署名</span>
+            <em>{signatureRemaining}</em>
+          </span>
           <input
             value={signature}
             onChange={(event) => {

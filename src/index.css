@@ -1021,6 +1021,19 @@ h1 {
   font-size: 12px;
 }
 
+.photo-submit-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.photo-submit-field-head em {
+  color: rgba(25, 23, 19, 0.38);
+  font-size: 11px;
+  font-style: normal;
+}
+
 .photo-submit-card input,
 .photo-submit-card select,
 .photo-submit-card textarea {
