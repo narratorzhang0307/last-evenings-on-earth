@@ -14,6 +14,7 @@ interface FrostTurn {
 }
 
 const FROST_INPUT_MAX_LENGTH = 240;
+const FROST_TURN_LIMIT = 25;
 
 export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -46,11 +47,14 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
     event.preventDefault();
     const message = input.trim();
     if (!message) return;
-    setTurns((current) => [
-      ...current,
-      { role: 'user', text: message },
-      { role: 'frost', text: answerAsFrost(message) },
-    ]);
+    setTurns((current) => {
+      const nextTurns: FrostTurn[] = [
+        ...current,
+        { role: 'user', text: message },
+        { role: 'frost', text: answerAsFrost(message) },
+      ];
+      return nextTurns.slice(-FROST_TURN_LIMIT);
+    });
     setInput('');
   };
 
