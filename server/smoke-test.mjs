@@ -114,6 +114,7 @@ async function run() {
 
     const health = await requestJson(baseUrl, '/healthz');
     assert(health.response.status === 200, '健康检查应返回 200');
+    assert(health.response.headers.get('x-content-type-options') === 'nosniff', '照片服务应返回 nosniff 响应头');
     assert(health.json?.ok === true, '健康检查应返回 ok=true');
     assert(health.json?.photos === 0, '临时数据库初始照片数应为 0');
 
