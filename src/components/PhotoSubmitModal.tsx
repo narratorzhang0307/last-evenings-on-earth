@@ -217,6 +217,9 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
             ref={urlInputRef}
             required
             type="url"
+            inputMode="url"
+            autoCapitalize="none"
+            autoComplete="url"
             value={url}
             onChange={(event) => {
               clearSubmitError();
@@ -232,6 +235,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
           国家或地区
           <input
             required
+            autoComplete="country-name"
             value={country}
             onChange={(event) => {
               clearSubmitError();
@@ -264,6 +268,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
             <em aria-live="polite">剩余 {signatureRemaining} 字</em>
           </span>
           <input
+            autoComplete="name"
             value={signature}
             onChange={(event) => {
               clearSubmitError();
