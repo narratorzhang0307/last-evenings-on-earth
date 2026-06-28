@@ -5,6 +5,7 @@ import type { PhotoData } from './types';
 
 const STORAGE_KEY = 'last-evenings:user-photos';
 const EVENT_NAME = 'last-evenings:user-photos-updated';
+const LOCAL_USER_PHOTO_LIMIT = 60;
 let serverPhotos: PhotoData[] = [];
 let pendingServerRefresh: Promise<void> | null = null;
 
@@ -19,7 +20,7 @@ function readStoredPhotos() {
     const value = window.localStorage.getItem(STORAGE_KEY);
     if (!value) return [];
     const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? parsed.filter(isStoredPhoto) : [];
+    return Array.isArray(parsed) ? parsed.filter(isStoredPhoto).slice(0, LOCAL_USER_PHOTO_LIMIT) : [];
   } catch {
     return [];
   }
@@ -48,7 +49,7 @@ function writeStoredPhotos(photos: PhotoData[]) {
 
 export function saveLocalUserPhoto(photo: PhotoData) {
   const current = readStoredPhotos().filter((item) => item.id !== photo.id);
-  writeStoredPhotos([{ ...photo, isUserSubmitted: true }, ...current]);
+  writeStoredPhotos([{ ...photo, isUserSubmitted: true }, ...current].slice(0, LOCAL_USER_PHOTO_LIMIT));
 }
 
 export function subscribeLocalUserPhotos(callback: () => void) {
