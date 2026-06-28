@@ -241,7 +241,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         <label>
           <span className="photo-submit-field-head">
             <span>写一句话</span>
-            <em>{descriptionRemaining}</em>
+            <em aria-live="polite">剩余 {descriptionRemaining} 字</em>
           </span>
           <textarea
             value={description}
@@ -256,7 +256,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
         <label>
           <span className="photo-submit-field-head">
             <span>署名</span>
-            <em>{signatureRemaining}</em>
+            <em aria-live="polite">剩余 {signatureRemaining} 字</em>
           </span>
           <input
             value={signature}
