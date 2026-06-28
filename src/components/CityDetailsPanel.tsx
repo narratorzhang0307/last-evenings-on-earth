@@ -79,7 +79,10 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
 
       {!!cityPhotos.length && (
         <section className="city-details-photos" aria-label="城市照片">
-          <h3>这座城市的照片</h3>
+          <h3 className="city-details-section-title">
+            <span>这座城市的照片</span>
+            <em>{cityPhotos.length}</em>
+          </h3>
           <div>
             {cityPhotos.map((photo) => (
               <button
@@ -112,7 +115,10 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
 
       {!!archivePoems.length && (
         <section className="city-details-archive-poems" aria-label="档案诗歌">
-          <h3>档案里的诗</h3>
+          <h3 className="city-details-section-title">
+            <span>档案里的诗</span>
+            <em>{archivePoems.length}</em>
+          </h3>
           {archivePoems.map((poem) => (
             <button
               key={poem.id}
@@ -130,7 +136,10 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
 
       {!!writers.length && (
         <section className="city-details-writers" aria-label="附近作家">
-          <h3>附近夜窗</h3>
+          <h3 className="city-details-section-title">
+            <span>附近夜窗</span>
+            <em>{writers.length}</em>
+          </h3>
           {writers.map((writer) => (
             <button
               key={writer.id}
