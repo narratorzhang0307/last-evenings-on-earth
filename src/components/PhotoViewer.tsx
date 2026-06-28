@@ -30,6 +30,10 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
   const collectionLabel = photo.query_used || (photo.isUserSubmitted ? '黄昏投稿' : '夜晚档案');
   const titleId = `photo-title-${photo.id}`;
   const metaId = `photo-meta-${photo.id}`;
+  const summaryId = `photo-summary-${photo.id}`;
+  const summaryText = [collectionLabel, locationLine, photo.description, photo.signature && `署名：${photo.signature}`]
+    .filter(Boolean)
+    .join('，');
   useEscapeKey(true, onClose);
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        aria-describedby={metaId}
+        aria-describedby={`${summaryId} ${metaId}`}
         onClick={(event) => event.stopPropagation()}
       >
         <button ref={closeButtonRef} className="photo-viewer-close" onClick={onClose} type="button" aria-label="关闭照片">
@@ -62,6 +66,11 @@ export function PhotoViewer({ photo, onClose }: PhotoViewerProps) {
         <footer className="photo-viewer-caption">
           <p className="photo-viewer-kicker">{collectionLabel}</p>
           <h2 id={titleId}>{title}</h2>
+          {summaryText && (
+            <p className="sr-only" id={summaryId}>
+              {summaryText}
+            </p>
+          )}
           {photo.description && <p className="photo-viewer-description">{photo.description}</p>}
           <div className="photo-viewer-meta" id={metaId}>
             {locationLine && <span>{locationLine}</span>}
