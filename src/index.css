@@ -1044,6 +1044,15 @@ h1 {
   background: rgba(255, 255, 255, 0.48);
 }
 
+.photo-submit-close:focus-visible,
+.photo-submit-card input:focus-visible,
+.photo-submit-card select:focus-visible,
+.photo-submit-card textarea:focus-visible,
+.photo-submit-save:focus-visible {
+  outline: 2px solid #c76b1f;
+  outline-offset: 2px;
+}
+
 .photo-submit-card input,
 .photo-submit-card select {
   min-height: 40px;
