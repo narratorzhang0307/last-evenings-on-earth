@@ -138,6 +138,11 @@ function normalizePhotoUrl(value) {
   }
 }
 
+function normalizePositiveInteger(value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number > 0 ? Math.floor(number) : null;
+}
+
 const app = express();
 app.set('trust proxy', true);
 app.use(express.json({ limit: '128kb' }));
@@ -219,8 +224,8 @@ app.post('/api/photos', (req, res) => {
     description: String(body.description || '').slice(0, 500) || null,
     signature: String(body.signature || '').slice(0, 40) || null,
     rot: Number.isFinite(Number(body.rot)) ? Math.max(-5, Math.min(5, Number(body.rot))) : 0,
-    img_width: Number.isFinite(Number(body.imgWidth)) ? Number(body.imgWidth) : null,
-    img_height: Number.isFinite(Number(body.imgHeight)) ? Number(body.imgHeight) : null,
+    img_width: normalizePositiveInteger(body.imgWidth),
+    img_height: normalizePositiveInteger(body.imgHeight),
     submitted_at: Number.isFinite(Number(body.submittedAt)) ? Number(body.submittedAt) : now,
     created_at: now,
   };

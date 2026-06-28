@@ -170,6 +170,8 @@ async function run() {
       lng: 120.1551,
       description: '服务端冒烟验收',
       signature: '验收',
+      imgWidth: -240,
+      imgHeight: 0,
     };
 
     const created = await requestJson(baseUrl, '/api/photos', {
@@ -179,6 +181,8 @@ async function run() {
     });
     assert(created.response.status === 201, '有效照片应返回 201');
     assert(created.json?.photo?.id === photo.id, '注册响应应返回照片编号');
+    assert(created.json?.photo?.imgWidth === undefined, '非正照片宽度不应入库');
+    assert(created.json?.photo?.imgHeight === undefined, '非正照片高度不应入库');
     assert(created.response.headers.get('x-ratelimit-remaining') === '0', '首张照片后剩余额度应为 0');
     assert(
       String(created.response.headers.get('access-control-expose-headers')).includes('X-RateLimit-Remaining'),
