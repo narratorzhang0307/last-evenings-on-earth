@@ -27,6 +27,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
   ]);
   const canSend = useMemo(() => input.trim().length > 0, [input]);
   const remainingInputLength = FROST_INPUT_MAX_LENGTH - input.length;
+  const inputHintId = 'frost-input-remaining';
   useEscapeKey(isOpen, onClose);
 
   useEffect(() => {
@@ -74,7 +75,9 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
         <label>
           <span>
             <span>写给弗洛斯特</span>
-            <em aria-live="polite">剩余 {remainingInputLength} 字</em>
+            <em id={inputHintId} aria-live="polite">
+              剩余 {remainingInputLength} 字
+            </em>
           </span>
           <input
             ref={inputRef}
@@ -82,6 +85,7 @@ export function FrostDrawer({ isOpen, onClose }: FrostDrawerProps) {
             onChange={(event) => setInput(event.target.value)}
             placeholder="问一座城市、一个作家，或只是说一句夜里的话"
             maxLength={FROST_INPUT_MAX_LENGTH}
+            aria-describedby={inputHintId}
           />
         </label>
         <button disabled={!canSend} type="submit" aria-label="发送给弗洛斯特">
