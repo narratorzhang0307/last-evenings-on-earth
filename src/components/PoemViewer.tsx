@@ -14,6 +14,8 @@ export function PoemViewer({ poem, onClose }: PoemViewerProps) {
   useEscapeKey(true, onClose);
   const titleId = `poem-title-${poem.id}`;
   const metaId = `poem-meta-${poem.id}`;
+  const bodyLines = poem.body_zh.length ? poem.body_zh : [getPoemFirstLine(poem)];
+  const lineCountId = `poem-line-count-${poem.id}`;
 
   useEffect(() => {
     closeButtonRef.current?.focus();
@@ -26,7 +28,7 @@ export function PoemViewer({ poem, onClose }: PoemViewerProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        aria-describedby={metaId}
+        aria-describedby={`${metaId} ${lineCountId}`}
         onClick={(event) => event.stopPropagation()}
       >
         <button ref={closeButtonRef} className="poem-viewer-close" onClick={onClose} type="button" aria-label="关闭诗歌">
@@ -37,8 +39,11 @@ export function PoemViewer({ poem, onClose }: PoemViewerProps) {
         </p>
         <h2 id={titleId}>《{poem.title_zh}》</h2>
         <p className="poem-viewer-author">{poem.author_zh}</p>
+        <p className="sr-only" id={lineCountId}>
+          当前显示 {bodyLines.length} 行诗。
+        </p>
         <div className="poem-viewer-body">
-          {(poem.body_zh.length ? poem.body_zh : [getPoemFirstLine(poem)]).map((line, index) => (
+          {bodyLines.map((line, index) => (
             <p key={`${poem.id}-${index}`}>{line}</p>
           ))}
         </div>
