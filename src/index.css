@@ -1482,6 +1482,14 @@ h1 {
   background: rgba(25, 23, 19, 0.07);
 }
 
+.city-details-close:focus-visible,
+.city-details-photos button:focus-visible,
+.city-details-archive-poems button:focus-visible,
+.city-details-writers button:focus-visible {
+  outline: 2px solid #c76b1f;
+  outline-offset: 3px;
+}
+
 .city-details-header {
   display: grid;
   grid-template-columns: 1fr auto;
