@@ -54,7 +54,7 @@ function createUserPhotoId() {
 function normalizePhotoUrl(value: string) {
   try {
     const parsed = new URL(value.trim());
-    return ['http:', 'https:'].includes(parsed.protocol) ? parsed.toString() : '';
+    return ['http:', 'https:'].includes(parsed.protocol) && parsed.hostname ? parsed.toString() : '';
   } catch {
     return '';
   }
@@ -119,6 +119,10 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
     clearSubmitError();
     setCityKey(nextCityKey);
     setCountry(nextCity?.country || '');
+  };
+  const handleUrlBlur = () => {
+    const photoUrl = normalizePhotoUrl(url);
+    if (photoUrl) setUrl(photoUrl);
   };
 
   const handleSubmit = async (event: FormEvent) => {
@@ -218,6 +222,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
               clearSubmitError();
               setUrl(event.target.value);
             }}
+            onBlur={handleUrlBlur}
             placeholder="https://..."
             aria-describedby={submitErrorId}
             aria-invalid={hasUrlError || undefined}
