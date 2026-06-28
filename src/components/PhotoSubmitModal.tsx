@@ -45,6 +45,12 @@ function slugCityName(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'user-city';
 }
 
+function createUserPhotoId() {
+  const timePart = Date.now().toString(36);
+  const randomPart = Math.random().toString(36).slice(2, 8) || 'dusk';
+  return `usr_${timePart}_${randomPart}`;
+}
+
 function normalizePhotoUrl(value: string) {
   try {
     const parsed = new URL(value.trim());
@@ -128,7 +134,7 @@ export function PhotoSubmitModal({ isOpen, onClose, onSubmitted }: PhotoSubmitMo
     setIsSubmitting(true);
     setSubmitError('');
     const photo: PhotoData = {
-      id: `usr_${Date.now().toString(36)}`,
+      id: createUserPhotoId(),
       lat: selectedCity.lat,
       lng: selectedCity.lng,
       url: photoUrl,
