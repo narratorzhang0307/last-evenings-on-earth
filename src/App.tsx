@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { Archive, Snowflake } from 'lucide-react';
+import { Archive, Radio, Snowflake } from 'lucide-react';
 import { PhotoStrip } from './components/PhotoStrip';
 import { WriterPreviewCard } from './components/WriterPreviewCard';
 import { CITIES } from './data/literaryCities';
@@ -20,6 +20,8 @@ const loadCityDetailsPanel = () =>
 const loadFrostDrawer = () => import('./components/FrostDrawer').then(({ FrostDrawer }) => ({ default: FrostDrawer }));
 const loadPhotoViewer = () => import('./components/PhotoViewer').then(({ PhotoViewer }) => ({ default: PhotoViewer }));
 const loadPoemViewer = () => import('./components/PoemViewer').then(({ PoemViewer }) => ({ default: PoemViewer }));
+const loadRadioModePanel = () =>
+  import('./components/RadioModePanel').then(({ RadioModePanel }) => ({ default: RadioModePanel }));
 const loadWriterWindowPanel = () =>
   import('./components/WriterWindowPanel').then(({ WriterWindowPanel }) => ({ default: WriterWindowPanel }));
 
@@ -29,6 +31,7 @@ const CityDetailsPanel = lazy(loadCityDetailsPanel);
 const FrostDrawer = lazy(loadFrostDrawer);
 const PhotoViewer = lazy(loadPhotoViewer);
 const PoemViewer = lazy(loadPoemViewer);
+const RadioModePanel = lazy(loadRadioModePanel);
 const WriterWindowPanel = lazy(loadWriterWindowPanel);
 const LAYER_STORAGE_KEY = 'last-evenings-visible-layers';
 const DEFAULT_VISIBLE_LAYERS: Record<LayerKey, boolean> = {
@@ -67,6 +70,7 @@ export default function App() {
   const [selectedWriter, setSelectedWriter] = useState<WriterData | null>(null);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isFrostOpen, setIsFrostOpen] = useState(false);
+  const [radioCity, setRadioCity] = useState<CityData | null>(null);
   const [visibleLayers, setVisibleLayers] = useState(readSavedLayers);
   const allPhotos = useAllPhotos();
   const activeCity = hoveredCity || selectedCity || CITIES[0];
@@ -76,10 +80,15 @@ export default function App() {
   const warmArchiveDrawer = () => warmLazyView(loadArchiveDrawer);
   const warmCityDetailsPanel = () => warmLazyView(loadCityDetailsPanel);
   const warmFrostDrawer = () => warmLazyView(loadFrostDrawer);
+  const warmRadioModePanel = () => warmLazyView(loadRadioModePanel);
   const warmWriterWindowPanel = () => warmLazyView(loadWriterWindowPanel);
   const openCity = (city: CityData) => {
     setSelectedCity(city);
     setDetailCity(city);
+  };
+  const openRadioMode = () => {
+    setDetailCity(null);
+    setRadioCity(activeCity);
   };
   useEffect(() => {
     try {
@@ -107,7 +116,7 @@ export default function App() {
           showPhotos={visibleLayers.photos}
           showPoems={visibleLayers.poems}
           showWriters={visibleLayers.writers}
-          isPaused={!!detailCity}
+          isPaused={!!detailCity || !!radioCity}
         />
       </Suspense>
       <section className="intro-panel" aria-label="项目状态">
@@ -150,6 +159,17 @@ export default function App() {
           >
             <Snowflake size={16} />
             弗洛斯特
+          </button>
+          <button
+            className="archive-open-button"
+            onClick={openRadioMode}
+            onFocus={warmRadioModePanel}
+            onPointerEnter={warmRadioModePanel}
+            type="button"
+            aria-label={`打开${activeCity.nameNative}电台模式`}
+          >
+            <Radio size={16} />
+            电台模式
           </button>
         </div>
         <div className="layer-toggles" aria-label="地球图层">
@@ -253,6 +273,7 @@ export default function App() {
           />
         )}
         {isFrostOpen && <FrostDrawer isOpen={isFrostOpen} onClose={() => setIsFrostOpen(false)} />}
+        {radioCity && <RadioModePanel city={radioCity} photos={allPhotos} onClose={() => setRadioCity(null)} />}
         {selectedPhoto && <PhotoViewer photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />}
         {selectedPoem && <PoemViewer poem={selectedPoem} onClose={() => setSelectedPoem(null)} />}
         {selectedWriter && <WriterWindowPanel writer={selectedWriter} onClose={() => setSelectedWriter(null)} />}
