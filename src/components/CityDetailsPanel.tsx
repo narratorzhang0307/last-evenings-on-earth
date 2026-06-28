@@ -84,10 +84,10 @@ export function CityDetailsPanel({ city, onClose, photos = [], onSelectPhoto, on
             <em>{cityPhotos.length}</em>
           </h3>
           <div>
-            {cityPhotos.map((photo) => (
+            {cityPhotos.map((photo, index) => (
               <button
                 key={photo.id}
-                aria-label={`查看${photo.city_zh || photo.city || city.nameNative}照片`}
+                aria-label={`查看${photo.city_zh || photo.city || city.nameNative}照片，第 ${index + 1} 张，共 ${cityPhotos.length} 张${photo.country ? `，${photo.country}` : ''}`}
                 onClick={() => onSelectPhoto?.(photo)}
                 type="button"
               >
